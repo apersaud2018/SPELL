@@ -1,0 +1,40 @@
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    # Future command qt_add_translations(spell TS_FILES ${TS_FILES} QM_FILES_OUTPUT_VARIABLE QM_FILES ${CMAKE_SOURCE_DIR})
+	# qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+	#qt_add_lupdate(super_calc TS_FILES ${TS_FILES})
+	#qt_add_lrelease(super_calc
+    #TS_FILES ${TS_FILES}
+    #QM_FILES_OUTPUT_VARIABLE QM_FILES)
+	
+	#qt_add_resource(spell "translations"
+    #PREFIX "/i18n"
+    #BASE "${CMAKE_CURRENT_BINARY_DIR}"
+    #FILES "${QM_FILES}")
+	
+	execute_process(COMMAND lupdate ${CMAKE_SOURCE_DIR} -ts ${TS_FILES})
+	
+	FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lang/)
+	
+	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.qrc <!DOCTYPE\ RCC><RCC\ version=\"1.0\">)
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.qrc \n<qresource>)
+	
+	
+	foreach( tr IN ZIP_LISTS TS_FILES QM_FILES)
+	execute_process(COMMAND lrelease ${tr_0} -qm ${tr_1})
+	
+	# qt_add_resource(spell "translations" PREFIX "/i18n" BASE "${CMAKE_CURRENT_BINARY_DIR}" FILES "${qm_files}")
+	endforeach()
+	
+	foreach( LOCALE IN LISTS LOCALES)
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.qrc \n<file>spell_${LOCALE}.qm</file>)
+	endforeach()
+	
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.qrc \n</qresource>\n</RCC>)
+	
+	execute_process(COMMAND rcc --root /i18n ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.qrc -o ${CMAKE_CURRENT_BINARY_DIR}/lang/langs.cpp)
+	
+	
+	#message(NOTICE aa=${QM_FILES})
+else()
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+endif()

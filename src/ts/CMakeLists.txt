@@ -1,0 +1,7 @@
+SET(LOCALES en_US
+	    es_US)
+
+foreach (LOCALE IN LISTS LOCALES)
+LIST(APPEND TS_FILES "${CMAKE_SOURCE_DIR}/src/ts/spell_${LOCALE}.ts")
+LIST(APPEND QM_FILES "${CMAKE_CURRENT_BINARY_DIR}/lang/spell_${LOCALE}.qm")
+endforeach()
