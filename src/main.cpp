@@ -13,6 +13,7 @@
 #include <test.h>
 #include <views/mainwindow.h>
 
+
 int main(int argc, char** argv)
 {
 	helloSPELL();
