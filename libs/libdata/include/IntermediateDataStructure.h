@@ -1,4 +1,11 @@
 #ifndef LIBDATA
 #define LIBDATA
-void helloDATA();
+#include <string>
+class IntermediateDataStructure{
+    std::string projectName;
+    
+    
+};
+
+
 #endif

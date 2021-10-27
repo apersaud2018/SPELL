@@ -17,7 +17,7 @@
 
 int main(int argc, char** argv)
 {
-	helloDATA();
+	IntermediateDataStructure data;
     helloSPELL();
     QApplication app(argc, argv);
 	 QTranslator translator;
