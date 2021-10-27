@@ -11,12 +11,14 @@
 #include <QLocale>
 #include <QTranslator>
 #include <test.h>
+#include <IntermediateDataStructure.h>
 #include <views/mainwindow.h>
 
 
 int main(int argc, char** argv)
 {
-	helloSPELL();
+	helloDATA();
+    helloSPELL();
     QApplication app(argc, argv);
 	 QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

@@ -39,9 +39,11 @@ message(NOTICE TS_FILES=${TS_FILES})
 
 
 add_subdirectory(libs/libspell)
+
+add_subdirectory(libs/libdata)
 # add_executable(spell src/main.cpp)
 
-target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell)
+target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell libdata)
 
 set_target_properties(spell PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER fit.spell.edu
