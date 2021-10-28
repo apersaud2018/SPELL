@@ -21,6 +21,12 @@ Modify paths as needed
 cmake --build .
 ```
 
+### Alternatively, the compile_win script can be used
+```bash
+compile_win.bat
+```
+
+
 ## Linux
 Idk yet, didn't test it
 Ask me later
