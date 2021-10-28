@@ -19,6 +19,7 @@ int main(int argc, char** argv)
 {
 	IntermediateDataStructure data;
     data.initialize("TestProject", "C:/test/project");
+    data.addAudioFile("C:/test/songs/babyShark.wav");
     helloSPELL();
     QApplication app(argc, argv);
 	 QTranslator translator;
