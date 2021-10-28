@@ -1,7 +1,7 @@
 #include <IntermediateDataStructure.h>
 #include <iostream>
 #include <vector>
-
+#include <Label.h>
 
 void IntermediateDataStructure::initialize(std::string projectName, std::string projectPath){
     this->projectName = projectName;
