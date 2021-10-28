@@ -18,6 +18,7 @@
 int main(int argc, char** argv)
 {
 	IntermediateDataStructure data;
+    data.initialize("TestProject", "C:/test/project");
     helloSPELL();
     QApplication app(argc, argv);
 	 QTranslator translator;
