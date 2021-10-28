@@ -20,6 +20,8 @@ int main(int argc, char** argv)
 	IntermediateDataStructure data;
     data.initialize("TestProject", "C:/test/project");
     data.addAudioFile("C:/test/songs/babyShark.wav");
+    data.addAudioFile("C:/test/yolo.txt");
+    data.addAudioFile("C:/test/crab.wav");
     helloSPELL();
     QApplication app(argc, argv);
 	 QTranslator translator;

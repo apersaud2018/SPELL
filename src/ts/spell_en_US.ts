@@ -5,6 +5,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../views/mainwindow.ui" line="14"/>
+        <location filename="../../build/spell_autogen/include/ui_mainwindow.h" line="50"/>
         <source>MainWindow</source>
         <translation>The Translated Main Window</translation>
     </message>
