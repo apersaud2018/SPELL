@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 class AudioData{
 
@@ -30,6 +31,8 @@ class AudioData{
         void readData(std::string path);
         unsigned long data_size;
         unsigned long sample_rate;
+        std::vector<double> data;
+        
 
 };
 

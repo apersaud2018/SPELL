@@ -15,4 +15,7 @@ void AudioData::readData(std::string path){
     AudioData::sample_rate = header.sample_rate;
     
     std::cout << AudioData::sample_rate << "\n";
+    
+    
+    
 }
