@@ -28,7 +28,8 @@ class AudioData{
     
     public:
         void readData(std::string path);
-    
+        unsigned long data_size;
+        unsigned long sample_rate;
 
 };
 
