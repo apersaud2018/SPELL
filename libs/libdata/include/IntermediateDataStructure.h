@@ -12,7 +12,7 @@ class IntermediateDataStructure{
     std::vector<Label> labels;
     public:
         void initialize(std::string projectName, std::string projectPath);
-        void addAudioFile(std::string path);
+        bool addAudioFile(std::string path);
 
     private:
         bool isValidAudioFile(std::string path);

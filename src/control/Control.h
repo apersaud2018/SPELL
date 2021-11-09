@@ -10,7 +10,7 @@ class Control{
 
     public:
         void initialize();
-        void addAudioFile(std::string path);
+        bool addAudioFile(std::string path);
         IntermediateDataStructure data;
 };
 

@@ -9,6 +9,6 @@ void Control::initialize(){
     data.initialize("TestProject", "C:/test/project");
 }
 
-void Control::addAudioFile(std::string path){
-    
+bool Control::addAudioFile(std::string path){
+    return data.addAudioFile(path);
 }

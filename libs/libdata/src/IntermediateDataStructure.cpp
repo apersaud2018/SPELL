@@ -11,13 +11,15 @@ void IntermediateDataStructure::initialize(std::string projectName, std::string 
     std::cout << "Initializing Project: " << projectName << " at " << projectPath << std::endl;
 }
 
-void IntermediateDataStructure::addAudioFile(std::string path){
+bool IntermediateDataStructure::addAudioFile(std::string path){
     bool validPath = isValidAudioFile(path);
     if(validPath){
         audioFiles.push_back(path);
         std::cout << "Added " << path << " to " << projectName << std::endl;
+        return true;
     }else{
         std::cout << "ERROR: Failed to add " << path << " to " << projectName << " (Invalid Path)" << std::endl;
+        return false;
     }
 }
 

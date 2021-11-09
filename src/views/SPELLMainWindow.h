@@ -17,9 +17,11 @@ public:
     ~SPELLMainWindow();
     
     Control controller;
+    void addFileToList(QString path);
 
 public slots:
 	void playSelection();
+    void addAudioFile();
 
 private:
     Ui::SPELLMainWindow *ui;
