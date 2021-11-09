@@ -52,7 +52,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -98,7 +98,7 @@
         </item>
        </layout>
       </item>
-      <item alignment="Qt::AlignTop">
+      <item>
        <widget class="QScrollArea" name="scrollArea">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -117,8 +117,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>400</width>
-           <height>72</height>
+           <width>417</width>
+           <height>340</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -132,18 +132,7 @@
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>PushButton</string>
-            </property>
-           </widget>
+           <widget class="QGraphicsView" name="waveForm"/>
           </item>
          </layout>
         </widget>
@@ -166,7 +155,7 @@
      <x>0</x>
      <y>0</y>
      <width>703</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

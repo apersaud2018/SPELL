@@ -2,6 +2,7 @@
 #define SPELLMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
 #include "../control/Control.h"
 
 QT_BEGIN_NAMESPACE
@@ -15,13 +16,14 @@ class SPELLMainWindow : public QMainWindow
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
-    
+    QGraphicsScene scene;
     Control controller;
     void addFileToList(QString path);
 
 public slots:
 	void playSelection();
     void addAudioFile();
+
 
 private:
     Ui::SPELLMainWindow *ui;

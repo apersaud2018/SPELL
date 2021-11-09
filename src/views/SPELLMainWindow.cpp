@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDir>
+#include <QGraphicsScene>
 #include "../control/Control.h"
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
@@ -13,6 +14,11 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     controller.initialize();
     ui->setupUi(this);
 	
+    //scene = new QGraphicsScene();
+    ui->waveForm->setScene(&scene);
+    
+    scene.addLine(-250,0,250,0,QPen(Qt::black));
+    
 	connect(ui->addAudioFile, QPushButton::clicked, this, addAudioFile);
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
 }
@@ -21,6 +27,9 @@ SPELLMainWindow::~SPELLMainWindow()
 {
     delete ui;
 }
+
+
+
 void SPELLMainWindow::addAudioFile() {
     QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test");
     bool success = controller.addAudioFile(file_path.toStdString());
