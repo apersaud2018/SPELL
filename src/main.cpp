@@ -12,7 +12,7 @@
 #include <QTranslator>
 #include <test.h>
 #include <IntermediateDataStructure.h>
-#include <views/mainwindow.h>
+#include <views/SPELLMainWindow.h>
 
 
 int main(int argc, char** argv)
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
         }
     }
 	
-    MainWindow widget;
+    SPELLMainWindow widget;
 	
     widget.show();
     return app.exec();
