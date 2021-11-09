@@ -15,6 +15,7 @@ class IntermediateDataStructure{
     public:
         void initialize(std::string projectName, std::string projectPath);
         bool addAudioFile(std::string path);
+        std::vector<double> getAudioData(int index);
 
     private:
         bool isValidAudioFile(std::string path);

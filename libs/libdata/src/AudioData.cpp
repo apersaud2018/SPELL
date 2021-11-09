@@ -27,8 +27,7 @@ void AudioData::readData(std::string path){
     for(int i=0;i<num_samples;i++){
         int sample = 0;
         std::fread(&sample, sample_size/8, 1, input_file);
-        double noramlized_sample = (double)sample / (double)(1 << (sample_size-1));
-        noramlized_sample += 1.0;
+        double noramlized_sample = (double)sample / (double)(1 << sample_size);
         data.push_back(noramlized_sample);
     }
     

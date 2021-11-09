@@ -11,7 +11,9 @@ class Control{
     public:
         void initialize();
         bool addAudioFile(std::string path);
+        std::vector<double> getAudioData(int index);
         IntermediateDataStructure data;
+        int file_index = -1;
 };
 
 

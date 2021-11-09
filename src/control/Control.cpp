@@ -12,3 +12,7 @@ void Control::initialize(){
 bool Control::addAudioFile(std::string path){
     return data.addAudioFile(path);
 }
+
+std::vector<double> Control::getAudioData(int index){
+    return data.getAudioData(index);
+}

@@ -23,9 +23,10 @@ public:
 public slots:
 	void playSelection();
     void addAudioFile();
-
+    void newFileSelected();
 
 private:
     Ui::SPELLMainWindow *ui;
+    void renderWaveForm(std::vector<double> data);
 };
 #endif // MAINWINDOW_H
