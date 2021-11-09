@@ -1,4 +1,5 @@
 #include <IntermediateDataStructure.h>
+#include "AudioData.h"
 #include <iostream>
 #include <vector>
 #include <Label.h>
@@ -16,6 +17,9 @@ bool IntermediateDataStructure::addAudioFile(std::string path){
     if(validPath){
         audioFiles.push_back(path);
         std::cout << "Added " << path << " to " << projectName << std::endl;
+        AudioData adata;
+        adata.readData(path);
+        audioData.push_back(adata);
         return true;
     }else{
         std::cout << "ERROR: Failed to add " << path << " to " << projectName << " (Invalid Path)" << std::endl;
