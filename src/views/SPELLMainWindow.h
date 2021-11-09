@@ -2,6 +2,7 @@
 #define SPELLMAINWINDOW_H
 
 #include <QMainWindow>
+#include "../control/Control.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SPELLMainWindow; }
@@ -14,6 +15,8 @@ class SPELLMainWindow : public QMainWindow
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
+    
+    Control controller;
 
 public slots:
 	void playSelection();
