@@ -109,6 +109,11 @@
       </property>
      </widget>
     </widget>
+    <widget class="QPushButton" name="ImportAudioFiles">
+     <property name="text">
+      <string>Open Audio File</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QSplitter" name="splitter_4">
     <property name="geometry">
@@ -125,39 +130,7 @@
     <widget class="QWidget" name="verticalLayoutWidget">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>Widget 1</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="text">
-         <string>Widget 2</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_3">
-        <property name="text">
-         <string>Widget 3</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_4">
-        <property name="text">
-         <string>Widget 4</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_5">
-        <property name="text">
-         <string>Widget 5</string>
-        </property>
-       </widget>
+       <widget class="QGraphicsView" name="Spectrogram"/>
       </item>
      </layout>
     </widget>
@@ -175,7 +148,7 @@
      <x>0</x>
      <y>0</y>
      <width>648</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
