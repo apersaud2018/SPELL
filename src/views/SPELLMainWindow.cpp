@@ -8,6 +8,8 @@
 #include <QListWidget>
 #include <vector>
 #include <QMouseEvent>
+#include <QPen>
+#include <QColor>
 #include <cmath>
 #include "../control/Control.h"
 
@@ -83,10 +85,14 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
     double max_val = 0.0000001;
     
     
-    std::vector<double> vals;
-    vals.push_back(0.0);
+    std::vector<double> max_vals;
+    std::vector<double> min_vals;
+    max_vals.push_back(0.0);
+    min_vals.push_back(0.0);
     for(int pixel_x=0;pixel_x<width;pixel_x++){
         double val = 0.0;
+        double max_sample = 0.0;
+        double min_sample = 0.0;
         for(int i=0;i<sample_per_pixel;i++){
             int sample_index = i+start_sample+(pixel_x*sample_per_pixel);
             double sample = 0.0;
@@ -94,29 +100,46 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
                 sample = data[sample_index];
                 
             }
-
             
-            val += (double)sample;
+            if(sample > max_sample){
+                max_sample = (double)sample;
+            }
+            
+            if(sample < min_sample){
+                min_sample = (double)sample;
+            }
+            
+            //val += (double)sample;
             
         }
         //val = std::sqrt(val);
-        val /= sample_per_pixel;
+        //val /= sample_per_pixel;
         
-        if(val > max_val){
-            max_val = val;
-        }else if (-val > max_val){
-            max_val = -val;
+        if(max_sample > max_val){
+            max_val = max_sample;
+        }else if (-min_sample > max_val){
+            max_val = -min_sample;
         }
         
         
-        val *= (height/2) * 0.9;
-        vals.push_back(val);
+        min_sample *= (height/2) * 0.9;
+        max_sample *= (height/2) * 0.9;
+        //vals.push_back(val);
+        max_vals.push_back(max_sample);
+        min_vals.push_back(min_sample);
 
         
     }
+    QPen pen;
+    QColor color(Qt::blue);
+    color.setAlpha(100);
+    pen.setColor(color);
+    pen.setWidth(2);
     
-    for(int i=5;i<vals.size();i++){
-        scene.addLine(i-1,(int)(vals[i-1]*(1/max_val)),i,(int)(vals[i]*(1/max_val)),QPen(Qt::black));
+    for(int i=5;i<max_vals.size();i++){
+    //scene.addLine(i-1,(int)(max_vals[i-1]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),QPen(Qt::black));
+    //scene.addLine(i-1,(int)(min_vals[i-1]*(1/max_val)),i,(int)(min_vals[i]*(1/max_val)),QPen(Qt::black));
+        scene.addLine(i-1,(int)(min_vals[i-1]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),pen);
     }
 
 
@@ -132,10 +155,23 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
         controller.display_samples = (int)(controller.display_samples * (1.0+ZOOM_SPEED));
     }
     
+    if(numPixels.x() > 0){
+        controller.start_sample = (int)(controller.start_sample + (controller.display_samples*SCROLL_SPEED));
+    }else if(numPixels.x() < 0){
+        controller.start_sample = (int)(controller.start_sample - (controller.display_samples*SCROLL_SPEED));
+    }
+    if(controller.start_sample < 0){
+        controller.start_sample = 0;
+    }
+    
+    
     if(controller.file_index > -1){
-        if(controller.getAudioData(controller.file_index).size() < (controller.display_samples+controller.start_sample)){
-            controller.display_samples = controller.getAudioData(controller.file_index).size() - controller.start_sample;
+        int sample_len = controller.getAudioData(controller.file_index).size();
+        if(sample_len < (controller.display_samples)){
+            controller.display_samples = sample_len - controller.start_sample;
         }
+        
+        
         renderWaveForm(controller.getAudioData(controller.file_index));
     }
 }

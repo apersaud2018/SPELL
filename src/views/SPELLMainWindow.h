@@ -13,6 +13,7 @@ class SPELLMainWindow : public QMainWindow
 {
     Q_OBJECT
     const double ZOOM_SPEED = 0.10; 
+    const double SCROLL_SPEED = 0.10; 
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
