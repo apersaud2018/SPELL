@@ -27,6 +27,7 @@ class AudioData{
         
     }header_t;
     
+
     public:
         void readData(std::string path);
         unsigned long data_size;

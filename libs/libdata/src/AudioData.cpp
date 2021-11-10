@@ -6,30 +6,50 @@
 
 void AudioData::readData(std::string path){
     header_t header;
-    FILE *input_file;
+    std::FILE *input_file;
     int header_size = sizeof(header);
     
-    input_file = std::fopen(path.c_str(), "r");
-    // read in header_size number of bytes (44) once.
-    std::fread(&header, header_size, 1, input_file);
-    
-    AudioData::sample_rate = header.sample_rate;
-    
-    std::cout << "Sample Rate: " << AudioData::sample_rate << "Hz\n";
-    
-    int num_samples = header.data_size;
-    int sample_size = header.sample_size_bits;
-    std::cout  << num_samples << " Samples\n";
-    std::cout  << sample_size << " Bits per Sample\n";
-    
+    input_file = std::fopen(path.c_str(), "rb");
 
-    
-    for(int i=0;i<num_samples;i++){
-        int sample = 0;
-        std::fread(&sample, sample_size/8, 1, input_file);
-        double noramlized_sample = (double)sample / (double)(1 << sample_size);
-        data.push_back(noramlized_sample);
+    if(input_file == NULL){
+        std::cout << "WHY IS THIS NULL!\n";
     }
     
+    // read in header_size number of bytes (44) once.
     
+    int bytesRead1 = std::fread(&header, 1, sizeof(header), input_file);
+    AudioData::sample_rate = header.sample_rate;
+    
+    std::cout << "Sample Rate: " << header.sample_rate << "Hz\n";
+    
+    int num_bytes = header.data_size;
+    int sample_size = header.sample_size_bits;
+    std::cout  << num_bytes << " Bytes\n";
+    std::cout  << sample_size << " Bits per Sample\n";
+    std::cout  << header.byte_rate << "\n";
+
+    //char byte_data[num_bytes];
+    //std::fread(byte_data, sizeof(byte_data), 1, input_file);
+    short sample = 0;
+    int num_samples =0;
+    while(std::fread(&sample, 1, sample_size/8, input_file)){
+
+        num_samples++;
+        //(int)byte_data[i];
+        
+        //perror("fread");
+        //a = byte_data[i];
+        //std::cout << bytesRead << " E\n";
+        double noramlized_sample = (double)sample / (double)32767;//(1 << (sample_size));
+        //noramlized_sample += -1.0;
+        //std::cout << sample << " \n";
+        data.push_back(noramlized_sample);
+        //std::cout << noramlized_sample << "\n"; 
+        //data.push_back(sample);
+
+        
+        
+    }
+    std::cout << "Read in " << num_samples << " Samples\n";
+    std::fclose(input_file);
 }
