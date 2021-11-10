@@ -21,6 +21,7 @@ public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
     QGraphicsScene scene;
+    QGraphicsScene fullWaveScene;
     Control controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
@@ -35,5 +36,6 @@ public slots:
 private:
     Ui::SPELLMainWindow *ui;
     void renderWaveForm(std::vector<double> data);
+    void renderFullWaveForm(std::vector<double> data);
 };
 #endif // MAINWINDOW_H
