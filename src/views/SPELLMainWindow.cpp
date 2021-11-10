@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QListWidget>
 #include <vector>
+#include <QMouseEvent>
 #include "../control/Control.h"
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
@@ -58,6 +59,9 @@ void SPELLMainWindow::newFileSelected() {
     QString current_path = ui->fileList->currentItem()->text();
     std::cout << "Selected " << current_path.toStdString() << "\n";
     controller.file_index = ui->fileList->currentRow();
+    controller.start_sample = 0;
+    controller.display_samples = 10000;
+    
     // Query the data structure for the correct audio data to render,
     // then render the wave form of said audio.
     renderWaveForm(controller.getAudioData(controller.file_index));
@@ -70,8 +74,8 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
 
     int width = ui->waveForm->mapToScene(ui->waveForm->viewport()->geometry()).boundingRect().width();
     int height = ui->waveForm->mapToScene(ui->waveForm->viewport()->geometry()).boundingRect().height();
-    int num_samples_display = 100000;
-    int start_sample = 10000;
+    int num_samples_display = controller.display_samples;
+    int start_sample = controller.start_sample;
     int end_sample = num_samples_display + start_sample;
     int sample_per_pixel = num_samples_display/width;
     
@@ -118,4 +122,19 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
        
 }
 
-
+void SPELLMainWindow::wheelEvent(QWheelEvent *event){
+    QPoint numPixels = event->angleDelta();
+    //std::cout << "X: " << numPixels.x() << "Y: " << numPixels.y() << "\n";
+    if(numPixels.y() > 0){
+        controller.display_samples = (int)(controller.display_samples * 1.05);
+    }else if(numPixels.y() < 0){
+        controller.display_samples = (int)(controller.display_samples * 0.95);
+    }
+    
+    if(controller.file_index > -1){
+        if(controller.getAudioData(controller.file_index).size() < (controller.display_samples+controller.start_sample)){
+            controller.display_samples = controller.getAudioData(controller.file_index).size() - controller.start_sample;
+        }
+        renderWaveForm(controller.getAudioData(controller.file_index));
+    }
+}

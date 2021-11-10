@@ -19,6 +19,7 @@ public:
     QGraphicsScene scene;
     Control controller;
     void addFileToList(QString path);
+    void wheelEvent(QWheelEvent *event);
 
 public slots:
 	void playSelection();

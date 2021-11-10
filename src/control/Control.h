@@ -14,6 +14,8 @@ class Control{
         std::vector<double> getAudioData(int index);
         IntermediateDataStructure data;
         int file_index = -1;
+        int start_sample = 0;
+        int display_samples = 0;
 };
 
 
