@@ -10,6 +10,9 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <QFile>
+#include <QString>
+#include <QLatin1String>
 #include <test.h>
 #include <IntermediateDataStructure.h>
 #include <views/SPELLMainWindow.h>
@@ -24,7 +27,11 @@ int main(int argc, char** argv)
     data.addAudioFile("C:/test/crab.wav");
     helloSPELL();*/
     QApplication app(argc, argv);
-	 QTranslator translator;
+    QFile styleSheetFile("../themes/Combinear/Combinear.qss");
+    styleSheetFile.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(styleSheetFile.readAll());
+    app.setStyleSheet(styleSheet);
+	QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
 		qDebug().nospace() << "locale " << qPrintable(locale);

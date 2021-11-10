@@ -134,6 +134,13 @@
           <item>
            <widget class="QGraphicsView" name="waveForm"/>
           </item>
+          <item>
+           <widget class="QCheckBox" name="autoScale">
+            <property name="text">
+             <string>Auto Scale</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </widget>

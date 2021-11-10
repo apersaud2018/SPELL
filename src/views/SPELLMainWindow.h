@@ -13,7 +13,10 @@ class SPELLMainWindow : public QMainWindow
 {
     Q_OBJECT
     const double ZOOM_SPEED = 0.10; 
-    const double SCROLL_SPEED = 0.10; 
+    const double SCROLL_SPEED = 0.10;
+    
+    int auto_scale = 0;
+    
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
@@ -21,11 +24,13 @@ public:
     Control controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
 	void playSelection();
     void addAudioFile();
     void newFileSelected();
+    void autoScrollChanged(int);
 
 private:
     Ui::SPELLMainWindow *ui;
