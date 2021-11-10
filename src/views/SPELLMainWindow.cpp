@@ -86,6 +86,9 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
 
     int width = ui->waveForm->mapToScene(ui->waveForm->viewport()->geometry()).boundingRect().width();
     int height = ui->waveForm->mapToScene(ui->waveForm->viewport()->geometry()).boundingRect().height();
+    
+    scene.setSceneRect(0,-height/2,width,height);
+    
     int num_samples_display = controller.display_samples;
     int start_sample = controller.start_sample;
     int end_sample = num_samples_display + start_sample;
