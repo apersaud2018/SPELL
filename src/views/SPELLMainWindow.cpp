@@ -94,11 +94,10 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
                 sample = data[sample_index];
                 
             }
-            if(sample > 0){
-                val += (double)sample;
-            }else{
-                val -= (double)sample;
-            }
+
+            
+            val += (double)sample;
+            
         }
         val /= sample_per_pixel;
         if(val > max_val){
@@ -108,7 +107,7 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
         }
         
         
-        val *= (height/2) * 1.5;
+        val *= (height/2);
         vals.push_back(val);
 
         
