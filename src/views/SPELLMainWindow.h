@@ -12,7 +12,7 @@ QT_END_NAMESPACE
 class SPELLMainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    const double ZOOM_SPEED = 0.10; 
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();

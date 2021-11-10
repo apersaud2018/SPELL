@@ -8,6 +8,7 @@
 #include <QListWidget>
 #include <vector>
 #include <QMouseEvent>
+#include <cmath>
 #include "../control/Control.h"
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
@@ -81,7 +82,6 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
     
     double max_val = 0.0000001;
     
-    std::cout << max_val << "\n"; 
     
     std::vector<double> vals;
     vals.push_back(0.0);
@@ -99,7 +99,9 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
             val += (double)sample;
             
         }
+        //val = std::sqrt(val);
         val /= sample_per_pixel;
+        
         if(val > max_val){
             max_val = val;
         }else if (-val > max_val){
@@ -107,13 +109,13 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
         }
         
         
-        val *= (height/2);
+        val *= (height/2) * 0.9;
         vals.push_back(val);
 
         
     }
     
-    for(int i=1;i<vals.size();i++){
+    for(int i=5;i<vals.size();i++){
         scene.addLine(i-1,(int)(vals[i-1]*(1/max_val)),i,(int)(vals[i]*(1/max_val)),QPen(Qt::black));
     }
 
@@ -125,9 +127,9 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
     QPoint numPixels = event->angleDelta();
     //std::cout << "X: " << numPixels.x() << "Y: " << numPixels.y() << "\n";
     if(numPixels.y() > 0){
-        controller.display_samples = (int)(controller.display_samples * 1.05);
+        controller.display_samples = (int)(controller.display_samples * (1.0-ZOOM_SPEED));
     }else if(numPixels.y() < 0){
-        controller.display_samples = (int)(controller.display_samples * 0.95);
+        controller.display_samples = (int)(controller.display_samples * (1.0+ZOOM_SPEED));
     }
     
     if(controller.file_index > -1){
