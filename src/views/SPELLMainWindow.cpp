@@ -44,7 +44,7 @@ SPELLMainWindow::~SPELLMainWindow()
 // 
 
 void SPELLMainWindow::addAudioFile() {
-    QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test");
+    QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test/audio");
     bool success = controller.addAudioFile(file_path.toStdString());
     if(success){
         addFileToList(file_path);
@@ -75,7 +75,7 @@ void SPELLMainWindow::newFileSelected() {
     std::cout << "Selected " << current_path.toStdString() << "\n";
     controller.file_index = ui->fileList->currentRow();
     controller.start_sample = 0;
-    controller.display_samples = 10000;
+    controller.end_sample = 10000;
     
     // Query the data structure for the correct audio data to render,
     // then render the wave form of said audio.
@@ -93,9 +93,10 @@ void SPELLMainWindow::renderWaveForm(std::vector<double> data){
     
     scene.setSceneRect(0,-height/2,width,height);
     
-    int num_samples_display = controller.display_samples;
+   
     int start_sample = controller.start_sample;
-    int end_sample = num_samples_display + start_sample;
+    int end_sample = controller.end_sample;
+    int num_samples_display = end_sample-start_sample;
     double sample_per_pixel = num_samples_display*1.0/width;
     //std::cout << sample_per_pixel << "\n";
     double max_val = 0.0000001;
@@ -178,7 +179,7 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
     
     int num_samples_display = data.size();
     int start_sample = 0;
-    int end_sample = num_samples_display + start_sample;
+    int end_sample = controller.end_sample;
     double sample_per_pixel = num_samples_display*1.0/width;
     //std::cout << sample_per_pixel << "\n";
     double max_val = 0.0000001;
@@ -246,7 +247,7 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
     }
     
     int start_x = width * controller.start_sample / data.size();
-    int end_x = width * (controller.start_sample + controller.display_samples) / data.size();
+    int end_x = width * (controller.end_sample) / data.size();
     
     QPolygonF poly;
     poly << QPointF(start_x, -height/2) << QPointF(start_x, +height/2-1) << QPointF(end_x, +height/2-1)<< QPointF(end_x, -height/2);
@@ -268,25 +269,30 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
     QPoint numPixels = event->angleDelta();
     //std::cout << "X: " << numPixels.x() << "Y: " << numPixels.y() << "\n";
     if(numPixels.y() > 0){
-        controller.display_samples = (int)(controller.display_samples * (1.0-ZOOM_SPEED));
+        controller.end_sample = (int)((controller.end_sample - controller.start_sample) * (1.0-ZOOM_SPEED)) + controller.start_sample;
     }else if(numPixels.y() < 0){
-        controller.display_samples = (int)(controller.display_samples * (1.0+ZOOM_SPEED));
+        controller.end_sample = (int)((controller.end_sample - controller.start_sample) * (1.0+ZOOM_SPEED)) + controller.start_sample;
     }
     
     if(numPixels.x() > 0){
-        controller.start_sample = (int)(controller.start_sample + (controller.display_samples*SCROLL_SPEED));
+        int delta = (int)((controller.end_sample- controller.start_sample)*SCROLL_SPEED);
+        controller.start_sample += delta;
+        controller.end_sample += delta;
     }else if(numPixels.x() < 0){
-        controller.start_sample = (int)(controller.start_sample - (controller.display_samples*SCROLL_SPEED));
+        int delta = (int)((controller.end_sample- controller.start_sample)*SCROLL_SPEED);
+        controller.start_sample -= delta;
+        controller.end_sample -= delta;
     }
     if(controller.start_sample < 0){
         controller.start_sample = 0;
     }
     
     
+    
     if(controller.file_index > -1){
         int sample_len = controller.getAudioData(controller.file_index).size();
-        if(sample_len < (controller.display_samples)){
-            controller.display_samples = sample_len - controller.start_sample;
+        if(sample_len < (controller.end_sample)){
+            controller.end_sample = sample_len;
         }
         
         

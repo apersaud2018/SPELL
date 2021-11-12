@@ -15,7 +15,7 @@ class Control{
         IntermediateDataStructure data;
         int file_index = -1;
         int start_sample = 0;
-        int display_samples = 0;
+        int end_sample = 0;
 };
 
 
