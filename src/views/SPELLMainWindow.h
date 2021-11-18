@@ -40,6 +40,6 @@ private:
     Ui::SPELLMainWindow *ui;
     void renderWaveForm(std::vector<double> data);
     void renderFullWaveForm(std::vector<double> data);
-    void renderSpectrogram(QPixmap pix);
+    void renderSpectrogram(QImage img);
 };
 #endif // MAINWINDOW_H

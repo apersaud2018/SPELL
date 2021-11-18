@@ -21,8 +21,19 @@ std::vector<double> Control::getAudioData(int index){
 
 void Control::computeSpectrogram(int index){
     AudioData audio = data.getAudio(index);
-    QPixmap pixmap(100, 100);
-    pixmap.fill(QColor("purple"));
-    spectrograms.push_back(pixmap); // May need to change to insert
-    //pixmap.fill(QColor("red"));
+    int window_size = 512;
+    int stride = 16;
+    int num_windows = (audio.data.size()-window_size)/stride;
+    
+    QImage image(QSize(num_windows,512),QImage::Format_RGB32);
+    image.fill(QColor("purple"));
+    spectrograms.push_back(image); // May need to change to insert
+    computeWindow(0, audio.data, &spectrograms[index]);
+}
+
+void Control::computeWindow(int num, std::vector<double> data, QImage *img){
+    img->fill(QColor("blue"));
+    
+    
+    
 }

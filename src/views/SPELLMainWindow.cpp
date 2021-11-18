@@ -270,7 +270,7 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
        
 }
 
-void SPELLMainWindow::renderSpectrogram(QPixmap pixmap){
+void SPELLMainWindow::renderSpectrogram(QImage img){
     
     specScene.clear();
 
@@ -279,7 +279,7 @@ void SPELLMainWindow::renderSpectrogram(QPixmap pixmap){
     
     specScene.setSceneRect(0,0,width,height);
     
-    specScene.addPixmap(pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    specScene.addPixmap(QPixmap::fromImage(img).scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
         
     
 }
