@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <complex>
 
 class AudioData{
 
@@ -33,6 +34,8 @@ class AudioData{
         unsigned long data_size;
         unsigned long sample_rate;
         std::vector<double> data;
+        std::vector<std::complex<double>> fft(std::vector<std::complex<double>> input_data);
+
         
 
 };

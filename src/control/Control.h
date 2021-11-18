@@ -12,6 +12,7 @@ class Control{
         void initialize();
         bool addAudioFile(std::string path);
         std::vector<double> getAudioData(int index);
+        void test_fft();
         IntermediateDataStructure data;
         int file_index = -1;
         int start_sample = 0;

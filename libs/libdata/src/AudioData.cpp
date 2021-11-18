@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
+#include <complex>
 
 
 void AudioData::readData(std::string path){
@@ -52,4 +54,33 @@ void AudioData::readData(std::string path){
     }
     std::cout << "Read in " << num_samples << " Samples\n";
     std::fclose(input_file);
+}
+
+std::vector<std::complex<double>> AudioData::fft(std::vector<std::complex<double>> input_data){
+    int n = input_data.size(); 
+    std::vector<std::complex<double>> output_data(n, std::complex<double>(0.0,0.0));
+    if(n == 1){
+        output_data[0] = input_data[0];
+    }else{
+        std::vector<std::complex<double>> even_data;
+        std::vector<std::complex<double>> odd_data;
+        for(int i=0;i<n;i++){
+            if(i%2==0){
+                even_data.push_back(input_data[i]);
+            }else{
+                odd_data.push_back(input_data[i]);
+            }
+        }
+        std::vector<std::complex<double>> left_half = fft(even_data);
+        std::vector<std::complex<double>> right_half = fft(odd_data);
+        
+        for(int k=0;k<n/2;k++){
+            std::complex<double> temp = left_half[k];
+            output_data[k] = temp + std::exp((-2*(3.14159265358979323846)*k*std::complex<double>(0.0,1.0))/(double)n)*right_half[k];
+            output_data[k+(n/2)] = temp - std::exp((-2*(3.14159265358979323846)*k*std::complex<double>(0.0,1.0))/(double)n)*right_half[k];
+            
+        }
+        
+    }
+    return output_data;
 }

@@ -25,8 +25,10 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     //scene = new QGraphicsScene();
     ui->waveForm->setScene(&scene);
     ui->fullWaveForm->setScene(&fullWaveScene);
-    
-  
+
+
+
+    //ui->scrollAreaWidgetContents_2->viewport()->setMouseTracking(true);
     
     //scene.addLine(-250,0,250,0,QPen(Qt::black));
     
@@ -299,7 +301,27 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
     }
+    
+
+    controller.test_fft();
+    
 }
+
+void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
+    // Handle click and drag of waveform window
+    QPoint point = ui->fullWaveForm->mapFromGlobal(QCursor::pos());
+    QPointF relative_point= ui->fullWaveForm->mapToScene(point);
+    int width = ui->fullWaveForm->mapToScene(ui->fullWaveForm->viewport()->geometry()).boundingRect().width();
+    int height = ui->fullWaveForm->mapToScene(ui->fullWaveForm->viewport()->geometry()).boundingRect().height();
+    int mx = relative_point.x() + width/2;
+    int my = relative_point.y();
+    //if(mx > 0 && mx < width && my > 0 && my < height){
+        //std::cout << mx << ", ";
+        //std::cout << my << "\n";
+    //}
+}
+
+
 
 void SPELLMainWindow::resizeEvent(QResizeEvent *event){
 	if(controller.file_index > -1){
@@ -307,3 +329,5 @@ void SPELLMainWindow::resizeEvent(QResizeEvent *event){
         renderFullWaveForm(controller.getAudioData(controller.file_index));
     }
 }
+
+
