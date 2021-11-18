@@ -22,6 +22,7 @@ public:
     ~SPELLMainWindow();
     QGraphicsScene scene;
     QGraphicsScene fullWaveScene;
+    QGraphicsScene specScene;
     Control controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
@@ -38,5 +39,6 @@ private:
     Ui::SPELLMainWindow *ui;
     void renderWaveForm(std::vector<double> data);
     void renderFullWaveForm(std::vector<double> data);
+    void renderSpectrogram();
 };
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <IntermediateDataStructure.h>
 #include "AudioData.h"
+#include <QImage>
 
 void Control::initialize(){
     data.initialize("TestProject", "C:/test/project");

@@ -25,6 +25,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     //scene = new QGraphicsScene();
     ui->waveForm->setScene(&scene);
     ui->fullWaveForm->setScene(&fullWaveScene);
+    ui->spectrogram->setScene(&specScene);
 
 
 
@@ -83,6 +84,7 @@ void SPELLMainWindow::newFileSelected() {
     // then render the wave form of said audio.
     renderWaveForm(controller.getAudioData(controller.file_index));
     renderFullWaveForm(controller.getAudioData(controller.file_index));
+    renderSpectrogram();
     
 }
 
@@ -265,6 +267,21 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
 
 
        
+}
+
+void SPELLMainWindow::renderSpectrogram(){
+    
+    specScene.clear();
+
+    int width = ui->spectrogram->mapToScene(ui->spectrogram->viewport()->geometry()).boundingRect().width();
+    int height = ui->spectrogram->mapToScene(ui->spectrogram->viewport()->geometry()).boundingRect().height();
+    
+    specScene.setSceneRect(0,0,width,height);
+    QPixmap pixmap(width, height);
+    pixmap.fill(QColor("purple"));
+    specScene.addPixmap(pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+        
+    
 }
 
 void SPELLMainWindow::wheelEvent(QWheelEvent *event){

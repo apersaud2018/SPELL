@@ -35,6 +35,7 @@ class AudioData{
         unsigned long sample_rate;
         std::vector<double> data;
         std::vector<std::complex<double>> fft(std::vector<std::complex<double>> input_data);
+        void computeFFT();
 
         
 

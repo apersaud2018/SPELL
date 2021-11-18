@@ -44,6 +44,7 @@ bool IntermediateDataStructure::isValidAudioFile(std::string path){
 }
 
 std::vector<double> IntermediateDataStructure::getAudioData(int index){
+    audioData[index].computeFFT();
     return audioData[index].data;
 }
 
