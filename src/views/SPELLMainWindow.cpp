@@ -320,6 +320,7 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
         
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
+        renderSpectrogram(controller.spectrograms[controller.file_index]);
     }
     
 
@@ -343,7 +344,7 @@ void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
 
 void SPELLMainWindow::updateUI(){
     if(controller.file_index > -1){
-    renderSpectrogram(controller.spectrograms[controller.file_index]);
+        renderSpectrogram(controller.spectrograms[controller.file_index]);
     }
 }
 
@@ -352,6 +353,7 @@ void SPELLMainWindow::resizeEvent(QResizeEvent *event){
 	if(controller.file_index > -1){
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
+        renderSpectrogram(controller.spectrograms[controller.file_index]);
     }
 }
 
