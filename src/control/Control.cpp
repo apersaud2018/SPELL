@@ -32,7 +32,7 @@ void Control::computeSpectrogram(int index){
     int stride = 256;
     int num_windows = (audio.data.size()-window_size)/stride;
     
-    QImage image(QSize(num_windows,256),QImage::Format_RGB32);
+    QImage image(QSize(num_windows,window_size/2),QImage::Format_RGB32);
     image.fill(QColor("purple"));
     spectrograms.push_back(image); // May need to change to insert
     int num_threads = 1;
