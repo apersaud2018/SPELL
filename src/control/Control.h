@@ -26,7 +26,7 @@ class Control{
         
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
-        void computeAllWindows(int num_windows, int window_size, int stride, int index);
+        void computeAllWindows(int num_windows, int window_size, int stride,int index, int step, int phase);
         
 };
 

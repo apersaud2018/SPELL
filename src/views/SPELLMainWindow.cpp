@@ -320,7 +320,7 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
         
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
-        renderSpectrogram(controller.spectrograms[controller.file_index]);
+        renderSpectrogram(controller.spectrograms[controller.file_index]); 
     }
     
 
