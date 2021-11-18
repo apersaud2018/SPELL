@@ -35,6 +35,7 @@ public slots:
     void addAudioFile();
     void newFileSelected();
     void autoScrollChanged(int);
+    void updateUI();
 
 private:
     Ui::SPELLMainWindow *ui;

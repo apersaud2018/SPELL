@@ -12,6 +12,7 @@
 #include <QColor>
 #include <QCheckBox>
 #include <QPolygonF>
+#include <QTimer>
 #include <cmath>
 #include "../control/Control.h"
 
@@ -27,7 +28,9 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     ui->fullWaveForm->setScene(&fullWaveScene);
     ui->spectrogram->setScene(&specScene);
 
-
+    QTimer *timer = new QTimer(this);
+    connect(timer, QTimer::timeout, this, updateUI);
+    timer->start(1000);
 
     //ui->scrollAreaWidgetContents_2->viewport()->setMouseTracking(true);
     
@@ -335,8 +338,14 @@ void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
         //std::cout << mx << ", ";
         //std::cout << my << "\n";
     //}
+    
 }
 
+void SPELLMainWindow::updateUI(){
+    if(controller.file_index > -1){
+    renderSpectrogram(controller.spectrograms[controller.file_index]);
+    }
+}
 
 
 void SPELLMainWindow::resizeEvent(QResizeEvent *event){

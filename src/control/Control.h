@@ -22,7 +22,8 @@ class Control{
         int end_sample = 0;
         
     private:
-        void computeWindow(int num, std::vector<double> data, QImage *img);
+        void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
+        void computeAllWindows(int num_windows, int window_size, int stride, int index);
 };
 
 
