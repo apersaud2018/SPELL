@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <IntermediateDataStructure.h>
+#include <QPixmap>
 
 class Control{
 
@@ -12,7 +13,8 @@ class Control{
         void initialize();
         bool addAudioFile(std::string path);
         std::vector<double> getAudioData(int index);
-        void test_fft();
+        std::vector<QPixmap> spectrograms;
+        void computeSpectrogram(int index);
         IntermediateDataStructure data;
         int file_index = -1;
         int start_sample = 0;

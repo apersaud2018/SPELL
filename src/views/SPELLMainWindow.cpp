@@ -49,7 +49,8 @@ SPELLMainWindow::~SPELLMainWindow()
 void SPELLMainWindow::addAudioFile() {
     QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test/audio");
     bool success = controller.addAudioFile(file_path.toStdString());
-    if(success){
+    if(success){       
+        controller.computeSpectrogram(controller.spectrograms.size());
         addFileToList(file_path);
     }
 }
@@ -84,7 +85,7 @@ void SPELLMainWindow::newFileSelected() {
     // then render the wave form of said audio.
     renderWaveForm(controller.getAudioData(controller.file_index));
     renderFullWaveForm(controller.getAudioData(controller.file_index));
-    renderSpectrogram();
+    renderSpectrogram(controller.spectrograms[controller.file_index]);
     
 }
 
@@ -269,7 +270,7 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
        
 }
 
-void SPELLMainWindow::renderSpectrogram(){
+void SPELLMainWindow::renderSpectrogram(QPixmap pixmap){
     
     specScene.clear();
 
@@ -277,8 +278,7 @@ void SPELLMainWindow::renderSpectrogram(){
     int height = ui->spectrogram->mapToScene(ui->spectrogram->viewport()->geometry()).boundingRect().height();
     
     specScene.setSceneRect(0,0,width,height);
-    QPixmap pixmap(width, height);
-    pixmap.fill(QColor("purple"));
+    
     specScene.addPixmap(pixmap.scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
         
     
@@ -320,7 +320,6 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
     }
     
 
-    controller.test_fft();
     
 }
 

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QPixmap>
 #include "../control/Control.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,6 +40,6 @@ private:
     Ui::SPELLMainWindow *ui;
     void renderWaveForm(std::vector<double> data);
     void renderFullWaveForm(std::vector<double> data);
-    void renderSpectrogram();
+    void renderSpectrogram(QPixmap pix);
 };
 #endif // MAINWINDOW_H

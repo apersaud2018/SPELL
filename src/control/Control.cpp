@@ -19,14 +19,10 @@ std::vector<double> Control::getAudioData(int index){
     return data.getAudioData(index);
 }
 
-void Control::test_fft(){
-    std::vector<std::complex<double>> test_data;
-    
-    test_data.push_back(std::complex<double>(1.0,0.0));
-    test_data.push_back(std::complex<double>(5.0,0.0));
-    test_data.push_back(std::complex<double>(2.0,0.0));
-    test_data.push_back(std::complex<double>(7.0,0.0));
-    AudioData test_obj;
-    std::vector<std::complex<double>> output = test_obj.fft(test_data);
-    std::cout << output[0] << output[1] << output[2] << output[3] << "\n";
+void Control::computeSpectrogram(int index){
+    AudioData audio = data.getAudio(index);
+    QPixmap pixmap(100, 100);
+    pixmap.fill(QColor("purple"));
+    spectrograms.push_back(pixmap); // May need to change to insert
+    //pixmap.fill(QColor("red"));
 }
