@@ -68,7 +68,7 @@ void Control::computeWindow(int window_index, int window_size, int stride, Audio
             val = colormap.size()-1;
             
         }
-        img->setPixel(window_index, i, colormap[val]);
+        img->setPixel(window_index, 255-i, colormap[val]);
     }
     
 }
