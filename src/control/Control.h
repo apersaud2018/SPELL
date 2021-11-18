@@ -6,6 +6,7 @@
 #include <IntermediateDataStructure.h>
 #include <QPixmap>
 #include <QImage>
+#include <QRgb>
 
 class Control{
 
@@ -20,10 +21,13 @@ class Control{
         int file_index = -1;
         int start_sample = 0;
         int end_sample = 0;
+        std::vector<QRgb> colormap;
+
         
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
         void computeAllWindows(int num_windows, int window_size, int stride, int index);
+        
 };
 
 
