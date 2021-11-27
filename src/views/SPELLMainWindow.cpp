@@ -83,12 +83,12 @@ void SPELLMainWindow::newFileSelected() {
     controller.file_index = ui->fileList->currentRow();
     controller.start_sample = 0;
     controller.end_sample = 10000;
-    
+    controller.data_size = controller.getAudioData(controller.file_index).size();
     // Query the data structure for the correct audio data to render,
     // then render the wave form of said audio.
     renderWaveForm(controller.getAudioData(controller.file_index));
     renderFullWaveForm(controller.getAudioData(controller.file_index));
-    renderSpectrogram(controller.spectrograms[controller.file_index]);
+    renderSpectrogram(controller.spectrograms[controller.file_index],controller.data_size);
     
 }
 
@@ -273,7 +273,7 @@ void SPELLMainWindow::renderFullWaveForm(std::vector<double> data){
        
 }
 
-void SPELLMainWindow::renderSpectrogram(QImage img){
+void SPELLMainWindow::renderSpectrogram(QImage img, int sample_len){
     
     specScene.clear();
 
@@ -281,8 +281,14 @@ void SPELLMainWindow::renderSpectrogram(QImage img){
     int height = ui->spectrogram->mapToScene(ui->spectrogram->viewport()->geometry()).boundingRect().height();
     
     specScene.setSceneRect(0,0,width,height);
-    
-    specScene.addPixmap(QPixmap::fromImage(img).scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    QPixmap pixmap = QPixmap::fromImage(img);//.scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    int img_width = pixmap.width();
+    int img_height = pixmap.height();
+    double len = controller.end_sample - controller.start_sample;
+    double size = len/sample_len;
+    double start = controller.start_sample*1.0/sample_len;
+    QRect crop(int(img_width*start), 0, int(img_width*size), img_height);
+    specScene.addPixmap(pixmap.copy(crop).scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
         
     
 }
@@ -320,7 +326,7 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
         
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
-        renderSpectrogram(controller.spectrograms[controller.file_index]); 
+        renderSpectrogram(controller.spectrograms[controller.file_index],controller.data_size); 
     }
     
 
@@ -344,7 +350,7 @@ void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
 
 void SPELLMainWindow::updateUI(){
     if(controller.file_index > -1){
-        renderSpectrogram(controller.spectrograms[controller.file_index]);
+        renderSpectrogram(controller.spectrograms[controller.file_index],controller.data_size);
     }
 }
 
@@ -353,7 +359,7 @@ void SPELLMainWindow::resizeEvent(QResizeEvent *event){
 	if(controller.file_index > -1){
         renderWaveForm(controller.getAudioData(controller.file_index));
         renderFullWaveForm(controller.getAudioData(controller.file_index));
-        renderSpectrogram(controller.spectrograms[controller.file_index]);
+        renderSpectrogram(controller.spectrograms[controller.file_index],controller.data_size);
     }
 }
 

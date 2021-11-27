@@ -21,6 +21,7 @@ class Control{
         int file_index = -1;
         int start_sample = 0;
         int end_sample = 0;
+        int data_size = 0;
         std::vector<QRgb> colormap;
 
         
