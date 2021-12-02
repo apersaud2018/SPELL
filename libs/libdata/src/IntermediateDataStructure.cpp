@@ -40,11 +40,11 @@ bool IntermediateDataStructure::isValidAudioFile(std::string path){
         return isValid;
     }
     return false;
-    
+
 }
 
-std::vector<double> IntermediateDataStructure::getAudioData(int index){
-    return audioData[index].data;
+std::vector<double> *IntermediateDataStructure::getAudioData(int index){
+    return &(audioData[index].data);
 }
 
 AudioData IntermediateDataStructure::getAudio(int index){

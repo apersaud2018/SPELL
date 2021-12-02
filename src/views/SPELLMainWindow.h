@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QPixmap>
-#include "../control/Control.h"
+#include "control/Control.h"
+#include "widgets/WaveDrawWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SPELLMainWindow; }
@@ -13,18 +15,17 @@ QT_END_NAMESPACE
 class SPELLMainWindow : public QMainWindow
 {
     Q_OBJECT
-    const double ZOOM_SPEED = 0.10; 
-    const double SCROLL_SPEED = 0.10;
-    
-    int auto_scale = 0;
-    
+    const double ZOOM_SPEED = 0.10;
+    const double SCROLL_SPEED = 0.05;
+
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
     QGraphicsScene scene;
     QGraphicsScene fullWaveScene;
+    QGraphicsView *spectrogram;
     QGraphicsScene specScene;
-    Control controller;
+    Control *controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
     void resizeEvent(QResizeEvent *event);
@@ -36,10 +37,13 @@ public slots:
     void newFileSelected();
     void autoScrollChanged(int);
     void updateUI();
+    void zoomIn();
+    void zoomOut();
 
 private:
+    WaveDrawWidget *waveDraw;
+    WaveDrawWidget *fullWaveDraw;
     Ui::SPELLMainWindow *ui;
-    void renderWaveForm(std::vector<double> data);
     void renderFullWaveForm(std::vector<double> data);
     void renderSpectrogram(QImage img, int sample_len);
 };

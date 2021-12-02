@@ -10,79 +10,79 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="23"/>
+        <location filename="../views/SPELLMainWindow.ui" line="28"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="229"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="39"/>
+        <location filename="../views/SPELLMainWindow.ui" line="44"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="230"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="46"/>
+        <location filename="../views/SPELLMainWindow.ui" line="51"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="231"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="61"/>
+        <location filename="../views/SPELLMainWindow.ui" line="66"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="232"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="68"/>
+        <location filename="../views/SPELLMainWindow.ui" line="73"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="233"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="81"/>
+        <location filename="../views/SPELLMainWindow.ui" line="86"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="234"/>
         <source>Zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="88"/>
+        <location filename="../views/SPELLMainWindow.ui" line="93"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="235"/>
         <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="95"/>
+        <location filename="../views/SPELLMainWindow.ui" line="100"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="236"/>
         <source>-</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="165"/>
+        <location filename="../views/SPELLMainWindow.ui" line="109"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="237"/>
         <source>Auto Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="176"/>
+        <location filename="../views/SPELLMainWindow.ui" line="159"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="238"/>
         <source>Insert Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="195"/>
+        <location filename="../views/SPELLMainWindow.ui" line="180"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="239"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="205"/>
+        <location filename="../views/SPELLMainWindow.ui" line="190"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="227"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="210"/>
+        <location filename="../views/SPELLMainWindow.ui" line="195"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="228"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
