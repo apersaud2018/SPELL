@@ -31,13 +31,13 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     //splitter->setOrientation(Qt::Vertical);
     waveDraw = new WaveDrawWidget(ui->scrollVWidget, controller);
     waveDraw->setFixedHeight(400);
-    fullWaveDraw = new WaveDrawWidget(ui->scrollVWidget, controller);
-    fullWaveDraw->setFixedHeight(400);
+    fullWaveDraw = new FullWaveDrawWidget(ui->scrollVWidget, controller);
+    fullWaveDraw->setFixedHeight(100);
     spectrogram = new QGraphicsView(ui->scrollVWidget);
     spectrogram->setFixedHeight(400);
     //ui->scrollVLayout->insertWidget(0, splitter);
     ui->scrollVLayout->insertWidget(0, waveDraw);
-    ui->scrollVLayout->insertWidget(0, fullWaveDraw);
+    ui->rightVLayout->insertWidget(2, fullWaveDraw);
     ui->scrollVLayout->insertWidget(0, spectrogram);
 
     //ui->scrollArea->takeWidget();
@@ -250,42 +250,6 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
     else if (numPixels.x() < 0) {
       controller->setPosition(controller->left_position - SCROLL_SPEED * controller->zoom);
     }
-
-    //std::cout << "X: " << numPixels.x() << "Y: " << numPixels.y() << "\n";
-    // if(numPixels.y() > 0){
-    //     controller->end_sample = (int)((controller->end_sample - controller->start_sample) * (1.0-ZOOM_SPEED)) + controller->start_sample;
-    // }else if(numPixels.y() < 0){
-    //     controller->end_sample = (int)((controller->end_sample - controller->start_sample) * (1.0+ZOOM_SPEED)) + controller->start_sample;
-    // }
-    //
-    // if(numPixels.x() > 0){
-    //     int delta = (int)((controller->end_sample- controller->start_sample)*SCROLL_SPEED);
-    //     controller->start_sample += delta;
-    //     controller->end_sample += delta;
-    // }else if(numPixels.x() < 0){
-    //     int delta = (int)((controller->end_sample- controller->start_sample)*SCROLL_SPEED);
-    //     controller->start_sample -= delta;
-    //     controller->end_sample -= delta;
-    // }
-    // if(controller->start_sample < 0){
-    //     controller->start_sample = 0;
-    // }
-    //
-    //
-    //
-    // if(controller->file_index > -1){
-    //     int sample_len = controller->getAudioData(controller->file_index)->size();
-    //     if(sample_len < (controller->end_sample)){
-    //         controller->end_sample = sample_len;
-    //     }
-    //
-    //
-    //     renderWaveForm(controller->getAudioData(controller->file_index));
-    //     renderFullWaveForm(controller->getAudioData(controller->file_index));
-    //     renderSpectrogram(controller->spectrograms[controller->file_index],controller->data_size);
-    // }
-
-
 
 }
 

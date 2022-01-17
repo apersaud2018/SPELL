@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include "control/Control.h"
 #include "widgets/WaveDrawWidget.h"
+#include "widgets/FullWaveDrawWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SPELLMainWindow; }
@@ -42,7 +43,7 @@ public slots:
 
 private:
     WaveDrawWidget *waveDraw;
-    WaveDrawWidget *fullWaveDraw;
+    FullWaveDrawWidget *fullWaveDraw;
     Ui::SPELLMainWindow *ui;
     void renderFullWaveForm(std::vector<double> data);
     void renderSpectrogram(QImage img, int sample_len);

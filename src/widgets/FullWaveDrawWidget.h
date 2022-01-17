@@ -1,8 +1,9 @@
-#ifndef WAVESRAWWIDGET_H
-#define WAVESRAWWIDGET_H
+#ifndef FULLWAVESRAWWIDGET_H
+#define FULLWAVESRAWWIDGET_H
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsRectItem>
 #include "control/Control.h"
 #include <vector>
 
@@ -28,6 +29,7 @@ private:
   Control *controller;
   void renderWave();
   void renderBox();
+  QGraphicsRectItem viewBox;
 
 };
 #endif // MAINWINDOW_H
