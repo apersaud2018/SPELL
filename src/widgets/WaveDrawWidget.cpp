@@ -29,6 +29,10 @@ void WaveDrawWidget::updateView() {
   renderWave();
 }
 
+void WaveDrawWidget::resizeEvent(QResizeEvent *event) {
+  renderWave();
+}
+
 void WaveDrawWidget::renderWave() {
 
   if (data == nullptr) {

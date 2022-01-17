@@ -17,6 +17,7 @@ class FullWaveDrawWidget : public QGraphicsView
 public:
     FullWaveDrawWidget(QWidget *parent, Control *new_controller);
     ~FullWaveDrawWidget();
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
   void audioChanged(int index);

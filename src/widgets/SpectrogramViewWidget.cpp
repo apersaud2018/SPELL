@@ -19,6 +19,10 @@ SpectrogramViewWidget::~SpectrogramViewWidget() {
   scene.clear();
 }
 
+void SpectrogramViewWidget::resizeEvent(QResizeEvent *event) {
+  updateSpectrogram();
+}
+
 void SpectrogramViewWidget::audioChanged(int nindex) {
   data_size = controller->data_size;
   index = nindex;

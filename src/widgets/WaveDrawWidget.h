@@ -21,6 +21,7 @@ public slots:
   void audioChanged(int index);
   void autoScaleChanged(int value);
   void updateView();
+  void resizeEvent(QResizeEvent *event);
 
 private:
   QGraphicsScene scene;

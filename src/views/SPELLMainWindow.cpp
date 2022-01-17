@@ -34,21 +34,12 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     fullWaveDraw->setFixedHeight(100);
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
-    // spectrogram = new QGraphicsView(ui->scrollVWidget);
-    // spectrogram->setFixedHeight(400);
-    //ui->scrollVLayout->insertWidget(0, splitter);
-    ui->scrollVLayout->insertWidget(0, waveDraw);
+
     ui->rightVLayout->insertWidget(2, fullWaveDraw);
-    ui->scrollVLayout->insertWidget(0, spectrogramDraw);
 
+    ui->scrollVLayout->insertWidget(0, waveDraw);
+    ui->scrollVLayout->insertWidget(1, spectrogramDraw);
 
-    //spectrogram->setScene(&specScene);
-
-
-
-    //ui->scrollAreaWidgetContents_2->viewport()->setMouseTracking(true);
-
-    //scene.addLine(-250,0,250,0,QPen(Qt::black));
 
 	connect(ui->addAudioFile, QPushButton::clicked, this, addAudioFile);
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
@@ -57,6 +48,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 
   connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
   connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
+
 }
 
 SPELLMainWindow::~SPELLMainWindow()
@@ -115,15 +107,4 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
 void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
 
 
-}
-
-
-
-
-void SPELLMainWindow::resizeEvent(QResizeEvent *event){
-	if(controller->file_index > -1){
-        // renderWaveForm(controller->getAudioData(controller->file_index));
-        // renderFullWaveForm(controller->getAudioData(controller->file_index));
-        // renderSpectrogram(controller->spectrograms[controller->file_index],controller->data_size);
-    }
 }

@@ -16,6 +16,7 @@ class SpectrogramViewWidget : public QGraphicsView
 public:
     SpectrogramViewWidget(QWidget *parent, Control *new_controller);
     ~SpectrogramViewWidget();
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
   void audioChanged(int index);

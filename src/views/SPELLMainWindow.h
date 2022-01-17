@@ -26,7 +26,6 @@ public:
     Control *controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
-    void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
 public slots:

@@ -23,6 +23,12 @@ FullWaveDrawWidget::~FullWaveDrawWidget() {
   scene.clear();
 }
 
+void FullWaveDrawWidget::resizeEvent(QResizeEvent *event) {
+  scene.clear();
+  renderWave();
+  makeBox();
+}
+
 void FullWaveDrawWidget::audioChanged(int index) {
   data = controller->getAudioData(index);
   scene.clear();
@@ -100,6 +106,10 @@ void FullWaveDrawWidget::renderWave() {
 }
 
 void FullWaveDrawWidget::makeBox() {
+  if (data == nullptr) {
+    return;
+  }
+
   float width = mapToScene(viewport()->geometry()).boundingRect().width();
   float height = mapToScene(viewport()->geometry()).boundingRect().height();
 
@@ -116,6 +126,10 @@ void FullWaveDrawWidget::makeBox() {
 
 
 void FullWaveDrawWidget::updateBox() {
+  if (data == nullptr) {
+    return;
+  }
+  
   float width = mapToScene(viewport()->geometry()).boundingRect().width();
   float height = mapToScene(viewport()->geometry()).boundingRect().height();
 
