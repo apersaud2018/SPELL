@@ -6,6 +6,9 @@ QGraphicsView(parent), controller(new_controller)
   setScene(&scene);
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
+
+  wavePen.setColor(Qt::blue);
+  wavePen.setWidth(2);
 }
 
 WaveDrawWidget::~WaveDrawWidget() {
@@ -88,11 +91,7 @@ void WaveDrawWidget::renderWave() {
 
 
   }
-  QPen pen;
-  QColor color(Qt::blue);
-  color.setAlpha(100);
-  pen.setColor(color);
-  pen.setWidth(2);
+
 
   if(!auto_scale){
       max_val = 1;
@@ -101,6 +100,6 @@ void WaveDrawWidget::renderWave() {
   for(int i=5;i<max_vals.size();i++){
   //scene.addLine(i-1,(int)(max_vals[i-1]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),QPen(Qt::black));
   //scene.addLine(i-1,(int)(min_vals[i-1]*(1/max_val)),i,(int)(min_vals[i]*(1/max_val)),QPen(Qt::black));
-      scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),pen);
+      scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
 }

@@ -27,9 +27,15 @@ public slots:
 private:
   std::vector<double> *data = nullptr;
   Control *controller;
+
   void renderWave();
-  void renderBox();
-  QGraphicsRectItem viewBox;
+  QPen wavePen;
+
+  void makeBox();
+  void updateBox();
+  QGraphicsRectItem *viewBox;
+  QPen viewBoxPen;
+  QBrush viewBoxBrush;
 
 };
 #endif // MAINWINDOW_H

@@ -6,6 +6,17 @@ QGraphicsView(parent), controller(new_controller)
   setScene(&scene);
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
+
+  wavePen.setColor(Qt::blue);
+  wavePen.setWidth(2);
+
+  QColor brush_color(Qt::red);
+  brush_color.setAlpha(50);
+  viewBoxBrush.setColor(brush_color);
+  viewBoxBrush.setStyle(Qt::SolidPattern);
+
+  viewBoxPen.setColor(Qt::red);
+
 }
 
 FullWaveDrawWidget::~FullWaveDrawWidget() {
@@ -14,11 +25,13 @@ FullWaveDrawWidget::~FullWaveDrawWidget() {
 
 void FullWaveDrawWidget::audioChanged(int index) {
   data = controller->getAudioData(index);
+  scene.clear();
   renderWave();
+  makeBox();
 }
 
 void FullWaveDrawWidget::updateView() {
-  renderWave();
+  updateBox();
 }
 
 void FullWaveDrawWidget::renderWave() {
@@ -26,8 +39,6 @@ void FullWaveDrawWidget::renderWave() {
   if (data == nullptr) {
     return;
   }
-
-  scene.clear();
 
   int width = mapToScene(viewport()->geometry()).boundingRect().width();
   int height = mapToScene(viewport()->geometry()).boundingRect().height();
@@ -83,22 +94,46 @@ void FullWaveDrawWidget::renderWave() {
 
 
   }
-  QPen pen;
-  QColor color(Qt::blue);
-  color.setAlpha(100);
-  pen.setColor(color);
-  pen.setWidth(2);
+
 
   // if(!auto_scale){
   //     max_val = 1;
   // }
 
   for(int i=5;i<max_vals.size();i++){
-      scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),pen);
+      scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
 }
 
-void FullWaveDrawWidget::renderBox() {
-  int width = mapToScene(viewport()->geometry()).boundingRect().width();
-  int height = mapToScene(viewport()->geometry()).boundingRect().height();
+void FullWaveDrawWidget::makeBox() {
+  float width = mapToScene(viewport()->geometry()).boundingRect().width();
+  float height = mapToScene(viewport()->geometry()).boundingRect().height();
+
+  float relative_left = float(controller->getStartSample()) / data->size();
+  float relative_right = float(controller->getEndSample()) / data->size();
+
+  float x = relative_left * width;
+  float y = -height/2.0;
+  float rw = (relative_right - relative_left) * width;
+
+  viewBox = scene.addRect(x, y, rw, height, viewBoxPen, viewBoxBrush);
+
+}
+
+
+void FullWaveDrawWidget::updateBox() {
+  float width = mapToScene(viewport()->geometry()).boundingRect().width();
+  float height = mapToScene(viewport()->geometry()).boundingRect().height();
+
+  float relative_left = float(controller->getStartSample()) / data->size();
+  float relative_right = float(controller->getEndSample()) / data->size();
+
+  float x = relative_left * width;
+  float y = -height/2.0;
+  float rw = (relative_right - relative_left) * width;
+
+  //std::cout << x << " " << y << " " << rw << "\n";
+
+  viewBox->setRect(x, y, rw, height );
+
 }

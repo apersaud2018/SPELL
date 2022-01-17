@@ -29,6 +29,7 @@ private:
   std::vector<double> *data = nullptr;
   Control *controller;
   void renderWave();
+  QPen wavePen;
 
 };
 #endif // MAINWINDOW_H
