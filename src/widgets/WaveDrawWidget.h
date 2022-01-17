@@ -16,8 +16,6 @@ class WaveDrawWidget : public QGraphicsView
 public:
     WaveDrawWidget(QWidget *parent, Control *new_controller);
     ~WaveDrawWidget();
-    QGraphicsScene scene;
-
 
 public slots:
   void audioChanged(int index);
@@ -25,6 +23,7 @@ public slots:
   void updateView();
 
 private:
+  QGraphicsScene scene;
   int auto_scale = 0;
   std::vector<double> *data = nullptr;
   Control *controller;

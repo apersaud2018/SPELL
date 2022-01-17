@@ -17,14 +17,13 @@ class FullWaveDrawWidget : public QGraphicsView
 public:
     FullWaveDrawWidget(QWidget *parent, Control *new_controller);
     ~FullWaveDrawWidget();
-    QGraphicsScene scene;
-
 
 public slots:
   void audioChanged(int index);
   void updateView();
 
 private:
+  QGraphicsScene scene;
   std::vector<double> *data = nullptr;
   Control *controller;
 

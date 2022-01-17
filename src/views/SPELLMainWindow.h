@@ -8,6 +8,7 @@
 #include "control/Control.h"
 #include "widgets/WaveDrawWidget.h"
 #include "widgets/FullWaveDrawWidget.h"
+#include "widgets/SpectrogramViewWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SPELLMainWindow; }
@@ -22,10 +23,6 @@ class SPELLMainWindow : public QMainWindow
 public:
     SPELLMainWindow(QWidget *parent = nullptr);
     ~SPELLMainWindow();
-    QGraphicsScene scene;
-    QGraphicsScene fullWaveScene;
-    QGraphicsView *spectrogram;
-    QGraphicsScene specScene;
     Control *controller;
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
@@ -36,16 +33,13 @@ public slots:
 	void playSelection();
     void addAudioFile();
     void newFileSelected();
-    void autoScrollChanged(int);
-    void updateUI();
     void zoomIn();
     void zoomOut();
 
 private:
     WaveDrawWidget *waveDraw;
     FullWaveDrawWidget *fullWaveDraw;
+    SpectrogramViewWidget *spectrogramDraw;
     Ui::SPELLMainWindow *ui;
-    void renderFullWaveForm(std::vector<double> data);
-    void renderSpectrogram(QImage img, int sample_len);
 };
 #endif // MAINWINDOW_H

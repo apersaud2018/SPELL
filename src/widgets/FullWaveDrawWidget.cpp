@@ -50,7 +50,6 @@ void FullWaveDrawWidget::renderWave() {
   int end_sample = data->size() - 1;
   int num_samples_display = end_sample-start_sample;
   double sample_per_pixel = num_samples_display*1.0/width;
-  //std::cout << sample_per_pixel << "\n";
   double max_val = 0.0000001;
 
 
@@ -95,11 +94,6 @@ void FullWaveDrawWidget::renderWave() {
 
   }
 
-
-  // if(!auto_scale){
-  //     max_val = 1;
-  // }
-
   for(int i=5;i<max_vals.size();i++){
       scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
@@ -131,8 +125,6 @@ void FullWaveDrawWidget::updateBox() {
   float x = relative_left * width;
   float y = -height/2.0;
   float rw = (relative_right - relative_left) * width;
-
-  //std::cout << x << " " << y << " " << rw << "\n";
 
   viewBox->setRect(x, y, rw, height );
 

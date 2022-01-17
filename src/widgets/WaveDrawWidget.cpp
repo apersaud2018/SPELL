@@ -47,7 +47,6 @@ void WaveDrawWidget::renderWave() {
   int end_sample = controller->getEndSample();
   int num_samples_display = end_sample-start_sample;
   double sample_per_pixel = num_samples_display*1.0/width;
-  //std::cout << sample_per_pixel << "\n";
   double max_val = 0.0000001;
 
 
@@ -85,7 +84,6 @@ void WaveDrawWidget::renderWave() {
 
       min_sample *= (height/2) * 0.8;
       max_sample *= (height/2) * 0.8;
-      //vals.push_back(val);
       max_vals.push_back(max_sample);
       min_vals.push_back(min_sample);
 
@@ -98,8 +96,6 @@ void WaveDrawWidget::renderWave() {
   }
 
   for(int i=5;i<max_vals.size();i++){
-  //scene.addLine(i-1,(int)(max_vals[i-1]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),QPen(Qt::black));
-  //scene.addLine(i-1,(int)(min_vals[i-1]*(1/max_val)),i,(int)(min_vals[i]*(1/max_val)),QPen(Qt::black));
       scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
 }
