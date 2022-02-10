@@ -30,6 +30,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     //splitter->setOrientation(Qt::Vertical);
     waveDraw = new WaveDrawWidget(ui->scrollVWidget, controller);
     waveDraw->setFixedHeight(150);
+    waveDraw->setMouseTracking(true);
     fullWaveDraw = new FullWaveDrawWidget(ui->scrollVWidget, controller);
     fullWaveDraw->setFixedHeight(100);
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
@@ -46,8 +47,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
 
-  connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
-  connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
+    connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
+    connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
 
 }
 

@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QMouseEvent>
 #include "control/Control.h"
 #include <vector>
 
@@ -30,6 +31,7 @@ private:
   Control *controller;
   void renderWave();
   QPen wavePen;
+  void mouseMoveEvent(QMouseEvent *event);
 
 };
 #endif // MAINWINDOW_H

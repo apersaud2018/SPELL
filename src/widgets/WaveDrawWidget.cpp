@@ -33,6 +33,11 @@ void WaveDrawWidget::resizeEvent(QResizeEvent *event) {
   renderWave();
 }
 
+// Handle mouse movement
+void WaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
+    const QPointF p  =event->pos();
+}
+
 void WaveDrawWidget::renderWave() {
 
   if (data == nullptr) {
