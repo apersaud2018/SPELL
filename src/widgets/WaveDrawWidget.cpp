@@ -9,6 +9,8 @@ QGraphicsView(parent), controller(new_controller)
 
   wavePen.setColor(Qt::blue);
   wavePen.setWidth(2);
+cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
+  cursorPen.setWidth(2);
 }
 
 WaveDrawWidget::~WaveDrawWidget() {
@@ -36,6 +38,11 @@ void WaveDrawWidget::resizeEvent(QResizeEvent *event) {
 // Handle mouse movement
 void WaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
     const QPointF p  =event->pos();
+    // check if a file is selected
+    if(controller->file_index > -1){
+        cursor_pos = p.x();
+        renderWave();
+    }
 }
 
 void WaveDrawWidget::renderWave() {
@@ -107,4 +114,14 @@ void WaveDrawWidget::renderWave() {
   for(int i=5;i<max_vals.size();i++){
       scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
+  renderCursor();
+  
 }
+void WaveDrawWidget::renderCursor(){
+    
+
+    int width = mapToScene(viewport()->geometry()).boundingRect().width();
+    int height = mapToScene(viewport()->geometry()).boundingRect().height();
+
+    scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
+} 
