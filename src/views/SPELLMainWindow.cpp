@@ -33,6 +33,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     waveDraw->setMouseTracking(true);
     fullWaveDraw = new FullWaveDrawWidget(ui->scrollVWidget, controller);
     fullWaveDraw->setFixedHeight(100);
+    fullWaveDraw->setMouseTracking(true);
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
 

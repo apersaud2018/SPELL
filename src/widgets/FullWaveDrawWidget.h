@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
 #include <QGraphicsLineItem>
+#include <QMouseEvent>
 #include "control/Control.h"
 #include <vector>
 
@@ -23,7 +24,7 @@ public:
 public slots:
   void audioChanged(int index);
   void updateView();
-
+ void updatedCursor();
 private:
   QGraphicsScene scene;
   std::vector<double> *data = nullptr;
@@ -31,13 +32,18 @@ private:
 
   void renderWave();
   QPen wavePen;
-
+  QPen cursorPen;
+  void makeCursor();
   void makeBox();
   void updateBox();
   QGraphicsRectItem *viewBox;
   QGraphicsLineItem *cursor;
   QPen viewBoxPen;
   QBrush viewBoxBrush;
+  int width = 1;
+  int height = 1;
+  void mouseMoveEvent(QMouseEvent *event);
+
 
 };
 #endif // MAINWINDOW_H

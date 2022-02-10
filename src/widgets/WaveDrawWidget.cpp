@@ -10,7 +10,7 @@ QGraphicsView(parent), controller(new_controller)
 
   wavePen.setColor(Qt::blue);
   wavePen.setWidth(2);
-cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
+  cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
 }
 

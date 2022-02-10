@@ -23,7 +23,7 @@ public slots:
   void autoScaleChanged(int value);
   void updateView();
   void resizeEvent(QResizeEvent *event);
-
+  void updatedCursor();
 private:
   QGraphicsScene scene;
   int auto_scale = 0;
@@ -36,7 +36,7 @@ private:
   void mouseMoveEvent(QMouseEvent *event);
   int width = 1;
   int height = 1;
-  void updatedCursor();
+
   QGraphicsLineItem *cursor;
 
 };
