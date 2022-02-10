@@ -25,7 +25,14 @@ bool Control::addAudioFile(std::string path){
 std::vector<double> *Control::getAudioData(int index){
     return data.getAudioData(index);
 }
-
+void Control::setCursorPosition(double pos){
+    if(pos > 1.0){
+        cursor_pos = 1.0;
+    }else{
+        cursor_pos = pos;
+    }
+    emit updatedCursorPosition();
+}
 void Control::setPosition(double percent) {
   if (percent < 0) {
     left_position = 0;

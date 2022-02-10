@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include <QGraphicsLineItem>
 #include "control/Control.h"
 #include <vector>
 
@@ -34,6 +35,7 @@ private:
   void makeBox();
   void updateBox();
   QGraphicsRectItem *viewBox;
+  QGraphicsLineItem *cursor;
   QPen viewBoxPen;
   QBrush viewBoxBrush;
 

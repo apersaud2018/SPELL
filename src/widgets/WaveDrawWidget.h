@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsLineItem>
 #include <QMouseEvent>
 #include "control/Control.h"
 #include <vector>
@@ -17,7 +18,6 @@ class WaveDrawWidget : public QGraphicsView
 public:
     WaveDrawWidget(QWidget *parent, Control *new_controller);
     ~WaveDrawWidget();
-    int cursor_pos = 0;
 public slots:
   void audioChanged(int index);
   void autoScaleChanged(int value);
@@ -30,10 +30,14 @@ private:
   std::vector<double> *data = nullptr;
   Control *controller;
   void renderWave();
-  void renderCursor();
+  void makeCursor();
   QPen wavePen;
   QPen cursorPen;
   void mouseMoveEvent(QMouseEvent *event);
+  int width = 1;
+  int height = 1;
+  void updatedCursor();
+  QGraphicsLineItem *cursor;
 
 };
 #endif // MAINWINDOW_H

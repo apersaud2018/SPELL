@@ -6,6 +6,7 @@ QGraphicsView(parent), controller(new_controller)
   setScene(&scene);
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
+  connect(controller, Control::updatedCursorPosition, this,  updatedCursor);
 
   wavePen.setColor(Qt::blue);
   wavePen.setWidth(2);
@@ -31,6 +32,14 @@ void WaveDrawWidget::updateView() {
   renderWave();
 }
 
+void WaveDrawWidget::updatedCursor() {
+  
+    width = mapToScene(viewport()->geometry()).boundingRect().width();
+    height = mapToScene(viewport()->geometry()).boundingRect().height();
+    int cursor_pos = (int)(controller->cursor_pos * width);
+    cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
+}
+
 void WaveDrawWidget::resizeEvent(QResizeEvent *event) {
   renderWave();
 }
@@ -40,8 +49,7 @@ void WaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
     const QPointF p  =event->pos();
     // check if a file is selected
     if(controller->file_index > -1){
-        cursor_pos = p.x();
-        renderWave();
+        controller->setCursorPosition((p.x()*1.0)/width);
     }
 }
 
@@ -53,8 +61,8 @@ void WaveDrawWidget::renderWave() {
 
   scene.clear();
 
-  int width = mapToScene(viewport()->geometry()).boundingRect().width();
-  int height = mapToScene(viewport()->geometry()).boundingRect().height();
+  width = mapToScene(viewport()->geometry()).boundingRect().width();
+  height = mapToScene(viewport()->geometry()).boundingRect().height();
 
   scene.setSceneRect(0,-height/2,width,height);
 
@@ -114,14 +122,12 @@ void WaveDrawWidget::renderWave() {
   for(int i=5;i<max_vals.size();i++){
       scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
-  renderCursor();
-  
+  makeCursor();  
 }
-void WaveDrawWidget::renderCursor(){
-    
+void WaveDrawWidget::makeCursor(){
 
-    int width = mapToScene(viewport()->geometry()).boundingRect().width();
-    int height = mapToScene(viewport()->geometry()).boundingRect().height();
-
-    scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
+    width = mapToScene(viewport()->geometry()).boundingRect().width();
+    height = mapToScene(viewport()->geometry()).boundingRect().height();
+    int cursor_pos = (int)(controller->cursor_pos * width);
+    cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
 } 

@@ -30,7 +30,8 @@ class Control : public QObject {
         int end_sample = 0;
         int data_size = 0;
         std::vector<QRgb> colormap;
-
+        void setCursorPosition(double pos);
+        double cursor_pos = 0.0;
 
     public slots:
       void setFileIndex(int index);
@@ -38,6 +39,7 @@ class Control : public QObject {
     signals:
       void fileIndexChanged(int newValue);
       void viewChanged();
+      void updatedCursorPosition();
 
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
