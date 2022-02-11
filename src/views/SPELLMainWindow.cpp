@@ -37,14 +37,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
     
-    for(int i=0;i<10;i++){
-        TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
-        timelineView->setFixedHeight(50);
-        timelineView->setMouseTracking(true);
-        ui->scrollVLayout->insertWidget(0, timelineView);
-        timelineViews.push_back(timelineView);
-    }
-
+    addTrack();
+    
     ui->rightVLayout->insertWidget(2, spectrogramDraw);
     ui->rightVLayout->insertWidget(2, waveDraw);
     ui->rightVLayout->insertWidget(2, fullWaveDraw);
@@ -56,6 +50,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 
 
 	connect(ui->addAudioFile, QPushButton::clicked, this, addAudioFile);
+	connect(ui->InsertNewTrack, QPushButton::clicked, this, addNewTrack);
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
 	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
@@ -70,6 +65,14 @@ SPELLMainWindow::~SPELLMainWindow()
     delete ui;
 }
 
+void SPELLMainWindow::addTrack(){
+    TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
+    timelineView->setFixedHeight(50);
+    timelineView->setMouseTracking(true);
+    ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
+    timelineViews.push_back(timelineView);
+}
+
 //
 
 void SPELLMainWindow::addAudioFile() {
@@ -79,6 +82,11 @@ void SPELLMainWindow::addAudioFile() {
         controller->computeSpectrogram(controller->spectrograms.size());
         addFileToList(file_path);
     }
+}
+
+void SPELLMainWindow::addNewTrack() {
+    addTrack();
+	std::cout << "Created New Track" << "\n";
 }
 
 void SPELLMainWindow::playSelection() {

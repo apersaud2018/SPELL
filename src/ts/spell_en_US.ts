@@ -66,7 +66,7 @@
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="174"/>
         <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="225"/>
-        <source>Insert Label</source>
+        <source>New Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

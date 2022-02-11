@@ -28,6 +28,7 @@ public:
     void addFileToList(QString path);
     void wheelEvent(QWheelEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void addTrack();
 
 public slots:
 	void playSelection();
@@ -35,6 +36,7 @@ public slots:
     void newFileSelected();
     void zoomIn();
     void zoomOut();
+    void addNewTrack();
 
 private:
     WaveDrawWidget *waveDraw;
