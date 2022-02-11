@@ -9,7 +9,10 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::viewChanged, this,  updateView);
   connect(controller, Control::updatedCursorPosition, this,  updatedCursor);
 
-  index = -1;
+  /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
+  index = controller->file_index;
+  audioChanged(index);
+  
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
  
