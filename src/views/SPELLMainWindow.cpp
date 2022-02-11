@@ -40,6 +40,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     for(int i=0;i<10;i++){
         TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
         timelineView->setFixedHeight(50);
+        timelineView->setMouseTracking(true);
         ui->scrollVLayout->insertWidget(0, timelineView);
         timelineViews.push_back(timelineView);
     }
