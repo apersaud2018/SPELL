@@ -9,6 +9,7 @@
 #include "widgets/WaveDrawWidget.h"
 #include "widgets/FullWaveDrawWidget.h"
 #include "widgets/SpectrogramViewWidget.h"
+#include "widgets/TimelineView.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class SPELLMainWindow; }
@@ -39,6 +40,7 @@ private:
     WaveDrawWidget *waveDraw;
     FullWaveDrawWidget *fullWaveDraw;
     SpectrogramViewWidget *spectrogramDraw;
+    TimelineView *timelineView;
     Ui::SPELLMainWindow *ui;
 };
 #endif // MAINWINDOW_H
