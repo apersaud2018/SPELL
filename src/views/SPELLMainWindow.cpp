@@ -36,15 +36,19 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     fullWaveDraw->setMouseTracking(true);
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
-    timelineView = new TimelineView(ui->scrollVWidget, controller);
-    timelineView->setFixedHeight(50);
     
+    for(int i=0;i<10;i++){
+        TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
+        timelineView->setFixedHeight(50);
+        ui->scrollVLayout->insertWidget(0, timelineView);
+        timelineViews.push_back(timelineView);
+    }
 
     ui->rightVLayout->insertWidget(2, spectrogramDraw);
     ui->rightVLayout->insertWidget(2, waveDraw);
     ui->rightVLayout->insertWidget(2, fullWaveDraw);
     
-    ui->scrollVLayout->insertWidget(0, timelineView);
+    
     
     //ui->scrollVLayout->insertWidget(0, waveDraw);
     //ui->scrollVLayout->insertWidget(1, spectrogramDraw);

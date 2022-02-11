@@ -27,5 +27,8 @@ private:
   float data_size;
   int index;
   QGraphicsScene scene;
+  void updateTimeline();
+  int width = 1;
+  int height = 1;
 };
 #endif // MAINWINDOW_H

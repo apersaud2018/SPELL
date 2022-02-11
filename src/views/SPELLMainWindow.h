@@ -40,7 +40,7 @@ private:
     WaveDrawWidget *waveDraw;
     FullWaveDrawWidget *fullWaveDraw;
     SpectrogramViewWidget *spectrogramDraw;
-    TimelineView *timelineView;
+    std::vector<TimelineView*> timelineViews;
     Ui::SPELLMainWindow *ui;
 };
 #endif // MAINWINDOW_H

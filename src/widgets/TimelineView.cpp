@@ -18,17 +18,27 @@ TimelineView::~TimelineView() {
 }
 
 void TimelineView::resizeEvent(QResizeEvent *event) {
-  //updateSpectrogram();
+  updateTimeline();
 }
 
 void TimelineView::audioChanged(int nindex) {
   data_size = controller->data_size;
   index = nindex;
-  //updateSpectrogram();
+  updateTimeline();
 }
 
 void TimelineView::updateView() {
-  //updateSpectrogram();
+  updateTimeline();
+}
+
+void TimelineView::updateTimeline() {
+
+
+    scene.clear();
+
+    width = mapToScene(viewport()->geometry()).boundingRect().width();
+    height = mapToScene(viewport()->geometry()).boundingRect().height();
+
 }
 
 
