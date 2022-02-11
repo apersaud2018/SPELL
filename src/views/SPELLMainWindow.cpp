@@ -32,15 +32,17 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     waveDraw->setFixedHeight(150);
     waveDraw->setMouseTracking(true);
     fullWaveDraw = new FullWaveDrawWidget(ui->scrollVWidget, controller);
-    fullWaveDraw->setFixedHeight(100);
+    fullWaveDraw->setFixedHeight(50);
     fullWaveDraw->setMouseTracking(true);
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
 
+    ui->rightVLayout->insertWidget(2, spectrogramDraw);
+    ui->rightVLayout->insertWidget(2, waveDraw);
     ui->rightVLayout->insertWidget(2, fullWaveDraw);
-
-    ui->scrollVLayout->insertWidget(0, waveDraw);
-    ui->scrollVLayout->insertWidget(1, spectrogramDraw);
+    
+    //ui->scrollVLayout->insertWidget(0, waveDraw);
+    //ui->scrollVLayout->insertWidget(1, spectrogramDraw);
 
 
 	connect(ui->addAudioFile, QPushButton::clicked, this, addAudioFile);
