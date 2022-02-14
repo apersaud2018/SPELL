@@ -5,6 +5,7 @@
 #include "../src/Label.h"
 #include "../src/AudioData.h"
 #include "../src/TextLabelTrack.h"
+#include "../src/WordLabelTrack.h"
 
 class IntermediateDataStructure{
 
