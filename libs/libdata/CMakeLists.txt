@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(libdata VERSION 0.0.1)
 
 
-add_library(libdata src/IntermediateDataStructure.cpp src/AudioData.cpp)
+add_library(libdata src/IntermediateDataStructure.cpp src/AudioData.cpp src/TextLabelTrack.cpp)
 
 # https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
 set_target_properties(libdata PROPERTIES VERSION ${PROJECT_VERSION} PUBLIC_HEADER include/IntermediateDataStructure.h)

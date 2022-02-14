@@ -12,10 +12,10 @@ QGraphicsView(parent), controller(new_controller)
   /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
   index = controller->file_index;
   audioChanged(index);
-  
+
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
- 
+
 }
 
 TimelineView::~TimelineView() {
@@ -46,6 +46,16 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
     }
 }
 
+void TimelineView::mousePressEvent(QMouseEvent *event) {
+  const QPointF p  =event->pos();
+  width = mapToScene(viewport()->geometry()).boundingRect().width();
+  height = mapToScene(viewport()->geometry()).boundingRect().height();
+
+  if (event->button() == Qt::RightButton) {
+    scene.addLine(p.x(),-(height/2),p.x(),+(height/2),cursorPen);
+  }
+}
+
 void TimelineView::updateTimeline() {
     if (data == nullptr) {
         return;
@@ -59,7 +69,7 @@ void TimelineView::updateTimeline() {
     makeCursor();
 }
 void TimelineView::updatedCursor() {
-  
+
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
@@ -72,4 +82,4 @@ void TimelineView::makeCursor(){
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
     cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
-} 
+}

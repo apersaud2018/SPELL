@@ -21,6 +21,7 @@ public:
     ~TimelineView();
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 public slots:
   void audioChanged(int index);
   void updateView();

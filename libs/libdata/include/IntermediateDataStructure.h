@@ -4,6 +4,7 @@
 #include <vector>
 #include "../src/Label.h"
 #include "../src/AudioData.h"
+#include "../src/TextLabelTrack.h"
 
 class IntermediateDataStructure{
 

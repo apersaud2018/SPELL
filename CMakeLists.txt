@@ -32,7 +32,7 @@ qt_add_executable(spell
 		${TS_FILES}
 		${CMAKE_CURRENT_BINARY_DIR}/lang/langs.cpp
     )
-	
+
 target_include_directories(spell PUBLIC include src)
 
 message(NOTICE TS_FILES=${TS_FILES})
@@ -41,7 +41,6 @@ message(NOTICE TS_FILES=${TS_FILES})
 add_subdirectory(libs/libspell)
 
 add_subdirectory(libs/libdata)
-# add_executable(spell src/main.cpp)
 
 target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell libdata)
 
@@ -54,3 +53,7 @@ set_target_properties(spell PROPERTIES
 
 qt_finalize_executable(spell)
 
+# datastructure test files
+
+add_executable(libdatatest tests/main.cpp)
+target_link_libraries(libdatatest PRIVATE libdata)
