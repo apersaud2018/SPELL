@@ -2,23 +2,33 @@
 #define LIBDATA
 #include <string>
 #include <vector>
-#include "../src/Label.h"
 #include "../src/AudioData.h"
+#include "../src/Sample.h"
+#include "../src/LabelType.h"
 #include "../src/TextLabelTrack.h"
 #include "../src/WordLabelTrack.h"
 
-class IntermediateDataStructure{
+struct TrackDefs {
+  std::string name;
+  LabelType type;
+};
 
-    std::string projectName;
-    std::string projectPath;
-    std::vector<std::string> audioFiles;
-    std::vector<Label> labels;
-    std::vector<AudioData> audioData;
+class IntermediateDataStructure{
     public:
         void initialize(std::string projectName, std::string projectPath);
         bool addAudioFile(std::string path);
         std::vector<double> *getAudioData(int index);
         AudioData getAudio(int index);
+
+        bool addTrack(std::string name, LabelType type);
+        bool removeTrack(std::string name);
+        LabelTrack *getLabelTrack(int index, std::string name);
+
+        std::string projectName;
+        std::string projectPath;
+        std::vector<Sample> samples;
+        std::vector<TrackDefs> tracks;
+
     private:
         bool isValidAudioFile(std::string path);
         std::vector<std::string> validFileExtensions = {"wav"};

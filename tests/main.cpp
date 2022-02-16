@@ -5,12 +5,18 @@
 
 void testTextLableTrack();
 void testWordLableTrack();
+void testIntermediateDataStructure();
 void printLabels(std::vector<TextTrackEntry> label);
 
 
 int main(int argc, char const *argv[]) {
+  std::cout << "TEXT LABEL TRACK TEST\n";
   testTextLableTrack();
+  std::cout << "WORD LABEL TRACK TEST\n";
   testWordLableTrack();
+  std::cout << "INTERMEDIATE DS TEST\n";
+  testIntermediateDataStructure();
+
 
   return 0;
 }
@@ -101,6 +107,33 @@ void testWordLableTrack() {
   tt.insert(1.5, "i i");
   //Expected: a b c d e
   printLabels(tt.getTextLabels());
+
+
+}
+
+void testIntermediateDataStructure() {
+  IntermediateDataStructure data;
+  data.initialize("ProjName", "aPath");
+  std::cout << "Name: " << data.projectName << "\tPath: " << data.projectPath << "\n";
+
+  data.addAudioFile("C:\\Program Files (x86)\\UTAU\\o-ng-ngo-n-no-m-mo.wav");
+  std::vector<double> *adata = data.getAudioData(0);
+  std::cout << "Length: " << adata->size() << "\n";
+
+  data.addTrack("Phonemes", Word);
+  std::cout << "TrackName: " << data.tracks[0].name << "\n";
+
+  LabelTrack *lt = data.getLabelTrack(0, "Phonemes");
+
+  lt->insert(0.1, "b");
+  lt->insert(0.9, "d");
+  lt->insert(0.5, "c");
+  lt->insert(0.05, "a");
+  lt->insert(0.95, "e");
+  printLabels(lt->getTextLabels());
+
+  lt = data.getLabelTrack(0, "Phonemes");
+  printLabels(lt->getTextLabels());
 
 
 }

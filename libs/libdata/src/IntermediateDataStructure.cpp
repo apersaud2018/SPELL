@@ -2,7 +2,6 @@
 #include "AudioData.h"
 #include <iostream>
 #include <vector>
-#include <Label.h>
 #include <fstream>
 #include <algorithm>
 
@@ -15,11 +14,8 @@ void IntermediateDataStructure::initialize(std::string projectName, std::string 
 bool IntermediateDataStructure::addAudioFile(std::string path){
     bool validPath = isValidAudioFile(path);
     if(validPath){
-        audioFiles.push_back(path);
         std::cout << "Added " << path << " to " << projectName << std::endl;
-        AudioData adata;
-        adata.readData(path);
-        audioData.push_back(adata);
+        samples.push_back(Sample(path));
         return true;
     }else{
         std::cout << "ERROR: Failed to add " << path << " to " << projectName << " (Invalid Path)" << std::endl;
@@ -44,11 +40,45 @@ bool IntermediateDataStructure::isValidAudioFile(std::string path){
 }
 
 std::vector<double> *IntermediateDataStructure::getAudioData(int index){
-    return &(audioData[index].data);
+    return samples[index].getAudioData();
 }
 
 AudioData IntermediateDataStructure::getAudio(int index){
-    return audioData[index];
+    return samples[index].getAudio();
+}
+
+bool IntermediateDataStructure::addTrack(std::string name, LabelType type) {
+  for (int i = 0; i < tracks.size(); ++i) {
+    if (name == tracks[i].name) {
+      return false;
+    }
+  }
+
+  TrackDefs new_track = {name, type};
+  tracks.push_back(new_track);
+
+  return true;
+}
+
+bool IntermediateDataStructure::removeTrack(std::string name) {
+  for (int i = 0; i < samples.size(); ++i) {
+    samples[i].removeLabelTrack(name);
+  }
+  return true;
+}
+
+LabelTrack *IntermediateDataStructure::getLabelTrack(int index, std::string name) {
+  LabelTrack *lt = samples[index].getLabelTrack(name);
+  if (lt == nullptr) {
+    for (int i = 0; i < tracks.size(); ++i) {
+      if (name == tracks[i].name) {
+        samples[index].makeLabelTrack(tracks[i].name, tracks[i].type);
+        break;
+      }
+    }
+    lt = samples[index].getLabelTrack(name);
+  }
+  return lt;
 }
 
 void helloDATA() {
