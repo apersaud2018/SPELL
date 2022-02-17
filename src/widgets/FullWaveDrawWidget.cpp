@@ -56,12 +56,21 @@ void FullWaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
     // check if a file is selected
     if(controller->file_index > -1){
         controller->setCursorPosition((p.x()*1.0)/width);
-        double percent = (p.x()*1.0)/width;
-        double end_percent = controller->getEndSample() / (controller->data_size*1.0);
-        double start_percent = controller->getStartSample() / (controller->data_size*1.0);
-        controller->setPosition(percent - (end_percent-start_percent)/2);
-        updateBox();
+        // Only move the selection box if mouse button is held down
+        if(clickedOn){
+            double percent = (p.x()*1.0)/width;
+            double end_percent = controller->getEndSample() / (controller->data_size*1.0);
+            double start_percent = controller->getStartSample() / (controller->data_size*1.0);
+            controller->setPosition(percent - (end_percent-start_percent)/2);
+            updateBox();
+        }
     }
+}
+void FullWaveDrawWidget::mousePressEvent(QMouseEvent *event){
+    clickedOn = true;
+}
+void FullWaveDrawWidget::mouseReleaseEvent(QMouseEvent *event){
+    clickedOn = false;
 }
 void FullWaveDrawWidget::renderWave() {
 

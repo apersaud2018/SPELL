@@ -43,6 +43,9 @@ private:
   int width = 1;
   int height = 1;
   void mouseMoveEvent(QMouseEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+  bool clickedOn = false;
 
 
 };

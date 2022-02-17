@@ -126,7 +126,4 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
 
 }
 
-void SPELLMainWindow::mouseMoveEvent(QMouseEvent *event){
 
-
-}
