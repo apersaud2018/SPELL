@@ -68,9 +68,11 @@ void FullWaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
 }
 void FullWaveDrawWidget::mousePressEvent(QMouseEvent *event){
     clickedOn = true;
+    this->setCursor(Qt::ClosedHandCursor);
 }
 void FullWaveDrawWidget::mouseReleaseEvent(QMouseEvent *event){
     clickedOn = false;
+    this->setCursor(Qt::ArrowCursor);
 }
 void FullWaveDrawWidget::renderWave() {
 
