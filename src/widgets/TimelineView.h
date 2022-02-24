@@ -22,6 +22,7 @@ public:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    LabelTrack *track;
 public slots:
   void audioChanged(int index);
   void updateView();
@@ -33,12 +34,16 @@ private:
   int index;
   QGraphicsScene scene;
   QPen cursorPen;
+  QBrush brush;
   void updateTimeline();
   int width = 1;
   int height = 1;
   QGraphicsLineItem *cursor;
   void updatedCursor();
   void makeCursor();
+  std::vector<QGraphicsRectItem *> displayElements;
+  void printLabels(std::vector<TextTrackEntry> label);
+
 
 };
 #endif // MAINWINDOW_H

@@ -18,6 +18,7 @@ class WaveDrawWidget : public QGraphicsView
 public:
     WaveDrawWidget(QWidget *parent, Control *new_controller);
     ~WaveDrawWidget();
+
 public slots:
   void audioChanged(int index);
   void autoScaleChanged(int value);
@@ -36,8 +37,7 @@ private:
   void mouseMoveEvent(QMouseEvent *event);
   int width = 1;
   int height = 1;
-
+  void mousePressEvent(QMouseEvent *event);
   QGraphicsLineItem *cursor;
-
 };
 #endif // MAINWINDOW_H

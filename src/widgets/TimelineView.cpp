@@ -16,6 +16,9 @@ QGraphicsView(parent), controller(new_controller)
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
 
+  brush.setStyle(Qt::SolidPattern);
+
+
 }
 
 TimelineView::~TimelineView() {
@@ -55,6 +58,14 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
     scene.addLine(p.x(),-(height/2),p.x(),+(height/2),cursorPen);
   }
 }
+void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
+  std::cout << "Printout:\n";
+  for (int i = 0; i < label.size(); ++i) {
+    std::cout << "Time: " << label[i].time << "\t\tPhoneme: " << label[i].data << "\n";
+  }
+  std::cout << "\n";
+}
+
 
 void TimelineView::updateTimeline() {
     if (data == nullptr) {
@@ -65,8 +76,11 @@ void TimelineView::updateTimeline() {
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
 
+
+
     scene.setSceneRect(0,-height/2,width,height);
     makeCursor();
+
 }
 void TimelineView::updatedCursor() {
 
@@ -74,6 +88,24 @@ void TimelineView::updatedCursor() {
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
     cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
+
+    if(track != nullptr){
+        //printLabels(track->getTextLabels());
+        std::vector<TextTrackEntry> labels = track->getTextLabels();
+        if(displayElements.size() != labels.size()){
+            for(int i=0;i<displayElements.size();i++){
+                scene.removeItem(displayElements[i]);
+            }
+            displayElements = std::vector<QGraphicsRectItem *>();
+            int start_sample = controller->getStartSample() ;
+            int end_sample = controller->getEndSample();
+            for(int i=0;i<labels.size();i++){
+            int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
+                displayElements.push_back(scene.addRect(xpos, -height/2, 10, height, cursorPen, brush));
+            }
+        }
+    }
+
 }
 
 void TimelineView::makeCursor(){
@@ -82,4 +114,6 @@ void TimelineView::makeCursor(){
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
     cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
+
+
 }

@@ -141,3 +141,9 @@ void Control::computeWindow(int window_index, int window_size, int stride, Audio
     }
 
 }
+
+void Control::createPhonemeTrack(){
+    data.addTrack("Phonemes", Word);
+
+    phonemeTrack = data.getLabelTrack(0, "Phonemes");
+}

@@ -52,7 +52,15 @@ void WaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
         controller->setCursorPosition((p.x()*1.0)/width);
     }
 }
+void WaveDrawWidget::mousePressEvent(QMouseEvent *event){
+    int start_sample = controller->getStartSample() ;
+    int end_sample = controller->getEndSample();
+    int sample = (int)((end_sample-start_sample)*controller->cursor_pos) + start_sample;
 
+    // add new phoneme
+    controller->phonemeTrack->insert(sample/44100.0, "b");
+    std::cout << "Created new Phoneme\n";
+}
 void WaveDrawWidget::renderWave() {
 
   if (data == nullptr) {

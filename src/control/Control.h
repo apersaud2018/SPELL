@@ -32,6 +32,8 @@ class Control : public QObject {
         std::vector<QRgb> colormap;
         void setCursorPosition(double pos);
         double cursor_pos = 0.0;
+        void createPhonemeTrack();
+        LabelTrack *phonemeTrack;
 
     public slots:
       void setFileIndex(int index);

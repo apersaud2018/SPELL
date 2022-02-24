@@ -37,8 +37,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
     spectrogramDraw->setFixedHeight(150);
     
-    addTrack();
-    
+
     ui->rightVLayout->insertWidget(2, spectrogramDraw);
     ui->rightVLayout->insertWidget(2, waveDraw);
     ui->rightVLayout->insertWidget(2, fullWaveDraw);
@@ -66,11 +65,13 @@ SPELLMainWindow::~SPELLMainWindow()
 }
 
 void SPELLMainWindow::addTrack(){
+    controller->createPhonemeTrack();
     TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
     timelineView->setFixedHeight(50);
     timelineView->setMouseTracking(true);
     ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
     timelineViews.push_back(timelineView);
+    timelineView->track = controller->phonemeTrack;
 }
 
 //
@@ -81,6 +82,10 @@ void SPELLMainWindow::addAudioFile() {
     if(success){
         controller->computeSpectrogram(controller->spectrograms.size());
         addFileToList(file_path);
+        if(controller->spectrograms.size() == 1){
+            addTrack();
+        }
+
     }
 }
 
