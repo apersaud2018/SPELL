@@ -12,6 +12,8 @@ QGraphicsView(parent), controller(new_controller)
   wavePen.setWidth(2);
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
+  this->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(this, customContextMenuRequested, this, showContextMenu);
 }
 
 WaveDrawWidget::~WaveDrawWidget() {
@@ -63,6 +65,13 @@ void WaveDrawWidget::mousePressEvent(QMouseEvent *event){
 
     controller->updateLabels();
 }
+void WaveDrawWidget::showContextMenu(){
+    std::cout << "Opening Context Menu\n";
+    //QMenu *menu;
+    //menu->addAction("b");
+    //menu->exec(QPoint(10,10));
+}
+
 void WaveDrawWidget::renderWave() {
 
   if (data == nullptr) {

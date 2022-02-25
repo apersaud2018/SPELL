@@ -5,6 +5,9 @@
 #include <QGraphicsView>
 #include <QGraphicsLineItem>
 #include <QMouseEvent>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QContextMenuEvent>
+#include <QMenu>
 #include "control/Control.h"
 #include <vector>
 
@@ -25,6 +28,7 @@ public slots:
   void updateView();
   void resizeEvent(QResizeEvent *event);
   void updatedCursor();
+  void showContextMenu();
 private:
   QGraphicsScene scene;
   int auto_scale = 0;
@@ -39,5 +43,6 @@ private:
   int height = 1;
   void mousePressEvent(QMouseEvent *event);
   QGraphicsLineItem *cursor;
+
 };
 #endif // MAINWINDOW_H
