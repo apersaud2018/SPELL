@@ -8,6 +8,7 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
   connect(controller, Control::updatedCursorPosition, this,  updatedCursor);
+  connect(controller, Control::changedLabels, this,  renderLabels);
 
   /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
   index = controller->file_index;
@@ -15,9 +16,10 @@ QGraphicsView(parent), controller(new_controller)
 
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
-
-  brush.setStyle(Qt::SolidPattern);
-
+  labelPen.setColor(QColor(0x0, 0x0, 0, 0xFF));
+  labelPen.setWidth(2);
+  labelBrush.setStyle(Qt::SolidPattern);
+  labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
 
 }
 
@@ -27,6 +29,7 @@ TimelineView::~TimelineView() {
 
 void TimelineView::resizeEvent(QResizeEvent *event) {
   updateTimeline();
+
 }
 
 void TimelineView::audioChanged(int nindex) {
@@ -73,6 +76,7 @@ void TimelineView::updateTimeline() {
     }
 
     scene.clear();
+    displayElements = std::vector<QGraphicsRectItem *>();
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
 
@@ -80,10 +84,10 @@ void TimelineView::updateTimeline() {
 
     scene.setSceneRect(0,-height/2,width,height);
     makeCursor();
+    renderLabels();
 
 }
-void TimelineView::updatedCursor() {
-
+void TimelineView::renderLabels(){
     if(track != nullptr){
         //printLabels(track->getTextLabels());
         std::vector<TextTrackEntry> labels = track->getTextLabels();
@@ -97,10 +101,18 @@ void TimelineView::updatedCursor() {
             int end_sample = controller->getEndSample();
             for(int i=0;i<labels.size();i++){
             int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-                displayElements.push_back(scene.addRect(xpos, -height/2, 10, height, cursorPen, brush));
+                displayElements.push_back(scene.addRect(xpos, -height/2, 10, height, labelPen, labelBrush));
             }
         }
     }
+
+    //updatedCursor();
+
+}
+
+void TimelineView::updatedCursor() {
+
+
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);

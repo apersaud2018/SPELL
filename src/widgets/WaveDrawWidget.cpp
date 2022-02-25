@@ -60,6 +60,8 @@ void WaveDrawWidget::mousePressEvent(QMouseEvent *event){
     // add new phoneme
     controller->phonemeTrack->insert(sample/44100.0, "b");
     std::cout << "Created new Phoneme\n";
+
+    controller->updateLabels();
 }
 void WaveDrawWidget::renderWave() {
 

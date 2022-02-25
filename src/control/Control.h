@@ -34,7 +34,7 @@ class Control : public QObject {
         double cursor_pos = 0.0;
         void createPhonemeTrack();
         LabelTrack *phonemeTrack;
-
+        void updateLabels();
     public slots:
       void setFileIndex(int index);
 
@@ -42,6 +42,7 @@ class Control : public QObject {
       void fileIndexChanged(int newValue);
       void viewChanged();
       void updatedCursorPosition();
+      void changedLabels();
 
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);

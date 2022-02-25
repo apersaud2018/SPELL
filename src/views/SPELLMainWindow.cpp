@@ -70,8 +70,8 @@ void SPELLMainWindow::addTrack(){
     timelineView->setFixedHeight(50);
     timelineView->setMouseTracking(true);
     ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
-    timelineViews.push_back(timelineView);
     timelineView->track = controller->phonemeTrack;
+    timelineViews.push_back(timelineView);
 }
 
 //
@@ -106,6 +106,7 @@ void SPELLMainWindow::addFileToList(QString path)
 
 void SPELLMainWindow::zoomOut() {
   controller->setZoom(controller->zoom + ZOOM_SPEED);
+
 }
 
 void SPELLMainWindow::zoomIn() {

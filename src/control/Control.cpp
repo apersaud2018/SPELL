@@ -147,3 +147,7 @@ void Control::createPhonemeTrack(){
 
     phonemeTrack = data.getLabelTrack(0, "Phonemes");
 }
+
+void Control::updateLabels(){
+    emit changedLabels();
+}

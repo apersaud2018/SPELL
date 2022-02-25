@@ -22,10 +22,11 @@ public:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
-    LabelTrack *track;
+    LabelTrack *track = nullptr;
 public slots:
   void audioChanged(int index);
   void updateView();
+  void renderLabels();
 
 private:
   std::vector<double> *data = nullptr;
@@ -34,7 +35,8 @@ private:
   int index;
   QGraphicsScene scene;
   QPen cursorPen;
-  QBrush brush;
+  QPen labelPen;
+  QBrush labelBrush;
   void updateTimeline();
   int width = 1;
   int height = 1;
