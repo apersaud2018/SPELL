@@ -84,11 +84,6 @@ void TimelineView::updateTimeline() {
 }
 void TimelineView::updatedCursor() {
 
-    width = mapToScene(viewport()->geometry()).boundingRect().width();
-    height = mapToScene(viewport()->geometry()).boundingRect().height();
-    int cursor_pos = (int)(controller->cursor_pos * width);
-    cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
-
     if(track != nullptr){
         //printLabels(track->getTextLabels());
         std::vector<TextTrackEntry> labels = track->getTextLabels();
@@ -96,6 +91,7 @@ void TimelineView::updatedCursor() {
             for(int i=0;i<displayElements.size();i++){
                 scene.removeItem(displayElements[i]);
             }
+            //scene.clear();
             displayElements = std::vector<QGraphicsRectItem *>();
             int start_sample = controller->getStartSample() ;
             int end_sample = controller->getEndSample();
@@ -105,6 +101,12 @@ void TimelineView::updatedCursor() {
             }
         }
     }
+    width = mapToScene(viewport()->geometry()).boundingRect().width();
+    height = mapToScene(viewport()->geometry()).boundingRect().height();
+    int cursor_pos = (int)(controller->cursor_pos * width);
+    cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
+
+
 
 }
 
