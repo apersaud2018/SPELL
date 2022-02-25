@@ -99,10 +99,23 @@ void TimelineView::renderLabels(){
             displayElements = std::vector<QGraphicsRectItem *>();
             int start_sample = controller->getStartSample() ;
             int end_sample = controller->getEndSample();
-            for(int i=0;i<labels.size();i++){
-            int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-                displayElements.push_back(scene.addRect(xpos, -height/2, 10, height, labelPen, labelBrush));
+            for(int i=0;i<labels.size()-1;i++){
+                if(i%2==0){
+                  labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+                }else{
+                  labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
+                }
+                int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
+                int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+                displayElements.push_back(scene.addRect(xpos, -height/2, xposNext-xpos, height, labelPen, labelBrush));
             }
+            if((labels.size()-1)%2==0){
+              labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+            }else{
+              labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
+            }
+            int xpos = (int)((((labels[labels.size()-1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            displayElements.push_back(scene.addRect(xpos, -height/2, width-xpos, height, labelPen, labelBrush));
         }
     }
 
