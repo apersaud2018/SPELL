@@ -61,7 +61,13 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
         // find the label that corresponds to the correct position
         for(int i=0;i<displayElements.size();i++){
             int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext = 0;
+            if (i == displayElements.size()-1){
+                xposNext = width;
+            }else{
+                xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            }
+
             if(xpos < p.x() && xposNext >= p.x()){
                 labelInMotion->setRect(p.x(), -height/2, xposNext-p.x(), height/2);
                 break;
@@ -83,7 +89,12 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
         // find the label that the user clicked on (if any)
         for(int i=0;i<displayElements.size();i++){
             int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext = 0;
+            if (i == displayElements.size() -1){
+                xposNext = width;
+            }else{
+                xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            }
             if(xpos < p.x() && xposNext >= p.x()){
                 if(i%2==0){
                     movingLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
