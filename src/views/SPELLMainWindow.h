@@ -35,6 +35,7 @@ public slots:
     void newFileSelected();
     void zoomIn();
     void zoomOut();
+    void changeZoom();
     void addNewTrack();
 
 private:
