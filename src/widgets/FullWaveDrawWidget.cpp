@@ -46,7 +46,14 @@ void FullWaveDrawWidget::updatedCursor() {
   
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
-    int cursor_pos = (int)(controller->cursor_pos * width);
+
+    float relative_left = float(controller->getStartSample()) / data->size();
+    float relative_right = float(controller->getEndSample()) / data->size();
+
+    float x = relative_left * width;
+    float rw = (relative_right - relative_left) * width;
+
+    int cursor_pos = (int)((controller->cursor_pos * rw) + x);
     cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
 }
 

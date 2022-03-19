@@ -53,13 +53,15 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
 }
 
 void TimelineView::mousePressEvent(QMouseEvent *event) {
-  const QPointF p  =event->pos();
-  width = mapToScene(viewport()->geometry()).boundingRect().width();
-  height = mapToScene(viewport()->geometry()).boundingRect().height();
+    const QPointF p  =event->pos();
+    width = mapToScene(viewport()->geometry()).boundingRect().width();
+    height = mapToScene(viewport()->geometry()).boundingRect().height();
 
-  if (event->button() == Qt::RightButton) {
-    scene.addLine(p.x(),-(height/2),p.x(),+(height/2),cursorPen);
-  }
+    // initiate move of label on left click
+    if (event->button() == Qt::LeftButton) {
+        // find the label that the user clicked on (if any)
+        
+    }
 }
 void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
   std::cout << "Printout:\n";
@@ -107,7 +109,7 @@ void TimelineView::renderLabels(){
                 }
                 int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
                 int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
-                displayElements.push_back(scene.addRect(xpos, -height/2, xposNext-xpos, height, labelPen, labelBrush));
+                displayElements.push_back(scene.addRect(xpos, -height/4, xposNext-xpos, height/2, labelPen, labelBrush));
             }
             if((labels.size()-1)%2==0){
               labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
@@ -115,7 +117,7 @@ void TimelineView::renderLabels(){
               labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
             }
             int xpos = (int)((((labels[labels.size()-1].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            displayElements.push_back(scene.addRect(xpos, -height/2, width-xpos, height, labelPen, labelBrush));
+            displayElements.push_back(scene.addRect(xpos, -height/4, width-xpos, height/2, labelPen, labelBrush));
         }
     }
 
