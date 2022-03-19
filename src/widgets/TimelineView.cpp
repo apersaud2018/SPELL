@@ -82,7 +82,7 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
     height = mapToScene(viewport()->geometry()).boundingRect().height();
 
     // initiate move of label on left click
-    if (event->button() == Qt::RightButton && track != nullptr && !movingLabel) {
+    if (event->button() == Qt::LeftButton && track != nullptr && !movingLabel) {
         std::vector<TextTrackEntry> labels = track->getTextLabels();
         int start_sample = controller->getStartSample();
         int end_sample = controller->getEndSample();
@@ -109,7 +109,7 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
             }
         }
     // complete move of label
-    }else if (event->button() == Qt::RightButton && track != nullptr && movingLabel) {
+    }else if (event->button() == Qt::LeftButton && track != nullptr && movingLabel) {
         std::vector<TextTrackEntry> labels = track->getTextLabels();
         int start_sample = controller->getStartSample();
         int end_sample = controller->getEndSample();
