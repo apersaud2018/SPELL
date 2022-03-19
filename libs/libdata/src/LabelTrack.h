@@ -2,6 +2,10 @@
 #define LABEL_TRACK_H
 #include <string>
 #include <vector>
+#include "LabelType.h"
+#include "rapidjson/document.h"
+
+using namespace rapidjson;
 
 struct TrackEntry {
   double time;
@@ -16,10 +20,12 @@ struct TextTrackEntry {
 class LabelTrack {
 
     public:
-      LabelTrack(std::string nname) {
+      LabelTrack(std::string nname, LabelType ltype) {
         name = nname;
+        type = ltype;
       };
       std::string name;
+      LabelType type;
       virtual std::string get(int index) = 0;
       virtual bool remove(int index) = 0;
       virtual bool insert(double time, std::string str) = 0;
@@ -28,6 +34,7 @@ class LabelTrack {
       virtual std::vector<TextTrackEntry> getTextLabels() = 0;
       // https://www.softwaretestinghelp.com/regex-in-cpp/
       virtual std::string getRegex() = 0;
+      virtual Value save(Document::AllocatorType& allocator) = 0;
 
 
     protected:

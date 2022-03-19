@@ -1,7 +1,8 @@
 #include "WordLabelTrack.h"
+#include "LabelType.h"
 #include <regex>
 
-WordLabelTrack::WordLabelTrack(std::string nname) : LabelTrack(nname) {}
+WordLabelTrack::WordLabelTrack(std::string nname) : LabelTrack(nname, Word) {}
 
 WordLabelTrack::~WordLabelTrack() {
   while (labels.size() > 0) {
@@ -141,4 +142,25 @@ std::string WordLabelTrack::getRegex() {
 bool WordLabelTrack::validateInput(std::string str) {
   std::regex noSpace(getRegex());
   return std::regex_match(str, noSpace);
+}
+
+Value WordLabelTrack::save(Document::AllocatorType& allocator) {
+  Value trackObj(kObjectType);
+  trackObj.AddMember("type", type, allocator);
+
+  Value labelsAr(kArrayType);
+  for (int i = 0; i < labels.size(); ++i) {
+    Value labelEntry(kObjectType);
+
+    labelEntry.AddMember("pos", labels[i]->time, allocator);
+
+    Value labelValue;
+    labelValue.SetString(get(i).c_str(), get(i).length(), allocator);
+    labelEntry.AddMember("value", labelValue, allocator);
+
+    labelsAr.PushBack(labelEntry, allocator);
+  }
+  trackObj.AddMember("labels", labelsAr, allocator);
+
+  return trackObj;
 }

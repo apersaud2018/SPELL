@@ -1,6 +1,9 @@
 #ifndef WORD_LABEL_TRACK
 #define WORD_LABEL_TRACK
 #include "LabelTrack.h"
+#include "rapidjson/document.h"
+
+using namespace rapidjson;
 
 class WordLabelTrack : public LabelTrack{
 
@@ -14,6 +17,7 @@ class WordLabelTrack : public LabelTrack{
       bool move(int index, double time);
       std::vector<TextTrackEntry> getTextLabels();
       std::string getRegex();
+      Value save(Document::AllocatorType& allocator);
 
     private:
       bool validateInput(std::string str);

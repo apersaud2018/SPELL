@@ -1,6 +1,7 @@
+#include "LabelType.h"
 #include "TextLabelTrack.h"
 
-TextLabelTrack::TextLabelTrack(std::string nname) : LabelTrack(nname) {}
+TextLabelTrack::TextLabelTrack(std::string nname) : LabelTrack(nname, Text) {}
 
 TextLabelTrack::~TextLabelTrack() {
   while (labels.size() > 0) {
@@ -131,4 +132,25 @@ std::vector<TextTrackEntry> TextLabelTrack::getTextLabels() {
 
 std::string TextLabelTrack::getRegex() {
   return ".+";
+}
+
+Value TextLabelTrack::save(Document::AllocatorType& allocator) {
+  Value trackObj(kObjectType);
+  trackObj.AddMember("type", type, allocator);
+
+  Value labelsAr(kArrayType);
+  for (int i = 0; i < labels.size(); ++i) {
+    Value labelEntry(kObjectType);
+
+    labelEntry.AddMember("pos", labels[i]->time, allocator);
+
+    Value labelValue;
+    labelValue.SetString(get(i).c_str(), get(i).length(), allocator);
+    labelEntry.AddMember("value", labelValue, allocator);
+
+    labelsAr.PushBack(labelEntry, allocator);
+  }
+  trackObj.AddMember("labels", labelsAr, allocator);
+
+  return trackObj;
 }

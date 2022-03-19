@@ -4,6 +4,11 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include "rapidjson/document.h"
+#include "rapidjson/prettywriter.h"
+#include <rapidjson/ostreamwrapper.h>
+
+using namespace rapidjson;
 
 void IntermediateDataStructure::initialize(std::string projectName, std::string projectPath){
     this->projectName = projectName;
@@ -80,6 +85,49 @@ LabelTrack *IntermediateDataStructure::getLabelTrack(int index, std::string name
   }
   return lt;
 }
+
+void IntermediateDataStructure::save() {
+
+  // Init json doc
+  Document doc;
+  doc.SetObject();
+
+  // Insert project name
+  Value projName;
+  projName.SetString(this->projectName.c_str(), this->projectName.length(), doc.GetAllocator());
+  doc.AddMember("name", projName, doc.GetAllocator());
+
+  // Add track defs
+  Value trackAr(kArrayType);
+  for (int i = 0; i < tracks.size(); ++i) {
+    Value trackEntry(kObjectType);
+
+    Value trackName;
+    trackName.SetString(tracks[i].name.c_str(), tracks[i].name.length(), doc.GetAllocator());
+    trackEntry.AddMember("name", trackName, doc.GetAllocator());
+
+    trackEntry.AddMember("type", tracks[i].type, doc.GetAllocator());
+
+    trackAr.PushBack(trackEntry, doc.GetAllocator());
+  }
+  doc.AddMember("tracks", trackAr, doc.GetAllocator());
+
+  // Add samples
+  Value sampleAr(kArrayType);
+  for (int i = 0; i < samples.size(); ++i) {
+    sampleAr.PushBack(samples[i].save(doc.GetAllocator()), doc.GetAllocator());
+  }
+  doc.AddMember("samples", sampleAr, doc.GetAllocator());
+
+  // Save
+  std::ofstream ofs(this->projectPath);
+  OStreamWrapper osw(ofs);
+  PrettyWriter<OStreamWrapper> writer(osw);
+  doc.Accept(writer);
+
+}
+
+// pr->document.Parse<kParseFullPrecisionFlag>(json);
 
 void helloDATA() {
 	std::cout << "Hello DATA!" << std::endl;

@@ -24,6 +24,8 @@ class IntermediateDataStructure{
         bool removeTrack(std::string name);
         LabelTrack *getLabelTrack(int index, std::string name);
 
+        void save();
+
         std::string projectName;
         std::string projectPath;
         std::vector<Sample> samples;

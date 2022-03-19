@@ -113,7 +113,7 @@ void testWordLableTrack() {
 
 void testIntermediateDataStructure() {
   IntermediateDataStructure data;
-  data.initialize("ProjName", "aPath");
+  data.initialize("ProjName", "D:\\School\\fall2021\\senior_project\\test.json");
   std::cout << "Name: " << data.projectName << "\tPath: " << data.projectPath << "\n";
 
   data.addAudioFile("C:\\Program Files (x86)\\UTAU\\o-ng-ngo-n-no-m-mo.wav");
@@ -135,6 +135,7 @@ void testIntermediateDataStructure() {
   lt = data.getLabelTrack(0, "Phonemes");
   printLabels(lt->getTextLabels());
 
+  data.save();
 
 }
 

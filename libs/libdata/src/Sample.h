@@ -4,6 +4,9 @@
 #include "LabelTrack.h"
 #include "AudioData.h"
 #include "LabelType.h"
+#include "rapidjson/document.h"
+
+using namespace rapidjson;
 
 class Sample {
 
@@ -13,6 +16,8 @@ class Sample {
       LabelTrack *getLabelTrack(std::string name);
       bool makeLabelTrack(std::string name, LabelType type);
       bool removeLabelTrack(std::string name);
+
+      Value save(Document::AllocatorType& allocator);
 
       std::vector<double> *getAudioData();
       AudioData getAudio();

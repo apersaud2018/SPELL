@@ -8,7 +8,7 @@ add_library(libdata src/IntermediateDataStructure.cpp src/AudioData.cpp src/Text
 # https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
 set_target_properties(libdata PROPERTIES VERSION ${PROJECT_VERSION} PUBLIC_HEADER include/IntermediateDataStructure.h)
 
-target_include_directories(libdata PUBLIC include src)
+target_include_directories(libdata PUBLIC include src external)
 
 include(GNUInstallDirs)
 
