@@ -69,6 +69,14 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
             }
 
             if(xpos < p.x() && xposNext >= p.x()){
+                // Special behaviour when hovering over the previous label
+                if(i == selectedLabelIndex-1){
+                    if(selectedLabelIndex == displayElements.size()-1){
+                        xposNext = width;
+                    }else{
+                        xposNext = (int)((((labels[selectedLabelIndex+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+                    }
+                }
                 labelInMotion->setRect(p.x(), -height/2, xposNext-p.x(), height/2);
                 break;
             }
@@ -121,7 +129,12 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
         movingLabel = false;
         scene.removeItem(labelInMotion);
         renderLabels();
-    }
+    // abort move of label
+    }else if (event->button() == Qt::RightButton && track != nullptr && movingLabel) {
+             movingLabel = false;
+             scene.removeItem(labelInMotion);
+             renderLabels();
+         }
 }
 void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
   std::cout << "Printout:\n";
