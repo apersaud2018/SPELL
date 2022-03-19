@@ -123,8 +123,8 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
         int end_sample = controller->getEndSample();
         double newTime = (((p.x()/width) * (end_sample-start_sample)) + start_sample) / 44100;
         std::cout << newTime << " " << labels[selectedLabelIndex].time << "\n";
-        track->remove(selectedLabelIndex);
-        track->insert(newTime, "b");
+
+        track->move(selectedLabelIndex, newTime);
 
         movingLabel = false;
         scene.removeItem(labelInMotion);
