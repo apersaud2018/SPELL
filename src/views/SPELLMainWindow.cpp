@@ -54,8 +54,9 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
 
-    connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
-    connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
+    //connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
+    //connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
+    connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
 
 }
 
@@ -111,6 +112,11 @@ void SPELLMainWindow::zoomOut() {
 
 void SPELLMainWindow::zoomIn() {
   controller->setZoom(controller->zoom - ZOOM_SPEED);
+}
+
+void SPELLMainWindow::changeZoom() {
+  int val = ui->zoomSlider->value();
+  controller->setZoom((100-val)/100.0);
 }
 
 void SPELLMainWindow::newFileSelected() {

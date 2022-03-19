@@ -61,8 +61,22 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
         // find the label that corresponds to the correct position
         for(int i=0;i<displayElements.size();i++){
             int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext = 0;
+            if (i == displayElements.size()-1){
+                xposNext = width;
+            }else{
+                xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            }
+
             if(xpos < p.x() && xposNext >= p.x()){
+                // Special behaviour when hovering over the previous label
+                if(i == selectedLabelIndex-1){
+                    if(selectedLabelIndex == displayElements.size()-1){
+                        xposNext = width;
+                    }else{
+                        xposNext = (int)((((labels[selectedLabelIndex+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+                    }
+                }
                 labelInMotion->setRect(p.x(), -height/2, xposNext-p.x(), height/2);
                 break;
             }
@@ -83,7 +97,12 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
         // find the label that the user clicked on (if any)
         for(int i=0;i<displayElements.size();i++){
             int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext = 0;
+            if (i == displayElements.size() -1){
+                xposNext = width;
+            }else{
+                xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            }
             if(xpos < p.x() && xposNext >= p.x()){
                 if(i%2==0){
                     movingLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
@@ -110,7 +129,12 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
         movingLabel = false;
         scene.removeItem(labelInMotion);
         renderLabels();
-    }
+    // abort move of label
+    }else if (event->button() == Qt::RightButton && track != nullptr && movingLabel) {
+             movingLabel = false;
+             scene.removeItem(labelInMotion);
+             renderLabels();
+         }
 }
 void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
   std::cout << "Printout:\n";
