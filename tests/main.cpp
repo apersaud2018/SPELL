@@ -79,28 +79,43 @@ void testWordLableTrack() {
   //Expected: a b c d e
   printLabels(tt.getTextLabels());
 
+  std::cout << "Delete:\n";
   tt.remove(0);
   tt.remove(3);
   tt.remove(1);
   //Expected: b d
   printLabels(tt.getTextLabels());
 
+  std::cout << "Insert:\n";
   tt.insert(0.05, "a");
   tt.insert(0.5, "c");
   tt.insert(0.95, "e");
   //Expected: a b c d e
   printLabels(tt.getTextLabels());
 
+  std::cout << "Move outer:\n";
   tt.move(0, 1.1);
   tt.move(3, 0.05);
   //Expected: e b c d a
   printLabels(tt.getTextLabels());
 
+  std::cout << "Move inner:\n";
+  tt.move(1, 0.6);
+  //Expected: e c b d a
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move inner reverse:\n";
+  tt.move(2, 0.1);
+  //Expected: e b c d a
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Set:\n";
   tt.set(0, "a");
   tt.set(4, "e");
   //Expected: a b c d e
   printLabels(tt.getTextLabels());
 
+  std::cout << "Insert invalid:\n";
   tt.insert(1.2, " f");
   tt.insert(1.3, "g ");
   tt.insert(1.4, " h ");

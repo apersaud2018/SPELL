@@ -77,50 +77,6 @@ bool WordLabelTrack::set(int index, std::string str) {
   return true;
 }
 
-bool WordLabelTrack::move(int index, double time) {
-  int new_index = index;
-  TrackEntry *temp = nullptr;
-
-  if (index < 0 || index >= labels.size()) {
-    return false;
-  }
-
-  labels[index]->time = time;
-  temp = labels[index];
-
-  if (time >= labels[labels.size()-1]->time) {
-    new_index = labels.size()-1;
-  }
-  else if (time <= labels[0]->time) {
-    new_index = 0;
-  }
-  else {
-    for (int i = 0 ; i < labels.size()-1 ; ++i) {
-      if (labels[i]->time <= time && time <= labels[i+1]->time) {
-        new_index = i+1;
-        break;
-      }
-    }
-  }
-
-  // If new_index == index, do nothing
-  if (new_index > index) {
-    for (int i = index; i < new_index; ++i){
-      labels[i] = labels[i+1];
-    }
-    labels[new_index] = temp;
-  }
-  else if (new_index < index) {
-    for (int i = index; i > new_index; --i){
-      labels[i] = labels[i-1];
-    }
-    labels[new_index] = temp;
-  }
-
-
-  return true;
-}
-
 std::vector<TextTrackEntry> WordLabelTrack::getTextLabels() {
   TextTrackEntry temp;
   std::vector<TextTrackEntry> tlabels;

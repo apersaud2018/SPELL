@@ -14,7 +14,6 @@ class WordLabelTrack : public LabelTrack{
       bool remove(int index);
       bool insert(double time, std::string str);
       bool set(int index, std::string str);
-      bool move(int index, double time);
       std::vector<TextTrackEntry> getTextLabels();
       std::string getRegex();
       Value save(Document::AllocatorType& allocator);
