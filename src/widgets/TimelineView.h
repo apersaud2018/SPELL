@@ -37,6 +37,8 @@ private:
   QPen cursorPen;
   QPen labelPen;
   QBrush labelBrush;
+  QBrush movingLabelBrush;
+  QBrush inactiveLabelBrush;
   void updateTimeline();
   int width = 1;
   int height = 1;
@@ -45,6 +47,9 @@ private:
   void makeCursor();
   std::vector<QGraphicsRectItem *> displayElements;
   void printLabels(std::vector<TextTrackEntry> label);
+  int selectedLabelIndex = -1;
+  bool movingLabel = false;
+  QGraphicsRectItem *labelInMotion;
 
 
 };

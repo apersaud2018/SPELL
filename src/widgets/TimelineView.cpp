@@ -20,6 +20,10 @@ QGraphicsView(parent), controller(new_controller)
   labelPen.setWidth(2);
   labelBrush.setStyle(Qt::SolidPattern);
   labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+  movingLabelBrush.setStyle(Qt::SolidPattern);
+  movingLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+  inactiveLabelBrush.setStyle(Qt::BDiagPattern);
+  inactiveLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
 
 }
 
@@ -50,6 +54,20 @@ void TimelineView::mouseMoveEvent(QMouseEvent *event){
     if(controller->file_index > -1){
         controller->setCursorPosition((p.x()*1.0)/width);
     }
+    if(movingLabel && track != nullptr){
+        std::vector<TextTrackEntry> labels = track->getTextLabels();
+        int start_sample = controller->getStartSample();
+        int end_sample = controller->getEndSample();
+        // find the label that corresponds to the correct position
+        for(int i=0;i<displayElements.size();i++){
+            int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            if(xpos < p.x() && xposNext >= p.x()){
+                labelInMotion->setRect(p.x(), -height/2, xposNext-p.x(), height/2);
+                break;
+            }
+        }
+    }
 }
 
 void TimelineView::mousePressEvent(QMouseEvent *event) {
@@ -58,9 +76,38 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
     height = mapToScene(viewport()->geometry()).boundingRect().height();
 
     // initiate move of label on left click
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton && track != nullptr && !movingLabel) {
+        std::vector<TextTrackEntry> labels = track->getTextLabels();
+        int start_sample = controller->getStartSample();
+        int end_sample = controller->getEndSample();
         // find the label that the user clicked on (if any)
-        
+        for(int i=0;i<displayElements.size();i++){
+            int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            if(xpos < p.x() && xposNext >= p.x()){
+                if(i%2==0){
+                    movingLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+                }else{
+                    movingLabelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
+                }
+                selectedLabelIndex = i;
+                movingLabel = true;
+                labelInMotion = scene.addRect(xpos, -height/2, xposNext-xpos, height/2, labelPen, movingLabelBrush);
+                displayElements[i]->setBrush(inactiveLabelBrush);
+                break;
+            }
+        }
+    // complete move of label
+    }else if (event->button() == Qt::LeftButton && track != nullptr && movingLabel) {
+        std::vector<TextTrackEntry> labels = track->getTextLabels();
+        int start_sample = controller->getStartSample();
+        int end_sample = controller->getEndSample();
+        double newTime = (((p.x()/width) * (end_sample-start_sample)) + start_sample) / 44100;
+        std::cout << newTime << " " << labels[selectedLabelIndex].time << "\n";
+        track->move(selectedLabelIndex, newTime);
+        movingLabel = false;
+        scene.removeItem(labelInMotion);
+        renderLabels();
     }
 }
 void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
@@ -90,10 +137,19 @@ void TimelineView::updateTimeline() {
 
 }
 void TimelineView::renderLabels(){
+
     if(track != nullptr){
         //printLabels(track->getTextLabels());
         std::vector<TextTrackEntry> labels = track->getTextLabels();
-        if(displayElements.size() != labels.size()){
+        if(displayElements.size() != labels.size() || (!movingLabel && selectedLabelIndex != -1)){
+            //std::cout << "AHHH" << "\n";
+            if(selectedLabelIndex != -1){
+                selectedLabelIndex = -1;
+                movingLabel = false;
+                if(labelInMotion != nullptr){
+                    scene.removeItem(labelInMotion);
+                }
+            }
             for(int i=0;i<displayElements.size();i++){
                 scene.removeItem(displayElements[i]);
             }
@@ -109,7 +165,7 @@ void TimelineView::renderLabels(){
                 }
                 int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
                 int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
-                displayElements.push_back(scene.addRect(xpos, -height/4, xposNext-xpos, height/2, labelPen, labelBrush));
+                displayElements.push_back(scene.addRect(xpos, 0, xposNext-xpos, height/2 -1, labelPen, labelBrush));
             }
             if((labels.size()-1)%2==0){
               labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
@@ -117,8 +173,9 @@ void TimelineView::renderLabels(){
               labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
             }
             int xpos = (int)((((labels[labels.size()-1].time*44100) - start_sample)/(end_sample-start_sample))*width);
-            displayElements.push_back(scene.addRect(xpos, -height/4, width-xpos, height/2, labelPen, labelBrush));
+            displayElements.push_back(scene.addRect(xpos, 0, width-xpos, height/2 -1, labelPen, labelBrush));
         }
+
     }
 
     //updatedCursor();
@@ -126,7 +183,9 @@ void TimelineView::renderLabels(){
 }
 
 void TimelineView::updatedCursor() {
-
+    if(cursor == nullptr){
+        makeCursor();
+    }
 
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
