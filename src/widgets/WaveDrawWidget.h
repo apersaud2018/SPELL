@@ -35,9 +35,11 @@ private:
   std::vector<double> *data = nullptr;
   Control *controller;
   void renderWave();
+  void renderTimeTicks();
   void makeCursor();
   QPen wavePen;
   QPen cursorPen;
+  QPen tickPen;
   void mouseMoveEvent(QMouseEvent *event);
   int width = 1;
   int height = 1;

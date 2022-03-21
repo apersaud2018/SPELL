@@ -12,6 +12,7 @@ QGraphicsView(parent), controller(new_controller)
   wavePen.setWidth(2);
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
+  tickPen.setColor(Qt::white);
   this->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, customContextMenuRequested, this, showContextMenu);
 }
@@ -71,7 +72,70 @@ void WaveDrawWidget::showContextMenu(){
     //menu->addAction("b");
     //menu->exec(QPoint(10,10));
 }
+void WaveDrawWidget::renderTimeTicks() {
+    double zoomLevel = controller->zoom;
+    int sampleRate = 44100;
+    int startSample = controller->getStartSample();
+    int endSample = controller->getEndSample();
+    // compute range of time in seconds that the window covers
+    double timeRange = (endSample - startSample)/(1.0*sampleRate);
+    double startTime = startSample/(1.0*sampleRate);
+    int endTime = startTime + timeRange;
+    enum tickModes {milliSeconds, centiSeconds, deciSeconds, seconds, decaSeconds};
+    tickModes tickMode = decaSeconds;
+    //std::cout << timeRange << "\n";
+    if (timeRange > 40.0){
+        tickMode = decaSeconds;
+    }else if (timeRange > 5.0){
+        tickMode = seconds;
+    }else if(timeRange > 0.5){
+        tickMode = deciSeconds;
+    }else if(timeRange > 0.05){
+        tickMode = centiSeconds;
+    }else{
+        tickMode = milliSeconds;
+    }
 
+    std::string tickLabel = "ms";
+    int tickDivision = sampleRate;
+    switch(tickMode){
+        case decaSeconds:
+            tickLabel = "0s";
+            tickDivision = sampleRate*10;
+            break;
+        case seconds:
+            tickLabel = "s";
+            tickDivision = sampleRate;
+            break;
+        case deciSeconds:
+            tickLabel = "cs";
+            tickDivision = sampleRate/10;
+            break;
+        case centiSeconds:
+            tickLabel = "0ms";
+            tickDivision = sampleRate/100;
+            break;
+        case milliSeconds:
+            tickLabel = "ms";
+            tickDivision = sampleRate/1000;
+            break;
+        default:
+            break;
+    }
+    int tickSample = (startSample / tickDivision) * tickDivision;
+    while(tickSample < endSample){
+        if (tickSample > startSample){
+            int x = (int)(((tickSample-startSample) / (1.0*(endSample-startSample))) * width);
+            scene.addLine(x, -height/2, x, -height/2 + 10, tickPen);
+            int tickValue = tickSample/tickDivision;
+            QGraphicsTextItem *tickText = scene.addText(QString::fromStdString(std::to_string(tickValue)+tickLabel));
+            tickText->setPos(x,-height/2 - 5);
+        }
+        tickSample += tickDivision;
+    }
+    //std::cout << startSample<<"\n";
+
+}
 void WaveDrawWidget::renderWave() {
 
   if (data == nullptr) {
@@ -80,11 +144,12 @@ void WaveDrawWidget::renderWave() {
 
   scene.clear();
 
+
   width = mapToScene(viewport()->geometry()).boundingRect().width();
   height = mapToScene(viewport()->geometry()).boundingRect().height();
 
   scene.setSceneRect(0,-height/2,width,height);
-
+  renderTimeTicks();
 
   int start_sample = controller->getStartSample() ;
   int end_sample = controller->getEndSample();
