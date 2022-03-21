@@ -130,6 +130,7 @@ void WaveDrawWidget::renderTimeTicks() {
             int tickValue = tickSample/tickDivision;
             QGraphicsTextItem *tickText = scene.addText(QString::fromStdString(std::to_string(tickValue)+tickLabel));
             tickText->setPos(x,-height/2 - 5);
+            tickText->setDefaultTextColor(Qt::white);
         }
         tickSample += tickDivision;
     }
