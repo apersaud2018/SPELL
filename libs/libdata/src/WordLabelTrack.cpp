@@ -2,7 +2,7 @@
 #include "LabelType.h"
 #include <regex>
 
-WordLabelTrack::WordLabelTrack(std::string nname) : LabelTrack(nname, Word) {}
+WordLabelTrack::WordLabelTrack(std::string nname) : LabelTrack(nname, WORD) {}
 
 WordLabelTrack::~WordLabelTrack() {
   while (labels.size() > 0) {

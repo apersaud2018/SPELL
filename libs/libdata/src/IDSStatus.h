@@ -1,0 +1,10 @@
+#ifndef IDSSTATUS_ENUM
+#define IDSSTATUS_ENUM
+typedef unsigned int IDSStatus;
+#define IDS_SUCCESS 0b1
+#define IDS_INVALID 0b10
+#define IDS_NONAME 0b100
+#define IDS_UNKNOWNVER 0b1000
+#define IDS_NOTRACKDEFS 0b10000
+#define IDS_INVALIDTRACKDEF 0b100000
+#endif
