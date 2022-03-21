@@ -1,7 +1,7 @@
 #include "LabelType.h"
 #include "TextLabelTrack.h"
 
-TextLabelTrack::TextLabelTrack(std::string nname) : LabelTrack(nname, Text) {}
+TextLabelTrack::TextLabelTrack(std::string nname) : LabelTrack(nname, TEXT) {}
 
 TextLabelTrack::~TextLabelTrack() {
   while (labels.size() > 0) {

@@ -7,6 +7,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include <rapidjson/ostreamwrapper.h>
+#include <rapidjson/istreamwrapper.h>
 
 using namespace rapidjson;
 
@@ -53,6 +54,10 @@ AudioData IntermediateDataStructure::getAudio(int index){
 }
 
 bool IntermediateDataStructure::addTrack(std::string name, LabelType type) {
+  if (type < LABEL_TYPE_MIN || type > LABEL_TYPE_MAX) {
+    return false;
+  }
+
   for (int i = 0; i < tracks.size(); ++i) {
     if (name == tracks[i].name) {
       return false;
@@ -97,6 +102,11 @@ void IntermediateDataStructure::save() {
   projName.SetString(this->projectName.c_str(), this->projectName.length(), doc.GetAllocator());
   doc.AddMember("name", projName, doc.GetAllocator());
 
+  Value ident;
+  ident.SetString("SPELLProj", 9, doc.GetAllocator());
+  doc.AddMember("identity", ident, doc.GetAllocator());
+  doc.AddMember("version", 1, doc.GetAllocator());
+
   // Add track defs
   Value trackAr(kArrayType);
   for (int i = 0; i < tracks.size(); ++i) {
@@ -127,7 +137,75 @@ void IntermediateDataStructure::save() {
 
 }
 
-// pr->document.Parse<kParseFullPrecisionFlag>(json);
+IDSStatus IntermediateDataStructure::load(std::string path) {
+  //Load and Parse
+  IDSStatus retcode = 0;
+  Document doc;
+
+  std::ifstream ifs(path);
+  IStreamWrapper isw(ifs);
+
+  doc.ParseStream<kParseFullPrecisionFlag>(isw);
+
+  if (doc.HasParseError() || !doc.IsObject()) {
+    std::cout << "Invalid JSON" << std::endl;
+    return IDS_INVALID;
+  }
+
+  // Ensure Identity fields exist
+  if (!doc.HasMember("identity") || !doc.HasMember("version")
+      || !doc["identity"].IsString() || !doc["version"].IsInt()) {
+    std::cout << "Invalid: Missing Identifiers" << std::endl;
+    return IDS_INVALID;
+  }
+
+  // Verify Version
+  std::string ident(doc["identity"].GetString());
+  if (ident != "SPELLProj" || doc["version"].GetInt() != 1) {
+    std::cout << "Unknown Version, Expecting SPELLProj and 1" << std::endl;
+    return IDS_UNKNOWNVER;
+  }
+
+  // We know that this is a valid project file now
+  this->projectPath = path;
+
+
+  if (doc.HasMember("name") && doc["name"].IsString()) {
+    this->projectName = doc["name"].GetString();
+  }
+  else {
+    retcode = retcode | IDS_NONAME;
+    this->projectName = "Untitled";
+  }
+
+  // Load track defs
+  // addTrack(std::string name, LabelType type);
+  if (doc.HasMember("tracks") && doc["tracks"].IsArray()) {
+    for (int i = 0; i < doc["tracks"].Size(); ++i) {
+      if (doc["tracks"][i].IsObject() && doc["tracks"][i].HasMember("name")
+          && doc["tracks"][i].HasMember("type") && doc["tracks"][i]["name"].IsString()
+          && doc["tracks"][i]["type"].IsUint()) {
+
+        std::string tdname(doc["tracks"][i]["name"].GetString());
+        LabelType tdtype = doc["tracks"][i]["type"].GetUint();
+        if (!addTrack(tdname, tdtype)) {
+          std::cout << "Failed to add track: " << tdname << " off type " << tdtype << std::endl;
+          retcode = retcode | IDS_INVALIDTRACKDEF;
+        }
+      }
+      else {
+        std::cout << "Invalid Track Definition Found" << std::endl;
+        retcode = retcode | IDS_INVALIDTRACKDEF;
+      }
+    }
+  }
+  else {
+    std::cout << "Track definitions missing" << std::endl;
+    retcode = retcode | IDS_NOTRACKDEFS;
+  }
+
+  return retcode | IDS_SUCCESS;
+}
 
 void helloDATA() {
 	std::cout << "Hello DATA!" << std::endl;

@@ -135,7 +135,7 @@ void testIntermediateDataStructure() {
   std::vector<double> *adata = data.getAudioData(0);
   std::cout << "Length: " << adata->size() << "\n";
 
-  data.addTrack("Phonemes", Word);
+  data.addTrack("Phonemes", WORD);
   std::cout << "TrackName: " << data.tracks[0].name << "\n";
 
   LabelTrack *lt = data.getLabelTrack(0, "Phonemes");
@@ -151,6 +151,11 @@ void testIntermediateDataStructure() {
   printLabels(lt->getTextLabels());
 
   data.save();
+
+  IntermediateDataStructure data_copy;
+  data_copy.load("D:\\School\\fall2021\\senior_project\\test.json");
+  data_copy.projectPath = "D:\\School\\fall2021\\senior_project\\test_copy.json";
+  data_copy.save();
 
 }
 

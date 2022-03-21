@@ -30,24 +30,24 @@ bool Sample::makeLabelTrack(std::string name, LabelType type){
   }
 
   switch (type) {
-    case Word:
+    case WORD:
       tracks[name] = new WordLabelTrack(name);
       return true;
       break;
-    case Text:
+    case TEXT:
       tracks[name] = new TextLabelTrack(name);
       return true;
       break;
-    case Integer:
+    case INTEGER:
       return false;
       break;
-    case Real:
+    case REAL:
       return false;
       break;
-    case AutoNumber:
+    case AUTO_NUMBER:
       return false;
       break;
-    case Note:
+    case NOTE:
       return false;
       break;
     default:

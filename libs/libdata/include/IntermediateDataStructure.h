@@ -5,6 +5,7 @@
 #include "../src/AudioData.h"
 #include "../src/Sample.h"
 #include "../src/LabelType.h"
+#include "../src/IDSStatus.h"
 #include "../src/TextLabelTrack.h"
 #include "../src/WordLabelTrack.h"
 
@@ -12,6 +13,8 @@ struct TrackDefs {
   std::string name;
   LabelType type;
 };
+
+
 
 class IntermediateDataStructure{
     public:
@@ -25,6 +28,7 @@ class IntermediateDataStructure{
         LabelTrack *getLabelTrack(int index, std::string name);
 
         void save();
+        IDSStatus load(std::string path);
 
         std::string projectName;
         std::string projectPath;
