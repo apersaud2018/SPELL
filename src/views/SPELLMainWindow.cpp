@@ -115,7 +115,7 @@ void SPELLMainWindow::zoomIn() {
 }
 
 void SPELLMainWindow::changeZoom() {
-  int val = ui->zoomSlider->value();
+  int val = 100 - (ui->zoomSlider->value());
   controller->setZoom((100-val)/100.0);
 }
 
