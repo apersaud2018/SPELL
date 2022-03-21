@@ -134,7 +134,27 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
              movingLabel = false;
              scene.removeItem(labelInMotion);
              renderLabels();
-         }
+    // delete label
+    }else if (event->button() == Qt::MiddleButton && track != nullptr && !movingLabel) {
+        std::vector<TextTrackEntry> labels = track->getTextLabels();
+        int start_sample = controller->getStartSample();
+        int end_sample = controller->getEndSample();
+        // find the label that the user clicked on (if any)
+        for(int i=0;i<displayElements.size();i++){
+            int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            int xposNext = 0;
+            if (i == displayElements.size() -1){
+              xposNext = width;
+            }else{
+              xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+            }
+            if(xpos < p.x() && xposNext >= p.x()){
+              track->remove(i);
+              break;
+            }
+        }
+        renderLabels();
+  }
 }
 void TimelineView::printLabels(std::vector<TextTrackEntry> label) {
   std::cout << "Printout:\n";
