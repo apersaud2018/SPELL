@@ -84,13 +84,13 @@ void WaveDrawWidget::renderTimeTicks() {
     enum tickModes {milliSeconds, centiSeconds, deciSeconds, seconds, decaSeconds};
     tickModes tickMode = decaSeconds;
     //std::cout << timeRange << "\n";
-    if (timeRange > 40.0){
+    if (timeRange > 20.0){
         tickMode = decaSeconds;
-    }else if (timeRange > 5.0){
+    }else if (timeRange > 2.0){
         tickMode = seconds;
-    }else if(timeRange > 0.5){
+    }else if(timeRange > 0.2){
         tickMode = deciSeconds;
-    }else if(timeRange > 0.05){
+    }else if(timeRange > 0.02){
         tickMode = centiSeconds;
     }else{
         tickMode = milliSeconds;
