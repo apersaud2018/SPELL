@@ -116,7 +116,7 @@ void SPELLMainWindow::zoomIn() {
 
 void SPELLMainWindow::changeZoom() {
   int val = 100 - (ui->zoomSlider->value());
-  controller->setZoom((100-val)/100.0);
+  controller->setZoom(val/100.0);
 }
 
 void SPELLMainWindow::newFileSelected() {
