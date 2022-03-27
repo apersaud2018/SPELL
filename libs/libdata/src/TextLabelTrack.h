@@ -17,6 +17,7 @@ class TextLabelTrack : public LabelTrack{
       std::vector<TextTrackEntry> getTextLabels();
       std::string getRegex();
       Value save(Document::AllocatorType& allocator);
+      IDSStatus load(Value& labelDefs);
 
 };
 #endif

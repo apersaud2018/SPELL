@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "LabelType.h"
+#include "IDSStatus.h"
 #include "rapidjson/document.h"
 
 using namespace rapidjson;
@@ -88,6 +89,7 @@ class LabelTrack {
       // https://www.softwaretestinghelp.com/regex-in-cpp/
       virtual std::string getRegex() = 0;
       virtual Value save(Document::AllocatorType& allocator) = 0;
+      virtual IDSStatus load(Value& labelDefs) = 0;
 
 
     protected:

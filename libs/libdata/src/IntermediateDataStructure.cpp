@@ -179,7 +179,6 @@ IDSStatus IntermediateDataStructure::load(std::string path) {
   }
 
   // Load track defs
-  // addTrack(std::string name, LabelType type);
   if (doc.HasMember("tracks") && doc["tracks"].IsArray()) {
     for (int i = 0; i < doc["tracks"].Size(); ++i) {
       if (doc["tracks"][i].IsObject() && doc["tracks"][i].HasMember("name")
@@ -202,6 +201,33 @@ IDSStatus IntermediateDataStructure::load(std::string path) {
   else {
     std::cout << "Track definitions missing" << std::endl;
     retcode = retcode | IDS_NOTRACKDEFS;
+  }
+
+  if (doc.HasMember("samples") && doc["samples"].IsArray()) {
+    for (int i = 0; i < doc["samples"].Size(); ++i) {
+      if (doc["samples"][i].HasMember("path") && doc["samples"][i]["path"].IsString()) {
+        std::string spath(doc["samples"][i]["path"].GetString());
+        if (addAudioFile(spath)) {
+          if (doc["samples"][i].HasMember("tracks") && doc["samples"][i]["tracks"].IsObject()) {
+              IDSStatus temp = samples[samples.size()-1].load(doc["samples"][i]["tracks"]);
+              retcode = retcode | temp;
+              // Do granular errors later
+          }
+          else {
+            std::cout << "Missing tracks for " << spath << std::endl;
+            retcode = retcode | IDS_SAMPLENOTRACKDEFS;
+          }
+        }
+        else {
+          std::cout << "Error adding " << spath << " to project" << std::endl;
+          retcode = retcode | IDS_SAMPLEPATHERROR;
+        }
+      }
+    }
+  }
+  else {
+    std::cout << "Sample definitions missing" << std::endl;
+    retcode = retcode | IDS_NOSAMPLEDEF;
   }
 
   return retcode | IDS_SUCCESS;

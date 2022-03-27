@@ -85,6 +85,35 @@ Value Sample::save(Document::AllocatorType& allocator) {
   return sampleObj;
 }
 
+IDSStatus Sample::load(Value& trackDefs) {
+  IDSStatus status = 0;
+
+  for (Value::MemberIterator itr = trackDefs.MemberBegin(); itr != trackDefs.MemberEnd(); ++itr) {
+    if (itr->value.HasMember("type") && itr->value["type"].IsUint() && makeLabelTrack(itr->name.GetString(), itr->value["type"].GetUint())) {
+      if (itr->value.HasMember("labels") && itr->value["labels"].IsArray()) {
+        LabelTrack *ntrack = getLabelTrack(itr->name.GetString());
+        IDSStatus temp = ntrack->load(itr->value["labels"]);
+        status = status | temp;
+
+        if (temp & IDS_SAMPLETRACKINVALIDLABEL) {
+          std::cout << "Skipped 1 or more labels on track " << itr->name.GetString() << " in sample " << path << std::endl;
+        }
+      }
+      else {
+        std::cout << "Track " << itr->name.GetString() << " has missing or invalid labels on sample " << path << std::endl;
+        status = status | IDS_SAMPLETRACKNOLABELS;
+      }
+    }
+    else {
+      std::cout << "Track " << itr->name.GetString() << " has invalid type on sample " << path << std::endl;
+      status = status | IDS_SAMPLETRACKINVALIDTYPE;
+    }
+
+  }
+
+  return status;
+}
+
 std::vector<double> *Sample::getAudioData() {
   return &(audio.data);
 }

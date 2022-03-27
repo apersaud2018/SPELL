@@ -4,6 +4,7 @@
 #include "LabelTrack.h"
 #include "AudioData.h"
 #include "LabelType.h"
+#include "IDSStatus.h"
 #include "rapidjson/document.h"
 
 using namespace rapidjson;
@@ -18,6 +19,7 @@ class Sample {
       bool removeLabelTrack(std::string name);
 
       Value save(Document::AllocatorType& allocator);
+      IDSStatus load(Value& trackDefs);
 
       std::vector<double> *getAudioData();
       AudioData getAudio();

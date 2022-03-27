@@ -112,3 +112,16 @@ Value TextLabelTrack::save(Document::AllocatorType& allocator) {
 
   return trackObj;
 }
+
+IDSStatus TextLabelTrack::load(Value& labelDefs) {
+  IDSStatus status = 0;
+  for (int i = 0; i < labelDefs.Size(); ++i) {
+    if (!(labelDefs[i].IsObject() &&  labelDefs[i].HasMember("pos")  &&  labelDefs[i].HasMember("value")
+        && labelDefs[i]["pos"].IsDouble() && labelDefs[i]["value"].IsString()
+        && insert(labelDefs[i]["pos"].GetDouble(), labelDefs[i]["value"].GetString()))) {
+      status = status | IDS_SAMPLETRACKINVALIDLABEL;
+    }
+  }
+
+  return status;
+}

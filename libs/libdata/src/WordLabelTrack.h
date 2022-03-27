@@ -20,6 +20,6 @@ class WordLabelTrack : public LabelTrack{
 
     private:
       bool validateInput(std::string str);
-
+      IDSStatus load(Value& labelDefs);
 };
 #endif
