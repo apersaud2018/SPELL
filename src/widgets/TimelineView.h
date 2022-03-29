@@ -39,6 +39,9 @@ private:
   QBrush labelBrush;
   QBrush movingLabelBrush;
   QBrush inactiveLabelBrush;
+  QPen nameTagPen;
+  QBrush nameTagBrush;
+  void renderNameTag();
   void updateTimeline();
   int width = 1;
   int height = 1;

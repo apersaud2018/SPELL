@@ -24,6 +24,9 @@ QGraphicsView(parent), controller(new_controller)
   movingLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
   inactiveLabelBrush.setStyle(Qt::BDiagPattern);
   inactiveLabelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
+  nameTagPen.setColor(QColor(30, 30, 30, 0xFF));
+  nameTagBrush.setColor(QColor(30, 30, 30, 0x40));
+  nameTagBrush.setStyle(Qt::SolidPattern);
 
 }
 
@@ -41,6 +44,7 @@ void TimelineView::audioChanged(int nindex) {
   index = nindex;
   data = controller->getAudioData(index);
   updateTimeline();
+
 }
 
 void TimelineView::updateView() {
@@ -180,6 +184,7 @@ void TimelineView::updateTimeline() {
     scene.setSceneRect(0,-height/2,width,height);
     makeCursor();
     renderLabels();
+    renderNameTag();
 
 }
 void TimelineView::renderLabels(){
@@ -239,7 +244,6 @@ void TimelineView::updatedCursor() {
     cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
 
 
-
 }
 
 void TimelineView::makeCursor(){
@@ -250,4 +254,11 @@ void TimelineView::makeCursor(){
     cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
 
 
+}
+
+void TimelineView::renderNameTag(){
+    scene.addRect(0,+height/2 -15, 50, 15, nameTagPen, nameTagBrush);
+    QGraphicsTextItem *tickText = scene.addText("Timeline");
+    tickText->setPos(0,+height/2 -20);
+    tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
 }
