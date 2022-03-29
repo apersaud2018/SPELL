@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsTextItem>
 #include "control/Control.h"
 #include <vector>
 
@@ -28,5 +29,10 @@ private:
   int index;
   QGraphicsScene scene;
   void updateSpectrogram();
+  QPen nameTagPen;
+  QBrush nameTagBrush;
+  void renderNameTag();
+  int width;
+  int height;
 };
 #endif // MAINWINDOW_H

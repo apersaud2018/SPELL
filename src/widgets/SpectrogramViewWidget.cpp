@@ -9,6 +9,10 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::viewChanged, this,  updateView);
 
   index = -1;
+  nameTagPen.setColor(QColor(30, 30, 30, 0xFF));
+  nameTagBrush.setColor(QColor(30, 30, 30, 0x40));
+  nameTagBrush.setStyle(Qt::SolidPattern);
+
 
   QTimer *timer = new QTimer(this);
   connect(timer, QTimer::timeout, this, updateView);
@@ -36,8 +40,8 @@ void SpectrogramViewWidget::updateView() {
 void SpectrogramViewWidget::updateSpectrogram(){
     scene.clear();
     if (index != -1) {
-      int width = mapToScene(viewport()->geometry()).boundingRect().width();
-      int height = mapToScene(viewport()->geometry()).boundingRect().height();
+      width = mapToScene(viewport()->geometry()).boundingRect().width();
+      height = mapToScene(viewport()->geometry()).boundingRect().height();
 
       scene.setSceneRect(0,0,width,height);
       QPixmap pixmap = QPixmap::fromImage(controller->spectrograms[index]);//.scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation);
@@ -48,5 +52,12 @@ void SpectrogramViewWidget::updateSpectrogram(){
       double start = controller->getStartSample()/data_size;
       QRect crop(int(img_width*start), 0, int(img_width*size), img_height);
       scene.addPixmap(pixmap.copy(crop).scaled(width, height, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+      renderNameTag();
     }
+}
+void SpectrogramViewWidget::renderNameTag(){
+    scene.addRect(0, height - 15, 80, 15, nameTagPen, nameTagBrush);
+    QGraphicsTextItem *tickText = scene.addText("Spectrogram");
+    tickText->setPos(0, height - 20);
+    tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
 }

@@ -37,9 +37,13 @@ private:
   void renderWave();
   void renderTimeTicks();
   void makeCursor();
+  void renderNameTag();
   QPen wavePen;
   QPen cursorPen;
   QPen tickPen;
+  QPen nameTagPen;
+  QBrush nameTagBrush;
+
   void mouseMoveEvent(QMouseEvent *event);
   int width = 1;
   int height = 1;

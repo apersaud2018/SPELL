@@ -13,6 +13,9 @@ QGraphicsView(parent), controller(new_controller)
   cursorPen.setColor(QColor(0xFF, 0, 0, 0x90));
   cursorPen.setWidth(2);
   tickPen.setColor(Qt::white);
+  nameTagPen.setColor(QColor(30, 30, 30, 0xFF));
+  nameTagBrush.setColor(QColor(30, 30, 30, 0x40));
+  nameTagBrush.setStyle(Qt::SolidPattern);
   this->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, customContextMenuRequested, this, showContextMenu);
 }
@@ -207,7 +210,10 @@ void WaveDrawWidget::renderWave() {
   for(int i=5;i<max_vals.size();i++){
       scene.addLine(i,(int)(min_vals[i]*(1/max_val)),i,(int)(max_vals[i]*(1/max_val)),wavePen);
   }
-  makeCursor();  
+  makeCursor();
+  // render name tag
+  renderNameTag();
+
 }
 void WaveDrawWidget::makeCursor(){
 
@@ -215,4 +221,11 @@ void WaveDrawWidget::makeCursor(){
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
     cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
-} 
+}
+
+void WaveDrawWidget::renderNameTag(){
+    scene.addRect(0,+height/2 -15, 60, 15, nameTagPen, nameTagBrush);
+    QGraphicsTextItem *tickText = scene.addText("Waveform");
+    tickText->setPos(0,+height/2 -20);
+    tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
+}
