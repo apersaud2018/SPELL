@@ -13,6 +13,8 @@ QGraphicsView(parent), controller(new_controller)
   nameTagBrush.setColor(QColor(0xFF, 0xFF, 0xFF, 0x40));
   nameTagBrush.setStyle(Qt::SolidPattern);
 
+  /*this->setToolTip("Spectrogram");
+  this->setToolTipDuration(3000);*/
 
   QTimer *timer = new QTimer(this);
   connect(timer, QTimer::timeout, this, updateView);

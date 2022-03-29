@@ -25,6 +25,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 
     //controller->initialize();
     ui->setupUi(this);
+    // enable tooltips
+    this->setAttribute(Qt::WA_AlwaysShowToolTips,true);
 
     //QSplitter *splitter = new QSplitter(ui->scrollVWidget);
     //splitter->setOrientation(Qt::Vertical);
@@ -57,6 +59,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     //connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
     //connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
     connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
+
+
 
 }
 
