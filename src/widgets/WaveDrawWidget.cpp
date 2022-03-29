@@ -44,6 +44,7 @@ void WaveDrawWidget::updatedCursor() {
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
     cursor->setLine(cursor_pos,-(height/2),cursor_pos,+(height/2));
+
 }
 
 void WaveDrawWidget::resizeEvent(QResizeEvent *event) {
@@ -56,6 +57,14 @@ void WaveDrawWidget::mouseMoveEvent(QMouseEvent *event){
     // check if a file is selected
     if(controller->file_index > -1){
         controller->setCursorPosition((p.x()*1.0)/width);
+        if(QToolTip::isVisible()){
+            QToolTip::hideText();
+        }
+        int start_sample = controller->getStartSample() ;
+        int end_sample = controller->getEndSample();
+        int sample = (int)((end_sample-start_sample)*controller->cursor_pos) + start_sample;
+        QToolTip::showText(this->mapToGlobal(QPoint(p.x(), p.y())), QString("%1 seconds").arg(sample/44100.0));
+
     }
 }
 void WaveDrawWidget::mousePressEvent(QMouseEvent *event){

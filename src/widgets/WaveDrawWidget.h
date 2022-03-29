@@ -8,6 +8,7 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <QToolTip>
 #include "control/Control.h"
 #include <vector>
 
