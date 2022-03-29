@@ -10,7 +10,7 @@ QGraphicsView(parent), controller(new_controller)
 
   index = -1;
   nameTagPen.setColor(QColor(30, 30, 30, 0xFF));
-  nameTagBrush.setColor(QColor(30, 30, 30, 0x40));
+  nameTagBrush.setColor(QColor(0xFF, 0xFF, 0xFF, 0x40));
   nameTagBrush.setStyle(Qt::SolidPattern);
 
 
@@ -59,5 +59,5 @@ void SpectrogramViewWidget::renderNameTag(){
     scene.addRect(0, height - 15, 80, 15, nameTagPen, nameTagBrush);
     QGraphicsTextItem *tickText = scene.addText("Spectrogram");
     tickText->setPos(0, height - 20);
-    tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
+    tickText->setDefaultTextColor(QColor(0x0, 0x0, 0x0, 0xFF));
 }
