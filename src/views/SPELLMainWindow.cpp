@@ -28,26 +28,26 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     // enable tooltips
     this->setAttribute(Qt::WA_AlwaysShowToolTips,true);
 
-    //QSplitter *splitter = new QSplitter(ui->scrollVWidget);
-    //splitter->setOrientation(Qt::Vertical);
-    waveDraw = new WaveDrawWidget(ui->scrollVWidget, controller);
+
+    waveDraw = new WaveDrawWidget(ui->tlLayoutWidget, controller);
     waveDraw->setFixedHeight(150);
     waveDraw->setMouseTracking(true);
     fullWaveDraw = new FullWaveDrawWidget(ui->scrollVWidget, controller);
     fullWaveDraw->setFixedHeight(50);
     fullWaveDraw->setMouseTracking(true);
-    spectrogramDraw = new SpectrogramViewWidget(ui->scrollVWidget, controller);
+    spectrogramDraw = new SpectrogramViewWidget(ui->tlLayoutWidget, controller);
     spectrogramDraw->setFixedHeight(150);
-    
 
-    ui->rightVLayout->insertWidget(2, spectrogramDraw);
-    ui->rightVLayout->insertWidget(2, waveDraw);
-    ui->rightVLayout->insertWidget(2, fullWaveDraw);
-    
-    
-    
-    //ui->scrollVLayout->insertWidget(0, waveDraw);
-    //ui->scrollVLayout->insertWidget(1, spectrogramDraw);
+    // noteViewWidget = new noteViewWidget(ui->scrollVWidget, controller);
+    // noteViewWidget->setVisible(false);
+
+
+    ui->tlLayout->insertWidget(1, waveDraw);
+    ui->tlLayout->insertWidget(2, spectrogramDraw);
+    ui->rightVLayout->insertWidget(1, fullWaveDraw);
+    // ui->rightVLayout->insertWidget(3, noteViewWidget);
+
+
 
 
 	connect(ui->addAudioFile, QPushButton::clicked, this, addAudioFile);
@@ -55,10 +55,12 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
 	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
+  connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);
+  connect(ui->actionSpectrogram_View, QAction::changed, this, toggleSpectrogramView);
+  connect(ui->actionSwap_View, QAction::triggered, this, swapView);
 
-    //connect(ui->zoomInButton, QPushButton::clicked, this, zoomIn);
-    //connect(ui->zoomOutButton, QPushButton::clicked, this, zoomOut);
-    connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
+
+  connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
 
 
 
@@ -142,4 +144,16 @@ void SPELLMainWindow::wheelEvent(QWheelEvent *event){
 
 }
 
+void SPELLMainWindow::toggleWaveView() {
+  waveDraw->setVisible(ui->actionToggle_Wave_View->isChecked());
+  ui->autoScale->setVisible(ui->actionToggle_Wave_View->isChecked());
+}
 
+void SPELLMainWindow::toggleSpectrogramView() {
+  spectrogramDraw->setVisible(ui->actionSpectrogram_View->isChecked());
+}
+
+void SPELLMainWindow::swapView(bool checked) {
+  ui->tlLayoutWidget->setVisible(!ui->tlLayoutWidget->isVisible());
+  //noteViewWidget->setVisible(!ui->tlLayoutWidget->isVisible());
+}

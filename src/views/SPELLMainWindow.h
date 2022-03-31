@@ -30,13 +30,16 @@ public:
     void addTrack();
 
 public slots:
-	void playSelection();
+	  void playSelection();
     void addAudioFile();
     void newFileSelected();
     void zoomIn();
     void zoomOut();
     void changeZoom();
     void addNewTrack();
+    void toggleWaveView();
+    void toggleSpectrogramView();
+    void swapView(bool checked);
 
 private:
     WaveDrawWidget *waveDraw;
