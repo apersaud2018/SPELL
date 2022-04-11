@@ -8,6 +8,18 @@
 #include <QImage>
 #include <QRgb>
 #include <QObject>
+#include <fftw3.h>
+
+#define FFT_LEN 512
+
+// FFT_LEN / 2
+#define FFT_HALF 256
+
+#define FFT_HOP 256
+
+// FFT_LEN / 2 + 1
+#define FFT_BINS 257
+
 
 class Control : public QObject {
   Q_OBJECT
@@ -17,7 +29,9 @@ class Control : public QObject {
         bool addAudioFile(std::string path);
         std::vector<double> *getAudioData(int index);
         std::vector<QImage> spectrograms;
+        // Depracated
         void computeSpectrogram(int index);
+        void generateSpectrogram(int index);
         IntermediateDataStructure data;
         void setPosition(double percent);
         void setZoom(double percent);
@@ -47,6 +61,12 @@ class Control : public QObject {
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
         void computeAllWindows(int num_windows, int window_size, int stride,int index, int step, int phase);
+
+        fftw_plan plan;
+        double *fft_frame;
+        fftw_complex *fft_out;
+
+        int cmap_count;
 
 };
 

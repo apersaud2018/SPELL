@@ -44,7 +44,7 @@ add_subdirectory(libs/libdata)
 
 add_subdirectory(libs/fftw3)
 
-target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell libdata)
+target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell libdata fftw3)
 
 set_target_properties(spell PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER fit.spell.edu
