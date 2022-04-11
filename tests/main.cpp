@@ -2,10 +2,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <math.h>
+#include <stdio.h>
+#include <complex.h>
+#include <fftw3.h>
 
 void testTextLableTrack();
 void testWordLableTrack();
 void testIntermediateDataStructure();
+void testCiglet();
 void printLabels(std::vector<TextTrackEntry> label);
 
 
@@ -16,6 +21,10 @@ int main(int argc, char const *argv[]) {
   testWordLableTrack();
   std::cout << "INTERMEDIATE DS TEST\n";
   testIntermediateDataStructure();
+
+  std::cout << "CIGLET TEST\n";
+  testCiglet();
+
 
 
   return 0;
@@ -165,4 +174,119 @@ void printLabels(std::vector<TextTrackEntry> label) {
     std::cout << "Time: " << label[i].time << "\t\tPhoneme: " << label[i].data << "\n";
   }
   std::cout << "\n";
+}
+
+void testCiglet() {
+  IntermediateDataStructure data;
+  data.initialize("ProjName", "D:\\School\\fall2021\\senior_project\\test.json");
+  std::cout << "Name: " << data.projectName << "\tPath: " << data.projectPath << "\n";
+
+  data.addAudioFile("C:\\Users\\digit\\Documents\\ust\\M.S.S. Planet\\test - Unnamed Track 2.wav");
+  std::vector<double> *adata = data.getAudioData(0);
+
+  int nhop = 256;
+  int nfft = 1024;
+  int hnfft = nfft/2;
+  int nfrm = round(adata->size() / nhop);
+  int nbins = nfft / 2 + 1;
+
+  double *spec = (double*) fftw_malloc(sizeof(double)*nbins*nfrm);
+
+  double *frame = (double*) fftw_malloc(sizeof(double)*nfft);
+  fftw_complex *fft = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * nfft);
+
+  fftw_plan plan = fftw_plan_dft_r2c_1d(nfft, frame, fft, FFTW_MEASURE);
+
+
+  double mn = 100;
+  double mx = -100;
+  // Frame loop
+  for(int i = 0; i < nfrm; ++i){
+    // Copy data
+    int center = i * nhop;
+    for(int delta = -hnfft; delta < hnfft; ++delta) {
+      int dc = delta + center;
+      if(dc < 0 || dc > adata->size()){
+        frame[delta+hnfft] = 0;
+      }
+      else {
+        frame[delta+hnfft] = adata->data()[dc];
+      }
+    }
+
+    fftw_execute(plan);
+
+
+    for (int bin = 0; bin < nbins; ++bin) {
+      int bstart = nbins*i;
+      spec[bstart+bin] = log2(sqrt(fft[bin][0]*fft[bin][0] + fft[bin][1]*fft[bin][1]));
+
+
+      if (!(isinf(spec[bstart+bin]) || isnan(spec[bstart+bin]))){
+        if (spec[bstart+bin] > mx) {
+          mx = spec[bstart+bin];
+        }
+        if (spec[bstart+bin] < mn) {
+          mn = spec[bstart+bin];
+        }
+      }
+    }
+  }
+
+  fftw_destroy_plan(plan);
+  fftw_free(frame);
+  fftw_free(fft);
+
+  std::cout << "Max: " << mx << " Min: " << mn << "\n";
+
+  mx -= mn;
+  FILE *fp;
+  fp = fopen ("D:\\School\\fall2021\\senior_project\\spect.pgm","wb");
+  if (fp!=NULL)
+  {
+    fprintf(fp, "P5\n%d %d\n255\n", nfrm, nbins);
+    unsigned char tmp = 0;
+    for (int y = 0; y < nbins; y++){
+      for (int x = 0; x < nfrm; x++) {
+        double val = spec[x*nbins + y];
+        if (isinf(val) || isnan(val)) {
+          tmp = 0;
+        }
+        else {
+          tmp = (int)(((val - mn)/mx) * 255);
+        }
+
+        fwrite(&tmp, 1, 1, fp);
+      }
+    }
+    fclose (fp);
+  }
+
+
+  // std::cout << "Setup Vars\n";
+  // w_stft(adata->data(), adata->size(), nhop, nfrm, 8, 1, NULL, NULL, Xm, NULL);
+  // std::cout << "Ran stft\n";
+  //
+  // //min max
+  // double mx = Xm[0][0];
+  // double mn = Xm[0][0];
+  // for (int x = 0; x < nfrm; x++) {
+  //   for (int y = 0; y < nbins; y++){
+  //     if(Xm[x][y] > mx) {
+  //       mx = Xm[x][y];
+  //     }
+  //     if(Xm[x][y] < mn) {
+  //       mn = Xm[x][y];
+  //     }
+  //   }
+  // }
+  // std::cout << "Min Maxed\n";
+  //
+  // std::cout << "Max: " << mx << "Min: " << mn << "\n";
+  //
+  //
+  // mx -= mn;
+  //normalize and write
+
+
 }

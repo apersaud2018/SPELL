@@ -157,3 +157,5 @@ void SPELLMainWindow::swapView(bool checked) {
   ui->tlLayoutWidget->setVisible(!ui->tlLayoutWidget->isVisible());
   //noteViewWidget->setVisible(!ui->tlLayoutWidget->isVisible());
 }
+
+// Save Load

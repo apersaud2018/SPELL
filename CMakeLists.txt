@@ -42,6 +42,8 @@ add_subdirectory(libs/libspell)
 
 add_subdirectory(libs/libdata)
 
+add_subdirectory(libs/fftw3)
+
 target_link_libraries(spell PRIVATE Qt${QT_VERSION_MAJOR}::Widgets libspell libdata)
 
 set_target_properties(spell PROPERTIES
@@ -50,10 +52,20 @@ set_target_properties(spell PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
 )
 
+add_definitions(-DFP_TYPE=double)
 
 qt_finalize_executable(spell)
 
 # datastructure test files
 
 add_executable(libdatatest tests/main.cpp)
-target_link_libraries(libdatatest PRIVATE libdata)
+target_link_libraries(libdatatest PRIVATE libdata fftw3)
+
+target_include_directories(spell PRIVATE libs/fftw3/api)
+target_include_directories(libdatatest PRIVATE libs/fftw3/api)
+
+
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+  message(STATUS "dir='${dir}'")
+endforeach()
