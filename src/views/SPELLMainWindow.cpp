@@ -88,6 +88,7 @@ void SPELLMainWindow::addAudioFile() {
     bool success = controller->addAudioFile(file_path.toStdString());
     if(success){
         addFileToList(file_path);
+        addNewTrack(); // Temp track for testing
     }
 }
 
