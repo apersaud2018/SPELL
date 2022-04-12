@@ -92,9 +92,11 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
     const QPointF p  =event->pos();
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
-
-    // initiate move of label on left click
-    if (event->button() == Qt::LeftButton && track != nullptr && !movingLabel) {
+    // Don't do anything if the top part of the timeline is left clicked
+    if(event->button() == Qt::LeftButton && p.y() < height/2 && !movingLabel){
+        //std::cout << p.y()<<"\n";
+        // initiate move of label on left click
+    }else if (event->button() == Qt::LeftButton && track != nullptr && !movingLabel) {
         std::vector<TextTrackEntry> labels = track->getTextLabels();
         int start_sample = controller->getStartSample();
         int end_sample = controller->getEndSample();
@@ -213,6 +215,9 @@ void TimelineView::renderLabels(){
                   labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
                 }else{
                   labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
+                }
+                if(i == activeLabelIndex){
+                   labelBrush.setColor(QColor(0xFF, 0x0, 0x0, 0xFF));
                 }
                 int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
                 int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
