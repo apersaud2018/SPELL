@@ -192,9 +192,10 @@ void TimelineView::updateTimeline() {
 void TimelineView::renderLabels(){
 
     if(track != nullptr){
-        //printLabels(track->getTextLabels());
+        //printLabels(track != nullptrtrack->getTextLabels());
         std::vector<TextTrackEntry> labels = track->getTextLabels();
-        if(displayElements.size() != labels.size() || (!movingLabel && selectedLabelIndex != -1)){
+        if(displayElements.size() != labels.size() || (!movingLabel && selectedLabelIndex != -1) || oldActiveLabelIndex != activeLabelIndex){
+            oldActiveLabelIndex = activeLabelIndex;
             //std::cout << "AHHH" << "\n";
             if(selectedLabelIndex != -1){
                 selectedLabelIndex = -1;
@@ -266,4 +267,29 @@ void TimelineView::renderNameTag(){
     QGraphicsTextItem *tickText = scene.addText("Timeline");
     tickText->setPos(0,+height/2 -20);
     tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
+}
+
+void TimelineView::keyPressEvent(QKeyEvent* event) {
+    if(track == nullptr){
+        event->ignore();
+        return;
+    }
+    std::vector<TextTrackEntry> labels = track->getTextLabels();
+    switch (event->key()) {
+    case Qt::Key_Left:
+        if(activeLabelIndex > 0){
+            activeLabelIndex--;
+        }else{
+            activeLabelIndex = labels.size()-1;
+        }
+        controller->updateLabels();
+        break;
+    case Qt::Key_Right:
+        activeLabelIndex = (activeLabelIndex+1)%labels.size();
+        controller->updateLabels();
+        break;
+    default:
+        event->ignore();
+        break;
+    }
 }

@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsLineItem>
 #include <QMouseEvent>
+#include <QKeyEvent>
 #include <QPen>
 #include "control/Control.h"
 #include <vector>
@@ -43,9 +44,11 @@ private:
   QBrush nameTagBrush;
   void renderNameTag();
   void updateTimeline();
+  void keyPressEvent(QKeyEvent* event);
   int width = 1;
   int height = 1;
   int activeLabelIndex = -1;
+  int oldActiveLabelIndex = -1;
   QGraphicsLineItem *cursor;
   void updatedCursor();
   void makeCursor();
