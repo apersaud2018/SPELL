@@ -45,6 +45,7 @@ private:
   void updateTimeline();
   int width = 1;
   int height = 1;
+  int activeLabelIndex = -1;
   QGraphicsLineItem *cursor;
   void updatedCursor();
   void makeCursor();
