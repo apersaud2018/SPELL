@@ -36,7 +36,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     fullWaveDraw->setFixedHeight(50);
     fullWaveDraw->setMouseTracking(true);
     spectrogramDraw = new SpectrogramViewWidget(ui->tlLayoutWidget, controller);
-    spectrogramDraw->setFixedHeight(150);
+    spectrogramDraw->setFixedHeight(256);
 
     // noteViewWidget = new noteViewWidget(ui->scrollVWidget, controller);
     // noteViewWidget->setVisible(false);
@@ -87,12 +87,7 @@ void SPELLMainWindow::addAudioFile() {
     QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test/audio");
     bool success = controller->addAudioFile(file_path.toStdString());
     if(success){
-        controller->computeSpectrogram(controller->spectrograms.size());
         addFileToList(file_path);
-        if(controller->spectrograms.size() == 1){
-            addTrack();
-        }
-
     }
 }
 
@@ -157,3 +152,5 @@ void SPELLMainWindow::swapView(bool checked) {
   ui->tlLayoutWidget->setVisible(!ui->tlLayoutWidget->isVisible());
   //noteViewWidget->setVisible(!ui->tlLayoutWidget->isVisible());
 }
+
+// Save Load

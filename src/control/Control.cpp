@@ -8,18 +8,42 @@
 #include <QImage>
 #include <complex>
 #include <thread>
+#include <fftw3.h>
+#include <math.h>
 
 Control::Control(){
     data.initialize("TestProject", "C:/test/project");
     std::fstream colormap_file("../colormaps/magma.cmap", std::ios_base::in);
     int a,b,c;
+    cmap_count = 0;
     while(colormap_file >> a >> b >> c){
         colormap.push_back(qRgb(a, b, c));
+        cmap_count++;
     }
+
+    std::cout << "Colors in map: " << cmap_count << "\n";
+
+    fft_frame = (double*) fftw_malloc(sizeof(double)*FFT_LEN);
+    fft_out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * FFT_LEN);
+    plan = fftw_plan_dft_r2c_1d(FFT_LEN, fft_frame, fft_out, FFTW_MEASURE);
 }
 
 bool Control::addAudioFile(std::string path){
-    return data.addAudioFile(path);
+    bool success = data.addAudioFile(path);;
+
+    if(success){
+      std::vector<double> *audio = data.getAudioData(data.samples.size()-1);
+      int nframes = audio->size() / FFT_HOP;
+
+      QImage image(QSize(nframes,FFT_BINS) ,QImage::Format_RGB32);
+      image.fill(QColor("purple"));
+      spectrograms.push_back(image); // May need to change to insert
+
+      generateSpectrogram(spectrograms.size()-1);
+      //controller->computeSpectrogram(controller->spectrograms.size());
+    }
+
+    return success;
 }
 
 std::vector<double> *Control::getAudioData(int index){
@@ -139,6 +163,122 @@ void Control::computeWindow(int window_index, int window_size, int stride, Audio
         }
         img->setPixel(window_index, 255-i, colormap[val]);
     }
+
+}
+
+void Control::generateSpectrogram(int index) {
+  std::vector<double> *audio = data.getAudioData(index);
+  int nframes = audio->size() / FFT_HOP;
+  double *spec = (double*) fftw_malloc(sizeof(double)*FFT_BINS*nframes);
+  double *powr = (double*) fftw_malloc(sizeof(double)*nframes);
+
+  double mxpow = 0.01;
+  double mnpow = 0;
+
+  double mn = 100;
+  double mx = -100;
+  // Frame loop
+  double accume;
+  for(int i = 0; i < nframes; ++i){
+    // Copy data
+    accume = 0;
+    int center = i * FFT_HOP;
+    for(int delta = -FFT_HALF; delta < FFT_HALF; ++delta) {
+      int dc = delta + center;
+      if(dc < 0 || dc > audio->size()){
+        fft_frame[delta+FFT_HALF] = 0;
+      }
+      else {
+        fft_frame[delta+FFT_HALF] = audio->data()[dc];
+        // accumulate to calc power
+        accume += abs(audio->data()[dc]);
+      }
+    }
+
+    powr[i] = accume / FFT_LEN;
+    if (powr[i] > mxpow){
+      mxpow = powr[i];
+    }
+    if (powr[i] < mnpow) {
+      mnpow = powr[i];
+    }
+
+    // Execute and transform fft into power spectrum
+    fftw_execute(plan);
+    for (int bin = 0; bin < FFT_BINS; ++bin) {
+      int bstart = FFT_BINS*i;
+      spec[bstart+bin] = 20*log(sqrt(fft_out[bin][0]*fft_out[bin][0] + fft_out[bin][1]*fft_out[bin][1]));
+
+      // Track min and max for scaling
+      if (!(isinf(spec[bstart+bin]) || isnan(spec[bstart+bin]))){
+        if (spec[bstart+bin] > mx) {
+          mx = spec[bstart+bin];
+        }
+        if (spec[bstart+bin] < mn) {
+          mn = spec[bstart+bin];
+        }
+      }
+    }
+  } // End fft loop
+
+  mx -= mn;
+  unsigned char tmp = 0;
+  for (int y = 0; y < FFT_BINS; y++){
+    for (int x = 0; x < nframes; x++) {
+      double global_scale = sqrt((powr[x] - mnpow)/mxpow);
+      if (global_scale < 0.2) {
+        global_scale = 0.2;
+      }
+      if (global_scale > 0.8) {
+        global_scale = 1;
+      }
+      double val = spec[x*FFT_BINS + y] * global_scale;
+      if (isinf(val)) {
+        if (val > 0) {
+          tmp = cmap_count/2-1;
+        }
+        else {
+          tmp = 0;
+        }
+
+      }
+      else {
+        if (isnan(val)) {
+          tmp = 0;
+        }
+        else {
+          tmp = (int)(pow((val - mn)/mx, 2) * (cmap_count/2-1));
+        }
+      }
+
+      spectrograms[index].setPixel(x, FFT_BINS-y-1, colormap[tmp*2]);
+    }
+  }
+
+  // FILE *fp;
+  // fp = fopen ("D:\\School\\fall2021\\senior_project\\spectTest.pgm","wb");
+  // if (fp!=NULL)
+  // {
+  //   fprintf(fp, "P5\n%d %d\n255\n", nframes, FFT_BINS);
+  //   unsigned char tmp = 0;
+  //   for (int y = 0; y < FFT_BINS; y++){
+  //     for (int x = 0; x < nframes; x++) {
+  //       double val = spec[x*FFT_BINS + y];
+  //       if (isinf(val) || isnan(val)) {
+  //         tmp = 0;
+  //       }
+  //       else {
+  //         tmp = (int)(((val - mn)/mx) * 255);
+  //       }
+  //
+  //       fwrite(&tmp, 1, 1, fp);
+  //     }
+  //   }
+  //   fclose (fp);
+  // }
+
+  fftw_free(spec);
+  fftw_free(powr);
 
 }
 
