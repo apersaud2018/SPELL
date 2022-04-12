@@ -29,6 +29,7 @@ public slots:
   void updateView();
   void renderLabels();
   void updateActiveIndex();
+  void updateLabelText(std::string str);
 
 private:
   std::vector<double> *data = nullptr;

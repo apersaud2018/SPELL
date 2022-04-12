@@ -58,9 +58,10 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
   connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);
   connect(ui->actionSpectrogram_View, QAction::changed, this, toggleSpectrogramView);
   connect(ui->actionSwap_View, QAction::triggered, this, swapView);
+  connect(ui->labelInput, QLineEdit::returnPressed, this, labelEntered);
 
 
-  connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
+  connect(ui->zoomSlider, QSlider::valueChanged, this, labelEntered);
 
 
 
@@ -69,6 +70,12 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 SPELLMainWindow::~SPELLMainWindow()
 {
     delete ui;
+}
+
+void SPELLMainWindow::labelEntered(){
+    std::string str = ui->labelInput->text().toStdString();
+    ui->labelInput->setText("");
+    controller->updateLabelText(str);
 }
 
 void SPELLMainWindow::addTrack(){

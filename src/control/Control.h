@@ -50,6 +50,7 @@ class Control : public QObject {
         LabelTrack *phonemeTrack;
         void updateLabels();
         void updateActiveIndex();
+        void updateLabelText(std::string str);
     public slots:
       void setFileIndex(int index);
 
@@ -59,6 +60,7 @@ class Control : public QObject {
       void updatedCursorPosition();
       void changedLabels();
       void changedActiveIndex();
+      void setLabelText(std::string str);
 
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);

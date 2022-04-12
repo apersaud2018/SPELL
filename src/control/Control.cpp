@@ -295,3 +295,7 @@ void Control::updateLabels(){
 void Control::updateActiveIndex(){
     emit changedActiveIndex();
 }
+
+void Control::updateLabelText(std::string str){
+    emit setLabelText(str);
+}
