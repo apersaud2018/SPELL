@@ -135,12 +135,13 @@ void TimelineView::mousePressEvent(QMouseEvent *event) {
 
         movingLabel = false;
         scene.removeItem(labelInMotion);
-        renderLabels();
+        //controller->updateLabels();
+        updateView();
     // abort move of label
     }else if (event->button() == Qt::RightButton && track != nullptr && movingLabel) {
              movingLabel = false;
              scene.removeItem(labelInMotion);
-             renderLabels();
+             updateView();
     // delete label
     }else if (event->button() == Qt::MiddleButton && track != nullptr && !movingLabel) {
         std::vector<TextTrackEntry> labels = track->getTextLabels();
@@ -224,11 +225,19 @@ void TimelineView::renderLabels(){
                 int xpos = (int)((((labels[i].time*44100) - start_sample)/(end_sample-start_sample))*width);
                 int xposNext =  (int)((((labels[i+1].time*44100) - start_sample)/(end_sample-start_sample))*width);
                 displayElements.push_back(scene.addRect(xpos, 0, xposNext-xpos, height/2 -1, labelPen, labelBrush));
+                if(!movingLabel){
+                    QGraphicsTextItem *tickText = scene.addText(QString::fromUtf8(labels[i].data));
+                    tickText->setPos(xpos,0);
+                    tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
+                }
             }
             if((labels.size()-1)%2==0){
               labelBrush.setColor(QColor(0x23, 0x7d, 0x56, 0xFF));
             }else{
               labelBrush.setColor(QColor(0x32, 0x7d, 0x23, 0xFF));
+            }
+            if(labels.size()-1 == activeLabelIndex){
+               labelBrush.setColor(QColor(0xFF, 0x0, 0x0, 0xFF));
             }
             int xpos = (int)((((labels[labels.size()-1].time*44100) - start_sample)/(end_sample-start_sample))*width);
             displayElements.push_back(scene.addRect(xpos, 0, width-xpos, height/2 -1, labelPen, labelBrush));
