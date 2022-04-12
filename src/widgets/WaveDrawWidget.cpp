@@ -18,6 +18,8 @@ QGraphicsView(parent), controller(new_controller)
   nameTagBrush.setStyle(Qt::SolidPattern);
   this->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(this, customContextMenuRequested, this, showContextMenu);
+
+
 }
 
 WaveDrawWidget::~WaveDrawWidget() {
@@ -25,6 +27,9 @@ WaveDrawWidget::~WaveDrawWidget() {
 }
 
 void WaveDrawWidget::audioChanged(int index) {
+  if(data == nullptr){
+      controller->phonemeTrack->insert(0.0, "b");
+  }
   data = controller->getAudioData(index);
   renderWave();
 }
@@ -77,6 +82,7 @@ void WaveDrawWidget::mousePressEvent(QMouseEvent *event){
     std::cout << "Created new Phoneme\n";
 
     controller->updateLabels();
+    controller->updateActiveIndex();
 }
 void WaveDrawWidget::showContextMenu(){
     std::cout << "Opening Context Menu\n";

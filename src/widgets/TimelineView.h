@@ -28,6 +28,7 @@ public slots:
   void audioChanged(int index);
   void updateView();
   void renderLabels();
+  void updateActiveIndex();
 
 private:
   std::vector<double> *data = nullptr;

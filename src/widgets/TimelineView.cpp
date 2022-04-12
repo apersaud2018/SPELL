@@ -9,6 +9,7 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::viewChanged, this,  updateView);
   connect(controller, Control::updatedCursorPosition, this,  updatedCursor);
   connect(controller, Control::changedLabels, this,  renderLabels);
+  connect(controller, Control::changedActiveIndex, this,  updateActiveIndex);
 
   /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
   index = controller->file_index;
@@ -260,6 +261,13 @@ void TimelineView::makeCursor(){
     cursor = scene.addLine(cursor_pos,-(height/2),cursor_pos,+(height/2),cursorPen);
 
 
+}
+void TimelineView::updateActiveIndex(){
+    if(TimelineView::track != nullptr){
+        std::vector<TextTrackEntry> labels = TimelineView::track->getTextLabels();
+        TimelineView::activeLabelIndex = labels.size()-2;
+        controller->updateLabels();
+    }
 }
 
 void TimelineView::renderNameTag(){

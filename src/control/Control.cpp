@@ -291,3 +291,7 @@ void Control::createPhonemeTrack(){
 void Control::updateLabels(){
     emit changedLabels();
 }
+
+void Control::updateActiveIndex(){
+    emit changedActiveIndex();
+}
