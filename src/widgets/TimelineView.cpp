@@ -325,5 +325,5 @@ void TimelineView::keyPressEvent(QKeyEvent* event) {
 
 void TimelineView::exportMonoLabels(){
     std::cout << "Exporting Mono Labels\n";
-    //QString fileName = QFileDialog::getSaveFileName(this,tr("Save Address Book"), "",tr("Address Book (*.abk);;All Files (*)"));
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Save Address Book"), "",tr("Address Book (*.abk);;All Files (*)"));
 }

@@ -130,4 +130,17 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>TimelineView</name>
+    <message>
+        <location filename="../widgets/TimelineView.cpp" line="328"/>
+        <source>Save Address Book</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/TimelineView.cpp" line="328"/>
+        <source>Address Book (*.abk);;All Files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPen>
+#include <QFileDialog>
 #include "control/Control.h"
 #include <vector>
 
