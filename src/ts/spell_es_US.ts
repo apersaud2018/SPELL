@@ -5,121 +5,127 @@
     <name>SPELLMainWindow</name>
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="14"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="259"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="265"/>
         <source>SPELL - Singing Phoneme Ergonamic Labeler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="43"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="273"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="279"/>
         <source>Samples</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="59"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="274"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="280"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="66"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="275"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="281"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="81"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="276"/>
-        <source>Play</source>
+        <location filename="../views/SPELLMainWindow.ui" line="73"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="282"/>
+        <source>Export Mono Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../views/SPELLMainWindow.ui" line="88"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="277"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="283"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../views/SPELLMainWindow.ui" line="95"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="284"/>
         <source>Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="101"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="278"/>
+        <location filename="../views/SPELLMainWindow.ui" line="108"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="285"/>
         <source>Zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="120"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="279"/>
+        <location filename="../views/SPELLMainWindow.ui" line="127"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="286"/>
         <source>Auto Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="185"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="280"/>
+        <location filename="../views/SPELLMainWindow.ui" line="192"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="287"/>
         <source>New Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="219"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="282"/>
+        <location filename="../views/SPELLMainWindow.ui" line="226"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="289"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="228"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="283"/>
+        <location filename="../views/SPELLMainWindow.ui" line="235"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="290"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="240"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="260"/>
+        <location filename="../views/SPELLMainWindow.ui" line="247"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="266"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="245"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="261"/>
+        <location filename="../views/SPELLMainWindow.ui" line="252"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="267"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="250"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="262"/>
+        <location filename="../views/SPELLMainWindow.ui" line="257"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="268"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="255"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="263"/>
+        <location filename="../views/SPELLMainWindow.ui" line="262"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="269"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="266"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="264"/>
+        <location filename="../views/SPELLMainWindow.ui" line="273"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="270"/>
         <source>Wave View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="269"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="266"/>
+        <location filename="../views/SPELLMainWindow.ui" line="276"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="272"/>
         <source>Turn Wave View on/off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="280"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="268"/>
+        <location filename="../views/SPELLMainWindow.ui" line="287"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="274"/>
         <source>Spectrogram View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="283"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="270"/>
+        <location filename="../views/SPELLMainWindow.ui" line="290"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="276"/>
         <source>Toggle Spectrogram View on/off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../views/SPELLMainWindow.ui" line="288"/>
-        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="272"/>
+        <location filename="../views/SPELLMainWindow.ui" line="295"/>
+        <location filename="../../build/spell_autogen/include/ui_SPELLMainWindow.h" line="278"/>
         <source>Swap View</source>
         <translation type="unfinished"></translation>
     </message>

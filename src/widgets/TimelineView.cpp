@@ -11,6 +11,7 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::changedLabels, this,  renderLabels);
   connect(controller, Control::changedActiveIndex, this,  updateActiveIndex);
   connect(controller, Control::setLabelText, this,  updateLabelText);
+  connect(controller, Control::triggerExportMonoLabels, this,  exportMonoLabels);
 
   /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
   index = controller->file_index;
@@ -320,4 +321,9 @@ void TimelineView::keyPressEvent(QKeyEvent* event) {
         event->ignore();
         break;
     }
+}
+
+void TimelineView::exportMonoLabels(){
+    std::cout << "Exporting Mono Labels\n";
+    //QString fileName = QFileDialog::getSaveFileName(this,tr("Save Address Book"), "",tr("Address Book (*.abk);;All Files (*)"));
 }

@@ -299,3 +299,7 @@ void Control::updateActiveIndex(){
 void Control::updateLabelText(std::string str){
     emit setLabelText(str);
 }
+
+void Control::exportMonoLabels(){
+    emit triggerExportMonoLabels();
+}

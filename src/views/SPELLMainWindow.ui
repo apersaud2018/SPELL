@@ -67,6 +67,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="exportMonoButton">
+            <property name="text">
+             <string>Export Mono Labels</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>

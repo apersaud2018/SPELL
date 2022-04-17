@@ -30,6 +30,7 @@ public slots:
   void renderLabels();
   void updateActiveIndex();
   void updateLabelText(std::string str);
+  void exportMonoLabels();
 
 private:
   std::vector<double> *data = nullptr;
