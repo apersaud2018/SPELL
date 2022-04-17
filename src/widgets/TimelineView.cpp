@@ -324,6 +324,21 @@ void TimelineView::keyPressEvent(QKeyEvent* event) {
 }
 
 void TimelineView::exportMonoLabels(){
-    std::cout << "Exporting Mono Labels\n";
-    QString fileName = QFileDialog::getSaveFileName(this,tr("Save Address Book"), "",tr("Address Book (*.abk);;All Files (*)"));
+    if(track == nullptr){
+        return;
+    }
+    std::vector<TextTrackEntry> labels = track->getTextLabels();
+    std::cout << "Exporting Mono Labels...\n";
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Export Mono Labels"), "",tr("Mono Label File (*.lab);;All Files (*)"));
+    std::cout << "Exporting to \"" << fileName.toStdString() << "\"\n";
+    std::ofstream outputFile;
+    outputFile.open (fileName.toStdString());
+    for(int i=0;i<labels.size()-1;i++){
+        outputFile << (int)(labels[i].time*10000000) << " ";
+        outputFile << (int)(labels[i+1].time*10000000) << " ";
+        outputFile << labels[i].data << "\n";
+    }
+    outputFile.close();
+    std::cout << "Exported " << labels.size() << " labels.\n";
+
 }

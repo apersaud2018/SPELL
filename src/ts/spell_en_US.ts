@@ -133,13 +133,13 @@
 <context>
     <name>TimelineView</name>
     <message>
-        <location filename="../widgets/TimelineView.cpp" line="328"/>
-        <source>Save Address Book</source>
+        <location filename="../widgets/TimelineView.cpp" line="332"/>
+        <source>Export Mono Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/TimelineView.cpp" line="328"/>
-        <source>Address Book (*.abk);;All Files (*)</source>
+        <location filename="../widgets/TimelineView.cpp" line="332"/>
+        <source>Mono Label File (*.lab);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

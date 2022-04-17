@@ -10,6 +10,8 @@
 #include <QFileDialog>
 #include "control/Control.h"
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class TimelineView; }
