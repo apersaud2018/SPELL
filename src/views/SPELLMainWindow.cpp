@@ -62,7 +62,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
   connect(ui->labelInput, QLineEdit::returnPressed, this, labelEntered);
 
 
-  connect(ui->zoomSlider, QSlider::valueChanged, this, labelEntered);
+  connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
 
 
 
