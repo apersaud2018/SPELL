@@ -13,6 +13,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <stdio.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class TimelineView; }

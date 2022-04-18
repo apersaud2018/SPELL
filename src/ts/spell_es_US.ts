@@ -139,12 +139,12 @@
 <context>
     <name>TimelineView</name>
     <message>
-        <location filename="../widgets/TimelineView.cpp" line="333"/>
+        <location filename="../widgets/TimelineView.cpp" line="338"/>
         <source>Export Mono Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../widgets/TimelineView.cpp" line="333"/>
+        <location filename="../widgets/TimelineView.cpp" line="338"/>
         <source>Mono Label File (*.lab);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>

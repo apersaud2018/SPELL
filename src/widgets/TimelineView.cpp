@@ -242,8 +242,13 @@ void TimelineView::renderLabels(){
             if(labels.size()-1 == activeLabelIndex){
                labelBrush.setColor(QColor(0xFF, 0x0, 0x0, 0xFF));
             }
+
             int xpos = (int)((((labels[labels.size()-1].time*44100) - start_sample)/(end_sample-start_sample))*width);
+
             displayElements.push_back(scene.addRect(xpos, 0, width-xpos, height/2 -1, labelPen, labelBrush));
+            QGraphicsTextItem *tickText = scene.addText(QString::fromUtf8(labels[labels.size()-1].data));
+            tickText->setPos(xpos,0);
+            tickText->setDefaultTextColor(QColor(0xB0, 0xB0, 0xB0, 0xFF));
         }
 
     }
@@ -357,6 +362,33 @@ void TimelineView::runML(){
     for(int i=0;i<labels.size();i++){
         command << " " << (int)(labels[i].time*44100);
     }
-    std::cout << command.str();
+    //std::cout << command.str();
     //std::system(command.str());
+    int bufferSize= 512;
+    char buffer[bufferSize];
+
+    auto pipe = popen(command.str().c_str(), "r");
+    if(!pipe){
+        std::cout << "Failed to run ML model\n";
+        return;
+    }
+
+    int count;
+    std::string line = "";
+    // check if a the line begins with the delimiter
+    while(line.find("######") == std::string::npos) {
+        std::fgets(buffer, bufferSize, pipe);
+        line = std::string(buffer);
+    }
+    std::fgets(buffer, bufferSize, pipe);
+    int numOutput = std::atoi(buffer);
+
+    for(int i=0;i<numOutput;i++){
+        std::fgets(buffer, bufferSize, pipe);
+        std::string phoneme(buffer);
+        phoneme.erase(std::remove(phoneme.begin(), phoneme.end(), '\n'), phoneme.end());
+        track->set(i, phoneme);
+    }
+    pclose(pipe);
+    updateTimeline();
 }
