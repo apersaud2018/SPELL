@@ -22,6 +22,7 @@ bool IntermediateDataStructure::addAudioFile(std::string path){
     if(validPath){
         std::cout << "Added " << path << " to " << projectName << std::endl;
         samples.push_back(Sample(path));
+        paths.push_back(path);
         return true;
     }else{
         std::cout << "ERROR: Failed to add " << path << " to " << projectName << " (Invalid Path)" << std::endl;

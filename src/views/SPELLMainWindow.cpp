@@ -54,6 +54,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->InsertNewTrack, QPushButton::clicked, this, addNewTrack);
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
 	connect(ui->exportMonoButton, QPushButton::clicked, controller, Control::exportMonoLabels);
+	connect(ui->runMLButton, QPushButton::clicked, controller, Control::runML);
 	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
   connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);

@@ -303,3 +303,7 @@ void Control::updateLabelText(std::string str){
 void Control::exportMonoLabels(){
     emit triggerExportMonoLabels();
 }
+
+void Control::runML(){
+    emit triggerML();
+}

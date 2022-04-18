@@ -12,6 +12,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class TimelineView; }
@@ -34,7 +35,7 @@ public slots:
   void updateActiveIndex();
   void updateLabelText(std::string str);
   void exportMonoLabels();
-
+  void runML();
 private:
   std::vector<double> *data = nullptr;
   Control *controller;

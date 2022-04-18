@@ -12,6 +12,7 @@ QGraphicsView(parent), controller(new_controller)
   connect(controller, Control::changedActiveIndex, this,  updateActiveIndex);
   connect(controller, Control::setLabelText, this,  updateLabelText);
   connect(controller, Control::triggerExportMonoLabels, this,  exportMonoLabels);
+  connect(controller, Control::triggerML, this,  runML);
 
   /* Initialize audio data to prevent crash when adding tracks after selecting audio*/
   index = controller->file_index;
@@ -341,4 +342,21 @@ void TimelineView::exportMonoLabels(){
     outputFile.close();
     std::cout << "Exported " << labels.size() << " labels.\n";
 
+}
+
+void TimelineView::runML(){
+    if(track == nullptr){
+        return;
+    }
+    std::vector<TextTrackEntry> labels = track->getTextLabels();
+    std::cout << "Running ML models\n";
+    std::stringstream command;
+    command << "python \"../scripts/classify_phonemes.py\" ";
+    command << "\"" << controller->data.paths[controller->file_index] << "\"";
+
+    for(int i=0;i<labels.size();i++){
+        command << " " << (int)(labels[i].time*44100);
+    }
+    std::cout << command.str();
+    //std::system(command.str());
 }

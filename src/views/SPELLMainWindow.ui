@@ -68,6 +68,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="runMLButton">
+            <property name="text">
+             <string>Auto Label</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="exportMonoButton">
             <property name="text">
              <string>Export Mono Labels</string>
@@ -153,7 +160,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>388</width>
+                <width>373</width>
                 <height>471</height>
                </rect>
               </property>

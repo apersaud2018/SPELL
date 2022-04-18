@@ -55,6 +55,7 @@ class Control : public QObject {
     public slots:
       void setFileIndex(int index);
       void exportMonoLabels();
+      void runML();
 
     signals:
       void fileIndexChanged(int newValue);
@@ -64,6 +65,7 @@ class Control : public QObject {
       void changedActiveIndex();
       void setLabelText(std::string str);
       void triggerExportMonoLabels();
+      void triggerML();
     private:
         void computeWindow(int num, int window_size, int stride, AudioData audio, QImage *img);
         void computeAllWindows(int num_windows, int window_size, int stride,int index, int step, int phase);

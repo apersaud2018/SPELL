@@ -34,6 +34,7 @@ class IntermediateDataStructure{
         std::string projectPath;
         std::vector<Sample> samples;
         std::vector<TrackDefs> tracks;
+        std::vector<std::string> paths;
 
     private:
         bool isValidAudioFile(std::string path);
