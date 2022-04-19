@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <vector>
 #include <QCheckBox>
+#include <QAbstractItemView>
 #include "control/Control.h"
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
@@ -18,6 +19,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     ui->setupUi(this);
     // enable tooltips
     this->setAttribute(Qt::WA_AlwaysShowToolTips,true);
+
+    ui->fileList->setModel(controller->audio_files);
 
 
     waveDraw = new WaveDrawWidget(ui->tlLayoutWidget, controller);
@@ -46,7 +49,7 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->playButton, QPushButton::clicked, this, playSelection);
 	connect(ui->exportMonoButton, QPushButton::clicked, controller, Control::exportMonoLabels);
 	connect(ui->runMLButton, QPushButton::clicked, controller, Control::runML);
-	connect(ui->fileList, QListWidget::currentItemChanged, this, newFileSelected);
+  connect(ui->fileList, QAbstractItemView::clicked, this, fileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
   connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);
   connect(ui->actionSpectrogram_View, QAction::changed, this, toggleSpectrogramView);
@@ -81,13 +84,10 @@ void SPELLMainWindow::addTrack(){
     timelineViews.push_back(timelineView);
 }
 
-//
-
 void SPELLMainWindow::addAudioFile() {
     QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test/audio");
     bool success = controller->addAudioFile(file_path.toStdString());
     if(success){
-        addFileToList(file_path);
         addNewTrack(); // Temp track for testing
     }
 }
@@ -102,10 +102,6 @@ void SPELLMainWindow::playSelection() {
 	std::cout << "Play" << "\n";
 }
 
-void SPELLMainWindow::addFileToList(QString path)
-{
-    ui->fileList->addItem(path);
-}
 
 void SPELLMainWindow::zoomOut() {
   controller->setZoom(controller->zoom + ZOOM_SPEED);
@@ -121,10 +117,11 @@ void SPELLMainWindow::changeZoom() {
   controller->setZoom(val/100.0);
 }
 
-void SPELLMainWindow::newFileSelected() {
-    QString current_path = ui->fileList->currentItem()->text();
-    std::cout << "Selected " << current_path.toStdString() << "\n";
-    controller->setFileIndex(ui->fileList->currentRow());
+
+void SPELLMainWindow::fileSelected(const QModelIndex &index) {
+  //QString current_path = ui->fileList->currentItem()->text();
+  std::cout << "Selected " << controller->audio_files->data(index).toString().toStdString() << "\n";
+  controller->setFileIndex(index.row());
 }
 
 

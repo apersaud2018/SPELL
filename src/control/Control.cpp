@@ -10,6 +10,7 @@
 #include <thread>
 #include <fftw3.h>
 #include <math.h>
+#include <QModelIndex>
 
 Control::Control(){
     data.initialize("TestProject", "C:/test/project");
@@ -26,12 +27,19 @@ Control::Control(){
     fft_frame = (double*) fftw_malloc(sizeof(double)*FFT_LEN);
     fft_out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * FFT_LEN);
     plan = fftw_plan_dft_r2c_1d(FFT_LEN, fft_frame, fft_out, FFTW_MEASURE);
+
+    audio_files = new QStringListModel(this);
 }
 
 bool Control::addAudioFile(std::string path){
     bool success = data.addAudioFile(path);;
 
     if(success){
+      if(audio_files->insertRow(audio_files->rowCount())) {
+        QModelIndex index = audio_files->index(audio_files->rowCount() - 1, 0);
+        audio_files->setData(index, QString::fromStdString(path));
+      }
+
       std::vector<double> *audio = data.getAudioData(data.samples.size()-1);
       int nframes = audio->size() / FFT_HOP;
 

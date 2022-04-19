@@ -45,7 +45,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="fileList">
+         <widget class="QListView" name="fileList">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="showDropIndicator" stdset="0">
+           <bool>false</bool>
+          </property>
           <property name="resizeMode">
            <enum>QListView::Adjust</enum>
           </property>
@@ -160,8 +166,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>373</width>
-                <height>471</height>
+                <width>297</width>
+                <height>425</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -225,7 +231,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -33,6 +33,7 @@ public slots:
 	void playSelection();
     void addAudioFile();
     void newFileSelected();
+    void fileSelected(const QModelIndex &index);
     void zoomIn();
     void zoomOut();
     void changeZoom();

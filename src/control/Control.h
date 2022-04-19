@@ -9,6 +9,7 @@
 #include <QRgb>
 #include <QObject>
 #include <fftw3.h>
+#include <QStringListModel>
 
 #define FFT_LEN 512
 
@@ -35,6 +36,7 @@ class Control : public QObject {
         std::vector<QImage> spectrograms;
         double cursor_pos = 0.0;
         LabelTrack *phonemeTrack;
+        QStringListModel *audio_files;
 
         Control();
 
@@ -69,7 +71,6 @@ class Control : public QObject {
         fftw_plan plan;
         double *fft_frame;
         fftw_complex *fft_out;
-
         int cmap_count;
 
 };
