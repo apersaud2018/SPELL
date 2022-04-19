@@ -3,18 +3,9 @@
 #include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QDir>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QSplitter>
 #include <QListWidget>
 #include <vector>
-#include <QMouseEvent>
-#include <QPen>
-#include <QColor>
 #include <QCheckBox>
-#include <QPolygonF>
-#include <cmath>
 #include "control/Control.h"
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
