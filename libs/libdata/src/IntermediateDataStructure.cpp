@@ -54,7 +54,7 @@ AudioData IntermediateDataStructure::getAudio(int index){
     return samples[index].getAudio();
 }
 
-bool IntermediateDataStructure::addTrack(std::string name, LabelType type) {
+bool IntermediateDataStructure::addTrack(std::string name, LabelType type, bool atleast_one) {
   if (type < LABEL_TYPE_MIN || type > LABEL_TYPE_MAX) {
     return false;
   }
@@ -65,7 +65,7 @@ bool IntermediateDataStructure::addTrack(std::string name, LabelType type) {
     }
   }
 
-  TrackDefs new_track = {name, type};
+  TrackDefs new_track = {name, type, atleast_one};
   tracks.push_back(new_track);
 
   return true;
@@ -83,7 +83,7 @@ LabelTrack *IntermediateDataStructure::getLabelTrack(int index, std::string name
   if (lt == nullptr) {
     for (int i = 0; i < tracks.size(); ++i) {
       if (name == tracks[i].name) {
-        samples[index].makeLabelTrack(tracks[i].name, tracks[i].type);
+        samples[index].makeLabelTrack(tracks[i].name, tracks[i].type, tracks[i].atleast_one);
         break;
       }
     }
@@ -118,6 +118,8 @@ void IntermediateDataStructure::save() {
     trackEntry.AddMember("name", trackName, doc.GetAllocator());
 
     trackEntry.AddMember("type", tracks[i].type, doc.GetAllocator());
+
+    trackEntry.AddMember("atleast_one", tracks[i].atleast_one, doc.GetAllocator());
 
     trackAr.PushBack(trackEntry, doc.GetAllocator());
   }
@@ -183,12 +185,14 @@ IDSStatus IntermediateDataStructure::load(std::string path) {
   if (doc.HasMember("tracks") && doc["tracks"].IsArray()) {
     for (int i = 0; i < doc["tracks"].Size(); ++i) {
       if (doc["tracks"][i].IsObject() && doc["tracks"][i].HasMember("name")
-          && doc["tracks"][i].HasMember("type") && doc["tracks"][i]["name"].IsString()
-          && doc["tracks"][i]["type"].IsUint()) {
+          && doc["tracks"][i].HasMember("type") && doc["tracks"][i].HasMember("atleast_one")
+          && doc["tracks"][i]["name"].IsString() && doc["tracks"][i]["type"].IsUint()
+          && doc["tracks"][i]["atleast_one"].IsBool()) {
 
         std::string tdname(doc["tracks"][i]["name"].GetString());
         LabelType tdtype = doc["tracks"][i]["type"].GetUint();
-        if (!addTrack(tdname, tdtype)) {
+        bool atleast_one = doc["tracks"][i]["atleast_one"].GetBool();
+        if (!addTrack(tdname, tdtype, atleast_one)) {
           std::cout << "Failed to add track: " << tdname << " off type " << tdtype << std::endl;
           retcode = retcode | IDS_INVALIDTRACKDEF;
         }

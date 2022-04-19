@@ -2,7 +2,11 @@
 #include "LabelType.h"
 #include <regex>
 
-WordLabelTrack::WordLabelTrack(std::string nname) : LabelTrack(nname, WORD) {}
+WordLabelTrack::WordLabelTrack(std::string nname, bool atleast_one) : LabelTrack(nname, WORD, atleast_one, true) {
+  if (atleast_one) {
+    insert(0, "");
+  }
+}
 
 WordLabelTrack::~WordLabelTrack() {
   while (labels.size() > 0) {
@@ -20,6 +24,10 @@ std::string WordLabelTrack::get(int index) {
 
 bool WordLabelTrack::remove(int index) {
   if (index < 0 || index >= labels.size()) {
+    return false;
+  }
+
+  if (atleast_one && index == 0) {
     return false;
   }
 
@@ -92,7 +100,7 @@ std::vector<TextTrackEntry> WordLabelTrack::getTextLabels() {
 }
 
 std::string WordLabelTrack::getRegex() {
-  return "[^\\s]+";
+  return "[^\\s]*";
 }
 
 bool WordLabelTrack::validateInput(std::string str) {
@@ -103,6 +111,7 @@ bool WordLabelTrack::validateInput(std::string str) {
 Value WordLabelTrack::save(Document::AllocatorType& allocator) {
   Value trackObj(kObjectType);
   trackObj.AddMember("type", type, allocator);
+  trackObj.AddMember("atleast_one", atleast_one, allocator);
 
   Value labelsAr(kArrayType);
   for (int i = 0; i < labels.size(); ++i) {
@@ -124,12 +133,18 @@ Value WordLabelTrack::save(Document::AllocatorType& allocator) {
 IDSStatus WordLabelTrack::load(Value& labelDefs) {
   IDSStatus status = 0;
   for (int i = 0; i < labelDefs.Size(); ++i) {
-    if (!(labelDefs[i].IsObject() &&  labelDefs[i].HasMember("pos")  &&  labelDefs[i].HasMember("value")
-        && labelDefs[i]["pos"].IsDouble() && labelDefs[i]["value"].IsString()
-        && insert(labelDefs[i]["pos"].GetDouble(), labelDefs[i]["value"].GetString()))) {
+    if (labelDefs[i].IsObject() &&  labelDefs[i].HasMember("pos")  &&  labelDefs[i].HasMember("value")
+        && labelDefs[i]["pos"].IsDouble() && labelDefs[i]["value"].IsString()) {
+          if (atleast_one && abs(labelDefs[i]["pos"].GetDouble()) < 0.00001) {
+            set(0, labelDefs[i]["value"].GetString());
+          }
+          else {
+            insert(labelDefs[i]["pos"].GetDouble(), labelDefs[i]["value"].GetString());
+          }
+    }
+    else {
       status = status | IDS_SAMPLETRACKINVALIDLABEL;
     }
   }
-
   return status;
 }

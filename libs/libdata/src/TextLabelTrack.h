@@ -8,7 +8,7 @@ using namespace rapidjson;
 class TextLabelTrack : public LabelTrack{
 
     public:
-      TextLabelTrack(std::string nname);
+      TextLabelTrack(std::string nname, bool atleast_one);
       ~TextLabelTrack();
       std::string get(int index);
       bool remove(int index);

@@ -283,7 +283,7 @@ void Control::generateSpectrogram(int index) {
 }
 
 void Control::createPhonemeTrack(){
-    data.addTrack("Phonemes", WORD);
+    data.addTrack("Phonemes", WORD, true);
 
     phonemeTrack = data.getLabelTrack(0, "Phonemes");
 }

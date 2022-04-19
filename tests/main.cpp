@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]) {
 
 
 void testTextLableTrack() {
-  TextLabelTrack tt("Phonemes");
+  TextLabelTrack tt("Phonemes", false);
 
   std::cout << "Name: " << tt.name << "\n";
 
@@ -73,7 +73,7 @@ void testTextLableTrack() {
 }
 
 void testWordLableTrack() {
-  WordLabelTrack tt("Phonemes");
+  WordLabelTrack tt("Phonemes", false);
 
   std::cout << "Name: " << tt.name << "\n";
 
@@ -144,10 +144,13 @@ void testIntermediateDataStructure() {
   std::vector<double> *adata = data.getAudioData(0);
   std::cout << "Length: " << adata->size() << "\n";
 
-  data.addTrack("Phonemes", WORD);
+  data.addTrack("Phonemes", WORD, false);
+  data.addTrack("AAAAAAAAAA", WORD, true);
   std::cout << "TrackName: " << data.tracks[0].name << "\n";
 
   LabelTrack *lt = data.getLabelTrack(0, "Phonemes");
+  LabelTrack *lta = data.getLabelTrack(0, "AAAAAAAAAA");
+  lta->set(0, "awoo");
 
   lt->insert(0.1, "b");
   lt->insert(0.9, "d");

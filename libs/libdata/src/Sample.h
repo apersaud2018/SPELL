@@ -15,7 +15,7 @@ class Sample {
       Sample(std::string npath);
       //~Sample();
       LabelTrack *getLabelTrack(std::string name);
-      bool makeLabelTrack(std::string name, LabelType type);
+      bool makeLabelTrack(std::string name, LabelType type, bool atleast_one);
       bool removeLabelTrack(std::string name);
 
       Value save(Document::AllocatorType& allocator);

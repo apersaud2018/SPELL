@@ -23,7 +23,7 @@ LabelTrack *Sample::getLabelTrack(std::string name){
   }
 }
 
-bool Sample::makeLabelTrack(std::string name, LabelType type){
+bool Sample::makeLabelTrack(std::string name, LabelType type, bool atleast_one){
   auto it = tracks.find(name);
   if (it != tracks.end()) {
     return false;
@@ -31,11 +31,11 @@ bool Sample::makeLabelTrack(std::string name, LabelType type){
 
   switch (type) {
     case WORD:
-      tracks[name] = new WordLabelTrack(name);
+      tracks[name] = new WordLabelTrack(name, atleast_one);
       return true;
       break;
     case TEXT:
-      tracks[name] = new TextLabelTrack(name);
+      tracks[name] = new TextLabelTrack(name, atleast_one);
       return true;
       break;
     case INTEGER:
@@ -89,7 +89,9 @@ IDSStatus Sample::load(Value& trackDefs) {
   IDSStatus status = 0;
 
   for (Value::MemberIterator itr = trackDefs.MemberBegin(); itr != trackDefs.MemberEnd(); ++itr) {
-    if (itr->value.HasMember("type") && itr->value["type"].IsUint() && makeLabelTrack(itr->name.GetString(), itr->value["type"].GetUint())) {
+    if (itr->value.HasMember("type") && itr->value["type"].IsUint()
+        && itr->value.HasMember("atleast_one") && itr->value["atleast_one"].IsBool()
+        && makeLabelTrack(itr->name.GetString(), itr->value["type"].GetUint(), itr->value["atleast_one"].GetBool())) {
       if (itr->value.HasMember("labels") && itr->value["labels"].IsArray()) {
         LabelTrack *ntrack = getLabelTrack(itr->name.GetString());
         IDSStatus temp = ntrack->load(itr->value["labels"]);

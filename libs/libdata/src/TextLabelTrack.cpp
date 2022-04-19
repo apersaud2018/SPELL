@@ -1,7 +1,11 @@
 #include "LabelType.h"
 #include "TextLabelTrack.h"
 
-TextLabelTrack::TextLabelTrack(std::string nname) : LabelTrack(nname, TEXT) {}
+TextLabelTrack::TextLabelTrack(std::string nname, bool atleast_one) : LabelTrack(nname, TEXT, atleast_one, true) {
+  if (atleast_one) {
+    insert(0, "");
+  }
+}
 
 TextLabelTrack::~TextLabelTrack() {
   while (labels.size() > 0) {
@@ -19,6 +23,10 @@ std::string TextLabelTrack::get(int index) {
 
 bool TextLabelTrack::remove(int index) {
   if (index < 0 || index >= labels.size()) {
+    return false;
+  }
+
+  if (atleast_one && index == 0) {
     return false;
   }
 
@@ -89,12 +97,13 @@ std::vector<TextTrackEntry> TextLabelTrack::getTextLabels() {
 }
 
 std::string TextLabelTrack::getRegex() {
-  return ".+";
+  return ".*";
 }
 
 Value TextLabelTrack::save(Document::AllocatorType& allocator) {
   Value trackObj(kObjectType);
   trackObj.AddMember("type", type, allocator);
+  trackObj.AddMember("atleast_one", atleast_one, allocator);
 
   Value labelsAr(kArrayType);
   for (int i = 0; i < labels.size(); ++i) {
@@ -116,9 +125,16 @@ Value TextLabelTrack::save(Document::AllocatorType& allocator) {
 IDSStatus TextLabelTrack::load(Value& labelDefs) {
   IDSStatus status = 0;
   for (int i = 0; i < labelDefs.Size(); ++i) {
-    if (!(labelDefs[i].IsObject() &&  labelDefs[i].HasMember("pos")  &&  labelDefs[i].HasMember("value")
-        && labelDefs[i]["pos"].IsDouble() && labelDefs[i]["value"].IsString()
-        && insert(labelDefs[i]["pos"].GetDouble(), labelDefs[i]["value"].GetString()))) {
+    if (labelDefs[i].IsObject() &&  labelDefs[i].HasMember("pos")  &&  labelDefs[i].HasMember("value")
+        && labelDefs[i]["pos"].IsDouble() && labelDefs[i]["value"].IsString()) {
+          if (atleast_one && abs(labelDefs[i]["pos"].GetDouble()) < 0.00001) {
+            set(0, labelDefs[i]["value"].GetString());
+          }
+          else {
+            insert(labelDefs[i]["pos"].GetDouble(), labelDefs[i]["value"].GetString());
+          }
+    }
+    else {
       status = status | IDS_SAMPLETRACKINVALIDLABEL;
     }
   }

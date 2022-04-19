@@ -12,6 +12,7 @@
 struct TrackDefs {
   std::string name;
   LabelType type;
+  bool atleast_one;
 };
 
 
@@ -23,7 +24,7 @@ class IntermediateDataStructure{
         std::vector<double> *getAudioData(int index);
         AudioData getAudio(int index);
 
-        bool addTrack(std::string name, LabelType type);
+        bool addTrack(std::string name, LabelType type, bool atleast_one);
         bool removeTrack(std::string name);
         LabelTrack *getLabelTrack(int index, std::string name);
 

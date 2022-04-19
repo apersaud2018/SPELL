@@ -21,12 +21,17 @@ struct TextTrackEntry {
 class LabelTrack {
 
     public:
-      LabelTrack(std::string nname, LabelType ltype) {
+      LabelTrack(std::string nname, LabelType ltype, bool one, bool entry) {
         name = nname;
         type = ltype;
+        atleast_one = one;
+        entry = allow_entry;
       };
       std::string name;
       LabelType type;
+      bool atleast_one;
+      bool allow_entry;
+
       virtual std::string get(int index) = 0;
       virtual bool remove(int index) = 0;
       virtual bool insert(double time, std::string str) = 0;
@@ -38,6 +43,10 @@ class LabelTrack {
         TrackEntry *temp = nullptr;
 
         if (index < 0 || index >= labels.size()) {
+          return false;
+        }
+
+        if (atleast_one && index == 0) {
           return false;
         }
 
