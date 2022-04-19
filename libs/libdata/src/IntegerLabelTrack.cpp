@@ -19,7 +19,7 @@ std::string IntegerLabelTrack::get(int index) {
     return nullptr;
   }
 
-  return *(static_cast<std::string*>(labels[index]->data));
+  return std::to_string(*static_cast<int*>(labels[index]->data));
 }
 
 int IntegerLabelTrack::getInt(int index) {
@@ -47,6 +47,10 @@ bool IntegerLabelTrack::remove(int index) {
 
 }
 
+bool IntegerLabelTrack::insert(double time) {
+  return insertInt(time, 0);
+}
+
 bool IntegerLabelTrack::insert(double time, std::string str) {
   //Allow digits only
   if (str.length() > 0 && !validateInput(str)) {
@@ -69,22 +73,7 @@ bool IntegerLabelTrack::insertInt(double time, int val) {
   new_data->time = time;
   new_data->data = static_cast<void*>(new int(val));
 
-  if (labels.size() == 0 || time >= labels[labels.size()-1]->time ) {
-    labels.push_back(new_data);
-  }
-  else if (time <= labels[0]->time) {
-    labels.insert(labels.begin(), new_data);
-  }
-  else {
-    for (int i = 0 ; i < labels.size()-1 ; ++i) {
-      if (labels[i]->time <= time && time <= labels[i+1]->time) {
-        labels.insert(labels.begin() + i + 1, new_data);
-        break;
-      }
-    }
-  }
-
-  return true;
+  return insertEntry(new_data);
 }
 
 

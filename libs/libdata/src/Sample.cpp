@@ -3,6 +3,7 @@
 #include "TextLabelTrack.h"
 #include "WordLabelTrack.h"
 #include "IntegerLabelTrack.h"
+#include "AutoNumberLabelTrack.h"
 
 
 Sample::Sample(std::string npath) {
@@ -47,7 +48,8 @@ bool Sample::makeLabelTrack(std::string name, LabelType type, bool atleast_one){
       return false;
       break;
     case AUTO_NUMBER:
-      return false;
+      tracks[name] = new AutoNumberLabelTrack(name, atleast_one);
+      return true;
       break;
     case NOTE:
       return false;

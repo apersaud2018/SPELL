@@ -10,6 +10,7 @@
 void testTextLableTrack();
 void testWordLableTrack();
 void testIntegerLableTrack();
+void testAutoNumberLableTrack();
 void testIntermediateDataStructure();
 void testCiglet();
 void printLabels(std::vector<TextTrackEntry> label);
@@ -22,11 +23,13 @@ int main(int argc, char const *argv[]) {
   testWordLableTrack();
   std::cout << "INTEGER LABEL TRACK TEST\n";
   testIntegerLableTrack();
+  std::cout << "AUTO NUMBER LABEL TRACK TEST\n";
+  testAutoNumberLableTrack();
   std::cout << "INTERMEDIATE DS TEST\n";
   testIntermediateDataStructure();
 
-  std::cout << "CIGLET TEST\n";
-  testCiglet();
+  // std::cout << "CIGLET TEST\n";
+  // testCiglet();
 
 
 
@@ -201,6 +204,56 @@ void testIntegerLableTrack() {
 
 }
 
+void testAutoNumberLableTrack() {
+  AutoNumberLabelTrack tt("Syllables", false);
+
+
+  std::cout << "Name: " << tt.name << "\n";
+
+  tt.insert(0.1);
+  std::cout << "Nabbme: \n";
+  tt.insert(0.9);
+  //Test middle insert
+  tt.insert(0.5);
+  //test beggining insert
+  tt.insert(0.05);
+  //test end insert
+  tt.insert(0.95);
+  //Expected: 1 2 3 4 5
+
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Delete:\n";
+  tt.remove(0);
+  tt.remove(3);
+  tt.remove(1);
+  //Expected: 1 2
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Insert:\n";
+  tt.insert(0.05);
+  tt.insert(0.5);
+  tt.insert(0.95);
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move outer:\n";
+  tt.move(0, 1.1);
+  tt.move(3, 0.05);
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move inner:\n";
+  tt.move(1, 0.6);
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move inner reverse:\n";
+  tt.move(2, 0.1);
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+}
+
 void testIntermediateDataStructure() {
   IntermediateDataStructure data;
   data.initialize("ProjName", "D:\\School\\fall2021\\senior_project\\test.json");
@@ -213,13 +266,17 @@ void testIntermediateDataStructure() {
   data.addTrack("Phonemes", WORD, false);
   data.addTrack("AAAAAAAAAAあ", WORD, true);
   data.addTrack("IdkWhat", INTEGER, true);
+  data.addTrack("Syllables", AUTO_NUMBER, true);
   std::cout << "TrackName: " << data.tracks[0].name << "\n";
 
   LabelTrack *lt = data.getLabelTrack(0, "Phonemes");
   LabelTrack *lta = data.getLabelTrack(0, "AAAAAAAAAAあ");
   LabelTrack *lti = data.getLabelTrack(0, "IdkWhat");
+  LabelTrack *ltaa = data.getLabelTrack(0, "Syllables");
   lta->set(0, "awoo");
-  lti->set(0, "200");
+  lti->set(0, "-200");
+  ltaa->insert(0.5);
+
 
   lt->insert(0.1, "b");
   lt->insert(0.9, "d");

@@ -13,6 +13,7 @@ class IntegerLabelTrack : public LabelTrack{
       std::string get(int index);
       int getInt(int index);
       bool remove(int index);
+      bool insert(double time);
       bool insert(double time, std::string str);
       bool insertInt(double time, int val);
       bool set(int index, std::string str);

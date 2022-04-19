@@ -4,7 +4,7 @@
 
 WordLabelTrack::WordLabelTrack(std::string nname, bool atleast_one) : LabelTrack(nname, WORD, atleast_one, true) {
   if (atleast_one) {
-    insert(0, "");
+    insert(0);
   }
 }
 
@@ -39,6 +39,10 @@ bool WordLabelTrack::remove(int index) {
 
 }
 
+bool WordLabelTrack::insert(double time) {
+  return insert(time, "");
+}
+
 bool WordLabelTrack::insert(double time, std::string str) {
   //Text allows any input, so no need to validate, always return true;
   if (!validateInput(str)) {
@@ -51,23 +55,7 @@ bool WordLabelTrack::insert(double time, std::string str) {
   std::string *copystr = new std::string(str);
   new_data->data = static_cast<void*>(copystr);
 
-  if (labels.size() == 0 || time >= labels[labels.size()-1]->time ) {
-    labels.push_back(new_data);
-  }
-  else if (time <= labels[0]->time) {
-    labels.insert(labels.begin(), new_data);
-  }
-  else {
-    for (int i = 0 ; i < labels.size()-1 ; ++i) {
-      if (labels[i]->time <= time && time <= labels[i+1]->time) {
-        labels.insert(labels.begin() + i + 1, new_data);
-        break;
-      }
-    }
-  }
-
-
-  return true;
+  return insertEntry(new_data);
 }
 
 bool WordLabelTrack::set(int index, std::string str) {

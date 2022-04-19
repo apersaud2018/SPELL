@@ -12,6 +12,7 @@ class TextLabelTrack : public LabelTrack{
       ~TextLabelTrack();
       std::string get(int index);
       bool remove(int index);
+      bool insert(double time);
       bool insert(double time, std::string str);
       bool set(int index, std::string str);
       std::vector<TextTrackEntry> getTextLabels();

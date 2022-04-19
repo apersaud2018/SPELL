@@ -34,6 +34,7 @@ class LabelTrack {
 
       virtual std::string get(int index) = 0;
       virtual bool remove(int index) = 0;
+      virtual bool insert(double time) = 0;
       virtual bool insert(double time, std::string str) = 0;
       virtual bool set(int index, std::string str) = 0;
 
@@ -103,6 +104,24 @@ class LabelTrack {
 
     protected:
       std::vector<TrackEntry*> labels;
+
+      virtual bool insertEntry(TrackEntry* entry) {
+        if (labels.size() == 0 || entry->time >= labels[labels.size()-1]->time ) {
+          labels.push_back(entry);
+        }
+        else if (entry->time <= labels[0]->time) {
+          labels.insert(labels.begin(), entry);
+        }
+        else {
+          for (int i = 0 ; i < labels.size()-1 ; ++i) {
+            if (labels[i]->time <= entry->time && entry->time <= labels[i+1]->time) {
+              labels.insert(labels.begin() + i + 1, entry);
+              break;
+            }
+          }
+        }
+        return true;
+      }
 
 };
 

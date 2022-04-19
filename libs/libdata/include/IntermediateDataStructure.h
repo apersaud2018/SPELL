@@ -9,6 +9,7 @@
 #include "../src/TextLabelTrack.h"
 #include "../src/WordLabelTrack.h"
 #include "../src/IntegerLabelTrack.h"
+#include "../src/AutoNumberLabelTrack.h"
 
 struct TrackDefs {
   std::string name;

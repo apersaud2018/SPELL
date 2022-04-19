@@ -1,16 +1,17 @@
-#ifndef WORD_LABEL_TRACK
-#define WORD_LABEL_TRACK
+#ifndef AUTO_NUMBER_LABEL_TRACK
+#define AUTO_NUMBER_LABEL_TRACK
 #include "LabelTrack.h"
 #include "rapidjson/document.h"
 
 using namespace rapidjson;
 
-class WordLabelTrack : public LabelTrack{
+class AutoNumberLabelTrack : public LabelTrack{
 
     public:
-      WordLabelTrack(std::string nname, bool atleast_one);
-      ~WordLabelTrack();
+      AutoNumberLabelTrack(std::string nname, bool atleast_one);
+      ~AutoNumberLabelTrack();
       std::string get(int index);
+      int getInt(int index);
       bool remove(int index);
       bool insert(double time);
       bool insert(double time, std::string str);
