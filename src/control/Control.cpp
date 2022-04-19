@@ -35,7 +35,7 @@ bool Control::addAudioFile(std::string path){
       std::vector<double> *audio = data.getAudioData(data.samples.size()-1);
       int nframes = audio->size() / FFT_HOP;
 
-      QImage image(QSize(nframes,FFT_BINS) ,QImage::Format_RGB32);
+      QImage image(QSize(nframes,FFT_HALF) ,QImage::Format_RGB32);
       image.fill(QColor("purple"));
       spectrograms.push_back(image); // May need to change to insert
 
@@ -223,7 +223,7 @@ void Control::generateSpectrogram(int index) {
 
   mx -= mn;
   unsigned char tmp = 0;
-  for (int y = 0; y < FFT_BINS; y++){
+  for (int y = 0; y < FFT_HALF; y++){
     for (int x = 0; x < nframes; x++) {
       double global_scale = sqrt((powr[x] - mnpow)/mxpow);
       if (global_scale < 0.2) {
@@ -251,7 +251,7 @@ void Control::generateSpectrogram(int index) {
         }
       }
 
-      spectrograms[index].setPixel(x, FFT_BINS-y-1, colormap[tmp*2]);
+      spectrograms[index].setPixel(x, FFT_HALF-y-1, colormap[tmp*2]);
     }
   }
 
