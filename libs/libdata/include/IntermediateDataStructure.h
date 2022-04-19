@@ -8,6 +8,7 @@
 #include "../src/IDSStatus.h"
 #include "../src/TextLabelTrack.h"
 #include "../src/WordLabelTrack.h"
+#include "../src/IntegerLabelTrack.h"
 
 struct TrackDefs {
   std::string name;

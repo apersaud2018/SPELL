@@ -9,6 +9,7 @@
 
 void testTextLableTrack();
 void testWordLableTrack();
+void testIntegerLableTrack();
 void testIntermediateDataStructure();
 void testCiglet();
 void printLabels(std::vector<TextTrackEntry> label);
@@ -19,6 +20,8 @@ int main(int argc, char const *argv[]) {
   testTextLableTrack();
   std::cout << "WORD LABEL TRACK TEST\n";
   testWordLableTrack();
+  std::cout << "INTEGER LABEL TRACK TEST\n";
+  testIntegerLableTrack();
   std::cout << "INTERMEDIATE DS TEST\n";
   testIntermediateDataStructure();
 
@@ -131,7 +134,70 @@ void testWordLableTrack() {
   tt.insert(1.5, "i i");
   //Expected: a b c d e
   printLabels(tt.getTextLabels());
+}
 
+void testIntegerLableTrack() {
+  IntegerLabelTrack tt("IdkWhat", false);
+
+  std::cout << "Name: " << tt.name << "\n";
+
+  tt.insert(0.1, "2");
+  tt.insert(0.9, "4");
+  //Test middle insert
+  tt.insert(0.5, "3");
+  //test beggining insert
+  tt.insert(0.05, "1");
+  //test end insert
+  tt.insert(0.95, "5");
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Delete:\n";
+  tt.remove(0);
+  tt.remove(3);
+  tt.remove(1);
+  //Expected: 2 4
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Insert:\n";
+  tt.insert(0.05, "1");
+  tt.insert(0.5, "3");
+  tt.insert(0.95, "5");
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move outer:\n";
+  tt.move(0, 1.1);
+  tt.move(3, 0.05);
+  //Expected: 5 2 3 4 1
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move inner:\n";
+  tt.move(1, 0.6);
+  //Expected: 5 3 2 4 1
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Move inner reverse:\n";
+  tt.move(2, 0.1);
+  //Expected: 5 2 3 4 1
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Set:\n";
+  tt.set(0, "1");
+  tt.set(4, "5");
+  //Expected: 1 2 3 4 5
+  printLabels(tt.getTextLabels());
+
+  std::cout << "Insert invalid:\n";
+  tt.insert(1.2, " 6");
+  tt.insert(1.3, "7 ");
+  tt.insert(1.4, " 8 ");
+  tt.insert(1.5, "9 9");
+  tt.insert(1.6, "0-1");
+  tt.insert(1.7, "1.0");
+  tt.insert(1.8, "z");
+  //Expected: a b c d e
+  printLabels(tt.getTextLabels());
 
 }
 
@@ -145,12 +211,15 @@ void testIntermediateDataStructure() {
   std::cout << "Length: " << adata->size() << "\n";
 
   data.addTrack("Phonemes", WORD, false);
-  data.addTrack("AAAAAAAAAA", WORD, true);
+  data.addTrack("AAAAAAAAAAあ", WORD, true);
+  data.addTrack("IdkWhat", INTEGER, true);
   std::cout << "TrackName: " << data.tracks[0].name << "\n";
 
   LabelTrack *lt = data.getLabelTrack(0, "Phonemes");
-  LabelTrack *lta = data.getLabelTrack(0, "AAAAAAAAAA");
+  LabelTrack *lta = data.getLabelTrack(0, "AAAAAAAAAAあ");
+  LabelTrack *lti = data.getLabelTrack(0, "IdkWhat");
   lta->set(0, "awoo");
+  lti->set(0, "200");
 
   lt->insert(0.1, "b");
   lt->insert(0.9, "d");

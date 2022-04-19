@@ -3,7 +3,7 @@ project(libdata VERSION 0.0.1)
 
 
 add_library(libdata src/IntermediateDataStructure.cpp src/AudioData.cpp src/TextLabelTrack.cpp src/WordLabelTrack.cpp
-            src/Sample.cpp)
+src/Sample.cpp src/IntegerLabelTrack.cpp)
 
 # https://stackoverflow.com/questions/17511496/how-to-create-a-shared-library-with-cmake
 set_target_properties(libdata PROPERTIES VERSION ${PROJECT_VERSION} PUBLIC_HEADER include/IntermediateDataStructure.h)

@@ -2,6 +2,7 @@
 #include "LabelType.h"
 #include "TextLabelTrack.h"
 #include "WordLabelTrack.h"
+#include "IntegerLabelTrack.h"
 
 
 Sample::Sample(std::string npath) {
@@ -39,7 +40,8 @@ bool Sample::makeLabelTrack(std::string name, LabelType type, bool atleast_one){
       return true;
       break;
     case INTEGER:
-      return false;
+      tracks[name] = new IntegerLabelTrack(name, atleast_one);
+      return true;
       break;
     case REAL:
       return false;
