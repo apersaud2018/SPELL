@@ -1,5 +1,6 @@
 #include "SPELLMainWindow.h"
 #include "./ui_SPELLMainWindow.h"
+#include "TrackManager.h"
 #include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -63,6 +64,8 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
   connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);
   connect(ui->actionSpectrogram_View, QAction::changed, this, toggleSpectrogramView);
   connect(ui->actionSwap_View, QAction::triggered, this, swapView);
+  //Tools
+  connect(ui->actionLabel_Track_Manager, QAction::triggered, this, showTrackManager);
 
   connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
 
@@ -116,6 +119,12 @@ void SPELLMainWindow::saveFileAs() {
 void SPELLMainWindow::loadFile() {
   QString file_path = QFileDialog::getOpenFileName(this,"Open project", "", "Spell Project (*.spell.json)");
   controller->load(file_path.toStdString());
+}
+
+void SPELLMainWindow::showTrackManager() {
+  std::cout << "SHOW" << "\n";
+  TrackManager *tm = new TrackManager(this);
+  tm->exec();
 }
 
 void SPELLMainWindow::addNewTrack() {

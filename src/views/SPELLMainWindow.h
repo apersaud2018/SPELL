@@ -42,6 +42,8 @@ public slots:
     void swapView(bool checked);
     void labelEntered();
 
+    void showTrackManager();
+
     void saveFile();
     void saveFileAs();
     void loadFile();
