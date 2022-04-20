@@ -7,6 +7,7 @@ QGraphicsView(parent), controller(new_controller)
   setScene(&scene);
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
+  connect(controller, Control::spectrogramUpdate, this, updateView);
 
   index = -1;
   nameTagPen.setColor(QColor(30, 30, 30, 0xFF));

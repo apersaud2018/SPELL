@@ -11,6 +11,7 @@
 #include <fftw3.h>
 #include <math.h>
 #include <QModelIndex>
+#include <QtConcurrent/QtConcurrent>
 
 Control::Control(){
     data.initialize("TestProject", "");
@@ -47,7 +48,7 @@ bool Control::addAudioFile(std::string path){
       image.fill(QColor("purple"));
       spectrograms.push_back(image); // May need to change to insert
 
-      generateSpectrogram(spectrograms.size()-1);
+      QFuture<void> ft = QtConcurrent::run(&Control::generateSpectrogram, this, spectrograms.size()-1);
       //controller->computeSpectrogram(controller->spectrograms.size());
     }
 
@@ -216,6 +217,15 @@ void Control::generateSpectrogram(int index) {
   fftw_free(spec);
   fftw_free(powr);
 
+  emit spectrogramUpdate();
+
+}
+
+
+void Control::genAllSpectrogtams() {
+  for (int i = 0; i < data.paths.size(); ++i) {
+    QFuture<void> ft = QtConcurrent::run(&Control::generateSpectrogram, this, i);
+  }
 }
 
 void Control::createPhonemeTrack(){
@@ -272,8 +282,6 @@ bool Control::load(std::string path) {
       QImage image(QSize(nframes,FFT_HALF) ,QImage::Format_RGB32);
       image.fill(QColor("purple"));
       spectrograms.push_back(image); // May need to change to insert
-
-      generateSpectrogram(spectrograms.size()-1);
 
       qsl << QString::fromStdString(data.paths[i]);
     }

@@ -43,6 +43,7 @@ class Control : public QObject {
         bool addAudioFile(std::string path);
         std::vector<double> *getAudioData(int index);
         void generateSpectrogram(int index);
+        void genAllSpectrogtams();
         IntermediateDataStructure data;
         void setPosition(double percent);
         void setZoom(double percent);
@@ -72,6 +73,7 @@ class Control : public QObject {
       void changedLabels();
       void changedActiveIndex();
       void setLabelText(std::string str);
+      void spectrogramUpdate();
       void triggerExportMonoLabels();
       void triggerML();
     private:
