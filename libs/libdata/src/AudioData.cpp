@@ -12,20 +12,20 @@ void AudioData::readData(std::string path){
     header_t header;
     std::FILE *input_file;
     int header_size = sizeof(header);
-    
+
     input_file = std::fopen(path.c_str(), "rb");
 
     if(input_file == NULL){
         std::cout << "WHY IS THIS NULL!\n";
     }
-    
+
     // read in header_size number of bytes (44) once.
-    
+
     int bytesRead1 = std::fread(&header, 1, sizeof(header), input_file);
     AudioData::sample_rate = header.sample_rate;
-    
+
     std::cout << "Sample Rate: " << header.sample_rate << "Hz\n";
-    
+
     int num_bytes = header.data_size;
     int sample_size = header.sample_size_bits;
     std::cout  << num_bytes << " Bytes\n";
@@ -40,7 +40,7 @@ void AudioData::readData(std::string path){
 
         num_samples++;
         //(int)byte_data[i];
-        
+
         //perror("fread");
         //a = byte_data[i];
         //std::cout << bytesRead << " E\n";
@@ -48,72 +48,12 @@ void AudioData::readData(std::string path){
         //noramlized_sample += -1.0;
         //std::cout << sample << " \n";
         data.push_back(noramlized_sample);
-        //std::cout << noramlized_sample << "\n"; 
+        //std::cout << noramlized_sample << "\n";
         //data.push_back(sample);
 
-        
-        
+
+
     }
     std::cout << "Read in " << num_samples << " Samples\n";
     std::fclose(input_file);
-}
-
-void AudioData::computeFFT(){
-    
-    auto start = std::chrono::high_resolution_clock::now();
-
-
-
-
-    for(int j=0;j<100;j++){
-    std::vector<std::complex<double>> input_data;
-    
-    for(int i=0;i<512;i++){
-        input_data.push_back(std::complex<double>(data[i],0.0));
-    }
-    std::vector<std::complex<double>> output_data = fft(input_data);
-    }
-    
-    auto end = std::chrono::high_resolution_clock::now();
-
-    std::chrono::duration<double, std::milli> float_ms = end - start;
-
-    std::cout << "computeFFT() elapsed time is " << float_ms.count() << " milliseconds" << std::endl;
-}
-
-std::vector<std::complex<double>> AudioData::fft(std::vector<std::complex<double>> input_data){
-    int n = input_data.size(); 
-    std::vector<std::complex<double>> output_data(n, std::complex<double>(0.0,0.0));
-    // If n <= 4, DFT is faster
-    if(n <= 4){
-        output_data[0] = input_data[0];
-        for(int k=0;k<n;k++){
-            std::complex<double> temp(0.0,0.0);
-            for(int i=0;i<n;i++)
-                temp += input_data[i]*std::exp(-2*k*i*(3.14159265358979323846)*std::complex<double>(0.0,1.0)/(double)n);
-            output_data[k]= temp;
-        }
-    // Else compute FFT of even indicies and odd indicies and combine them   
-    }else{
-        std::vector<std::complex<double>> even_data;
-        std::vector<std::complex<double>> odd_data;
-        for(int i=0;i<n;i++){
-            if(i%2==0){
-                even_data.push_back(input_data[i]);
-            }else{
-                odd_data.push_back(input_data[i]);
-            }
-        }
-        std::vector<std::complex<double>> left_half = fft(even_data);
-        std::vector<std::complex<double>> right_half = fft(odd_data);
-        // Combine left and right halves
-        for(int k=0;k<n/2;k++){
-            std::complex<double> temp = left_half[k];
-            output_data[k] = temp + std::exp((-2*(3.14159265358979323846)*k*std::complex<double>(0.0,1.0))/(double)n)*right_half[k];
-            output_data[k+(n/2)] = temp - std::exp((-2*(3.14159265358979323846)*k*std::complex<double>(0.0,1.0))/(double)n)*right_half[k];
-            
-        }
-        
-    }
-    return output_data;
 }

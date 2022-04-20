@@ -53,6 +53,13 @@ class Control : public QObject {
         void updateLabels();
         void updateActiveIndex();
         void updateLabelText(std::string str);
+
+        // Project IO
+        std::string getProjectPath();
+        bool save();
+        bool saveAs(std::string path);
+        bool load(std::string path);
+
     public slots:
       void setFileIndex(int index);
       void exportMonoLabels();

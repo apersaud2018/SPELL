@@ -13,7 +13,7 @@ class AudioData{
         char RIFF_header[4];
         unsigned long RIFF_chunk_size;
         char RIFF_format[4];
-        
+
         char fmt_header[4];
         unsigned long fmt_chunk_size;
         unsigned short fmt_format;
@@ -24,20 +24,18 @@ class AudioData{
         unsigned short sample_size_bits;
         char chunk_id[4];
         unsigned long data_size;
-        
-        
+
+
     }header_t;
-    
+
 
     public:
         void readData(std::string path);
         unsigned long data_size;
         unsigned long sample_rate;
         std::vector<double> data;
-        std::vector<std::complex<double>> fft(std::vector<std::complex<double>> input_data);
-        void computeFFT();
 
-        
+
 
 };
 

@@ -13,7 +13,7 @@
 #include <QModelIndex>
 
 Control::Control(){
-    data.initialize("TestProject", "C:/test/project");
+    data.initialize("TestProject", "");
     std::fstream colormap_file("../colormaps/magma.cmap", std::ios_base::in);
     int a,b,c;
     cmap_count = 0;
@@ -243,3 +243,45 @@ void Control::exportMonoLabels(){
 void Control::runML(){
     emit triggerML();
 }
+
+
+// Project IO
+std::string Control::getProjectPath() {
+  return data.projectPath;
+}
+bool Control::save() {
+  data.save();
+  return true;
+}
+
+bool Control::saveAs(std::string path) {
+  data.projectPath = path;
+  return save();
+}
+
+bool Control::load(std::string path) {
+  IDSStatus status = data.load(path);
+
+  if (status & IDS_SUCCESS) {
+    QStringList qsl;
+
+    for (int i = 0; i < data.paths.size(); ++i) {
+      std::vector<double> *audio = data.getAudioData(i);
+      int nframes = audio->size() / FFT_HOP;
+
+      QImage image(QSize(nframes,FFT_HALF) ,QImage::Format_RGB32);
+      image.fill(QColor("purple"));
+      spectrograms.push_back(image); // May need to change to insert
+
+      generateSpectrogram(spectrograms.size()-1);
+
+      qsl << QString::fromStdString(data.paths[i]);
+    }
+    audio_files->setStringList(qsl);
+
+    return true;
+  }
+
+  return false;
+}
+// END Project IO

@@ -8,6 +8,7 @@
 #include <QCheckBox>
 #include <QAbstractItemView>
 #include "control/Control.h"
+#include <QFile>
 
 SPELLMainWindow::SPELLMainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -51,11 +52,17 @@ SPELLMainWindow::SPELLMainWindow(QWidget *parent)
 	connect(ui->runMLButton, QPushButton::clicked, controller, Control::runML);
   connect(ui->fileList, QAbstractItemView::clicked, this, fileSelected);
 	connect(ui->autoScale, QCheckBox::stateChanged, waveDraw, waveDraw->autoScaleChanged);
+  connect(ui->labelInput, QLineEdit::returnPressed, this, labelEntered);
+
+  // Menu bar
+  //File
+  connect(ui->actionSave, QAction::triggered, this, saveFile);
+  connect(ui->actionSave_As, QAction::triggered, this, saveFileAs);
+  connect(ui->actionopen, QAction::triggered, this, loadFile);
+  //View
   connect(ui->actionToggle_Wave_View, QAction::changed, this, toggleWaveView);
   connect(ui->actionSpectrogram_View, QAction::changed, this, toggleSpectrogramView);
   connect(ui->actionSwap_View, QAction::triggered, this, swapView);
-  connect(ui->labelInput, QLineEdit::returnPressed, this, labelEntered);
-
 
   connect(ui->zoomSlider, QSlider::valueChanged, this, changeZoom);
 
@@ -85,11 +92,30 @@ void SPELLMainWindow::addTrack(){
 }
 
 void SPELLMainWindow::addAudioFile() {
-    QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "C:/test/audio");
+    QString file_path = QFileDialog::getOpenFileName(this,"Open Audio File", "", "Audio (*.wav)");
     bool success = controller->addAudioFile(file_path.toStdString());
     if(success){
         addNewTrack(); // Temp track for testing
     }
+}
+
+void SPELLMainWindow::saveFile() {
+  std::string path = controller->getProjectPath();
+  if (path.length() == 0 || !QFile::exists(QString::fromStdString(path))) {
+    saveFileAs();
+  }
+
+  controller->save();
+}
+
+void SPELLMainWindow::saveFileAs() {
+  QString file_path = QFileDialog::getSaveFileName(this,"Save project", "", "Spell Project (*.spell.json)");
+  controller->saveAs(file_path.toStdString());
+}
+
+void SPELLMainWindow::loadFile() {
+  QString file_path = QFileDialog::getOpenFileName(this,"Open project", "", "Spell Project (*.spell.json)");
+  controller->load(file_path.toStdString());
 }
 
 void SPELLMainWindow::addNewTrack() {

@@ -32,7 +32,6 @@ public:
 public slots:
 	void playSelection();
     void addAudioFile();
-    void newFileSelected();
     void fileSelected(const QModelIndex &index);
     void zoomIn();
     void zoomOut();
@@ -42,6 +41,10 @@ public slots:
     void toggleSpectrogramView();
     void swapView(bool checked);
     void labelEntered();
+
+    void saveFile();
+    void saveFileAs();
+    void loadFile();
 
 private:
     WaveDrawWidget *waveDraw;
