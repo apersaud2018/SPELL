@@ -55,6 +55,9 @@ class Control : public QObject {
         void updateActiveIndex();
         void updateLabelText(std::string str);
 
+        std::vector<TrackDefs> getTracks();
+        std::vector<TrackDefs> getTrackPresets();
+
         // Project IO
         std::string getProjectPath();
         bool save();

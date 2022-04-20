@@ -254,6 +254,24 @@ void Control::runML(){
     emit triggerML();
 }
 
+std::vector<TrackDefs> Control::getTracks() {
+  return data.tracks;
+}
+
+std::vector<TrackDefs> Control::getTrackPresets() {
+  std::vector<TrackDefs> presets;
+
+  TrackDefs phonemes = {"Phonemes", WORD, true};
+  presets.push_back(phonemes);
+
+  TrackDefs syllables = {"Syllables", AUTO_NUMBER, true};
+  presets.push_back(syllables);
+
+  TrackDefs phrases = {"Phrases", AUTO_NUMBER, true};
+  presets.push_back(phrases);
+
+  return presets;
+}
 
 // Project IO
 std::string Control::getProjectPath() {

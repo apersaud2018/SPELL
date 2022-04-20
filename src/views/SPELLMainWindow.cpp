@@ -123,7 +123,7 @@ void SPELLMainWindow::loadFile() {
 
 void SPELLMainWindow::showTrackManager() {
   std::cout << "SHOW" << "\n";
-  TrackManager *tm = new TrackManager(this);
+  TrackManager *tm = new TrackManager(this, controller->getTracks());
   tm->exec();
 }
 
