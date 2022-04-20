@@ -178,7 +178,7 @@
               </property>
               <layout class="QVBoxLayout" name="scrollVLayout" stretch="0">
                <property name="spacing">
-                <number>0</number>
+                <number>5</number>
                </property>
                <property name="sizeConstraint">
                 <enum>QLayout::SetNoConstraint</enum>
