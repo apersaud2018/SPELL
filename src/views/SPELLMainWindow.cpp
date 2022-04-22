@@ -120,6 +120,13 @@ void SPELLMainWindow::saveFileAs() {
 void SPELLMainWindow::loadFile() {
   QString file_path = QFileDialog::getOpenFileName(this,"Open project", "", "Spell Project (*.spell.json)");
   controller->load(file_path.toStdString());
+
+  TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller, "Phonemes");
+  timelineView->setFixedHeight(50);
+  timelineView->setMouseTracking(true);
+  ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
+  //timelineView->track = controller->phonemeTrack;
+  timelineViews.push_back(timelineView);
 }
 
 void SPELLMainWindow::showTrackManager() {
