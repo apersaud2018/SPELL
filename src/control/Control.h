@@ -16,7 +16,7 @@
 // FFT_LEN / 2
 #define FFT_HALF 256
 
-#define FFT_HOP 256
+#define FFT_HOP 128
 
 // FFT_LEN / 2 + 1
 #define FFT_BINS 257
