@@ -50,7 +50,8 @@ class Control : public QObject {
         int getStartSample();
         int getEndSample();
         void setCursorPosition(double pos);
-        void createPhonemeTrack();
+        bool createPhonemeTrack();
+        LabelTrack *getLabelTrack(int index, std::string name);
         void updateLabels();
         void updateActiveIndex();
         void updateLabelText(std::string str);

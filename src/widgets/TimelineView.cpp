@@ -1,9 +1,11 @@
 #include "TimelineView.h"
 #include <QTimer>
+#include <iostream>
 
-TimelineView::TimelineView(QWidget *parent, Control *new_controller) :
+TimelineView::TimelineView(QWidget *parent, Control *new_controller, std::string ntrack_name) :
 QGraphicsView(parent), controller(new_controller)
 {
+  track_name = ntrack_name;
   setScene(&scene);
   connect(controller, Control::fileIndexChanged, this, audioChanged);
   connect(controller, Control::viewChanged, this,  updateView);
@@ -46,7 +48,11 @@ void TimelineView::resizeEvent(QResizeEvent *event) {
 void TimelineView::audioChanged(int nindex) {
   data_size = controller->data_size;
   index = nindex;
-  data = controller->getAudioData(index);
+  if (index >= 0) {
+    data = controller->getAudioData(index);
+    track = controller->getLabelTrack(nindex, track_name);
+  }
+  std::cout << "aaaa\n";
   updateTimeline();
 
 }

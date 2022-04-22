@@ -24,12 +24,14 @@ class TimelineView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    TimelineView(QWidget *parent, Control *new_controller);
+    TimelineView(QWidget *parent, Control *new_controller, std::string ntrack_name);
     ~TimelineView();
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     LabelTrack *track = nullptr;
+
+    std::string track_name;
 public slots:
   void audioChanged(int index);
   void updateView();

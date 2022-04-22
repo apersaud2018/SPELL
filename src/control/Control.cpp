@@ -228,10 +228,18 @@ void Control::genAllSpectrogtams() {
   }
 }
 
-void Control::createPhonemeTrack(){
-    data.addTrack("Phonemes", WORD, true);
+bool Control::createPhonemeTrack(){
+    if (data.addTrack("Phonemes", WORD, true)) {
+      phonemeTrack = data.getLabelTrack(0, "Phonemes");
+      return true;
+    }
 
-    phonemeTrack = data.getLabelTrack(0, "Phonemes");
+    return false;
+}
+
+LabelTrack *Control::getLabelTrack(int index, std::string name) {
+  std::cout << "bbbb\n";
+  return data.getLabelTrack(index, name);
 }
 
 void Control::updateLabels(){
@@ -304,6 +312,12 @@ bool Control::load(std::string path) {
       qsl << QString::fromStdString(data.paths[i]);
     }
     audio_files->setStringList(qsl);
+
+    if (!createPhonemeTrack()) {
+      phonemeTrack = data.getLabelTrack(0, "Phonemes");
+    }
+
+    genAllSpectrogtams();
 
     return true;
   }

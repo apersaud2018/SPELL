@@ -26,7 +26,8 @@ WaveDrawWidget::~WaveDrawWidget() {
   scene.clear();
 }
 
-void WaveDrawWidget::audioChanged(int index) {
+void WaveDrawWidget::audioChanged(int aindex) {
+  index = aindex;
   if(data == nullptr){
       controller->phonemeTrack->insert(0.0, "b");
   }
@@ -44,7 +45,7 @@ void WaveDrawWidget::updateView() {
 }
 
 void WaveDrawWidget::updatedCursor() {
-  
+
     width = mapToScene(viewport()->geometry()).boundingRect().width();
     height = mapToScene(viewport()->geometry()).boundingRect().height();
     int cursor_pos = (int)(controller->cursor_pos * width);
@@ -78,7 +79,10 @@ void WaveDrawWidget::mousePressEvent(QMouseEvent *event){
     int sample = (int)((end_sample-start_sample)*controller->cursor_pos) + start_sample;
 
     // add new phoneme
-    controller->phonemeTrack->insert(sample/44100.0, "b");
+    //controller->phonemeTrack->insert(sample/44100.0, "b");
+    if (index >= 0) {
+        controller->getLabelTrack(index, "Phonemes")->insert(sample/44100.0, "b");
+    }
     std::cout << "Created new Phoneme\n";
 
     controller->updateLabels();

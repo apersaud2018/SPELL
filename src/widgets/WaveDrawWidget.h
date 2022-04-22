@@ -23,8 +23,10 @@ public:
     WaveDrawWidget(QWidget *parent, Control *new_controller);
     ~WaveDrawWidget();
 
+    int index = -1;
+
 public slots:
-  void audioChanged(int index);
+  void audioChanged(int aindex);
   void autoScaleChanged(int value);
   void updateView();
   void resizeEvent(QResizeEvent *event);

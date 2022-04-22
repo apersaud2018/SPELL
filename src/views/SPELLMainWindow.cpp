@@ -85,13 +85,14 @@ void SPELLMainWindow::labelEntered(){
 }
 
 void SPELLMainWindow::addTrack(){
-    controller->createPhonemeTrack();
-    TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller);
-    timelineView->setFixedHeight(50);
-    timelineView->setMouseTracking(true);
-    ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
-    timelineView->track = controller->phonemeTrack;
-    timelineViews.push_back(timelineView);
+    if (controller->createPhonemeTrack()) {
+      TimelineView *timelineView = new TimelineView(ui->scrollVWidget, controller, "Phonemes");
+      timelineView->setFixedHeight(50);
+      timelineView->setMouseTracking(true);
+      ui->scrollVLayout->insertWidget(timelineViews.size(), timelineView);
+      //timelineView->track = controller->phonemeTrack;
+      timelineViews.push_back(timelineView);
+    }
 }
 
 void SPELLMainWindow::addAudioFile() {
